@@ -9,7 +9,7 @@ if ( have_posts() ) {
 			<section class="panel news-single-panel">
 				<div class="news-header-meta">
 					<p class="badge">Aktuelles</p>
-					<p class="news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
+					<p class="badge news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
 				</div>
 				<h1><?php the_title(); ?></h1>
 				<div class="news-body">

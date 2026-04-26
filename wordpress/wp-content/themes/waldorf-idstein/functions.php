@@ -50,6 +50,53 @@ function waldorf_idstein_enqueue_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'waldorf_idstein_enqueue_assets' );
 
+function waldorf_idstein_register_editor_blocks() {
+	$script_handle = 'waldorf-idstein-editor-blocks';
+
+	wp_register_script(
+		$script_handle,
+		get_stylesheet_directory_uri() . '/assets/js/editor-blocks.js',
+		array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ),
+		filemtime( get_stylesheet_directory() . '/assets/js/editor-blocks.js' ),
+		true
+	);
+
+	register_block_type(
+		'waldorf-idstein/news-panel',
+		array(
+			'editor_script'   => $script_handle,
+			'render_callback' => 'waldorf_idstein_render_news_panel_block',
+		)
+	);
+
+	register_block_type(
+		'waldorf-idstein/tagesrhythmus',
+		array(
+			'editor_script'   => $script_handle,
+			'attributes'      => array(
+				'badgeText' => array(
+					'type'    => 'string',
+					'default' => 'Tagesrhythmus',
+				),
+				'heading'   => array(
+					'type'    => 'string',
+					'default' => 'Verlässliche Abläufe geben Sicherheit',
+				),
+				'intro'     => array(
+					'type'    => 'string',
+					'default' => 'Wir gestalten den Tag so, dass Kinder durch Nachahmung und Wiederholung lernen. Offenes Spiel, ritualisierte Kreise, gemeinsames Essen und Waldzeit wechseln sich ab – ruhig, überschaubar und liebevoll geführt.',
+				),
+				'rows'      => array(
+					'type'    => 'array',
+					'default' => waldorf_idstein_default_timetable_rows(),
+				),
+			),
+			'render_callback' => 'waldorf_idstein_render_tagesrhythmus_block',
+		)
+	);
+}
+add_action( 'init', 'waldorf_idstein_register_editor_blocks', 15 );
+
 function waldorf_idstein_relabel_posts() {
 	global $wp_post_types;
 
@@ -167,8 +214,79 @@ function waldorf_idstein_register_block_patterns() {
 				'</section><!-- /wp:group -->',
 		)
 	);
+
+	register_block_pattern(
+		'waldorf-idstein/tagesrhythmus',
+		array(
+			'title'      => 'Tagesrhythmus',
+			'categories' => array( 'waldorf-idstein' ),
+			'description'=> 'Zweispaltiger Bereich mit Einleitung und Tagesablauf.',
+			'content'    =>
+				'<!-- wp:group {"tagName":"section","className":"rhythm"} -->' .
+				'<section class="wp-block-group rhythm">' .
+				'<!-- wp:group --><div class="wp-block-group">' .
+				'<!-- wp:paragraph {"className":"badge"} --><p class="badge">Tagesrhythmus</p><!-- /wp:paragraph -->' .
+				'<!-- wp:heading {"level":2} --><h2>Verlässliche Abläufe geben Sicherheit</h2><!-- /wp:heading -->' .
+				'<!-- wp:paragraph --><p>Einleitungstext zum Tagesrhythmus.</p><!-- /wp:paragraph -->' .
+				'</div><!-- /wp:group -->' .
+				'<!-- wp:group {"className":"timeline"} --><div class="wp-block-group timeline">' .
+				'<!-- wp:group {"className":"time-row","layout":{"type":"constrained"}} --><div class="wp-block-group time-row"><!-- wp:paragraph {"className":"time"} --><p class="time">07:30</p><!-- /wp:paragraph --><!-- wp:paragraph {"className":"time-text"} --><p class="time-text">Ankommen und freies Spiel</p><!-- /wp:paragraph --></div><!-- /wp:group -->' .
+				'<!-- wp:group {"className":"time-row","layout":{"type":"constrained"}} --><div class="wp-block-group time-row"><!-- wp:paragraph {"className":"time"} --><p class="time">09:00</p><!-- /wp:paragraph --><!-- wp:paragraph {"className":"time-text"} --><p class="time-text">Morgenkreis</p><!-- /wp:paragraph --></div><!-- /wp:group -->' .
+				'</div><!-- /wp:group -->' .
+				'</section><!-- /wp:group -->',
+		)
+	);
 }
 add_action( 'init', 'waldorf_idstein_register_block_patterns', 30 );
+
+function waldorf_idstein_home_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"hero"} -->' .
+		'<section class="wp-block-group hero">' .
+		'<!-- wp:group {"className":"hero-text"} --><div class="wp-block-group hero-text">' .
+		'<!-- wp:paragraph {"className":"badge"} --><p class="badge">Seit 1987 in Elterninitiative</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":1} --><h1>Herzlich willkommen im Waldorfkindergarten Idstein</h1><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"lede"} --><p class="lede">Geborgenheit, Rhythmus und Naturverbundenheit für Kinder ab 1 Jahr. Unsere Familiengruppen bieten Kontinuität vom Krippenalter bis zum Schuleintritt – mit vertrauten Bezugspersonen und einer warmen Tagesstruktur.</p><!-- /wp:paragraph -->' .
+		'<!-- wp:buttons {"className":"hero-actions"} --><div class="wp-block-buttons hero-actions"><!-- wp:button {"className":"button"} --><div class="wp-block-button button"><a class="wp-block-button__link wp-element-button" href="/kontakt/">Kontakt aufnehmen</a></div><!-- /wp:button --><!-- wp:button {"className":"ghost"} --><div class="wp-block-button ghost"><a class="wp-block-button__link wp-element-button" href="/anmeldung-formulare/">Downloads &amp; Formulare</a></div><!-- /wp:button --></div><!-- /wp:buttons -->' .
+		'<!-- wp:list {"className":"tags"} --><ul class="tags"><li>Familiengruppen (2–6 Jahre)</li><li>Krippe Wiegenstube (1–3 Jahre)</li><li>Waldtag am Freitag</li></ul><!-- /wp:list -->' .
+		'</div><!-- /wp:group -->' .
+		'<!-- wp:waldorf-idstein/news-panel /-->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:waldorf-idstein/tagesrhythmus {"badgeText":"Tagesrhythmus","heading":"Verlässliche Abläufe geben Sicherheit","intro":"Wir gestalten den Tag so, dass Kinder durch Nachahmung und Wiederholung lernen. Offenes Spiel, ritualisierte Kreise, gemeinsames Essen und Waldzeit wechseln sich ab – ruhig, überschaubar und liebevoll geführt.","rows":[{"time":"07:30","text":"Ankommen & freies Spiel mit Naturmaterialien (Krippe & Familiengruppen)"},{"time":"09:00","text":"Morgenkreis mit Liedern und Reimen zur Jahreszeit"},{"time":"09:30","text":"Gemeinsames vollwertiges Frühstück"},{"time":"10:00","text":"Garten oder Wald: Bewegung, Sinneserfahrungen, Ruhe (Fr: Waldtag)"},{"time":"12:00","text":"Abschlusslied und Abholung der Nestkinder (2 Jahre)"},{"time":"12:45","text":"Mittagessen & Märchen/Tischpuppenspiel für die Größeren"},{"time":"15:15","text":"Optional: Nachmittagsbetreuung (Mo–Do) mit ruhigem Spiel & Gartenzeit"}]} /-->';
+}
+
+function waldorf_idstein_migrate_home_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_home_blocks_version', 0 ) >= 3 ) {
+		return;
+	}
+
+	$page = waldorf_idstein_find_page( 'start' );
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false !== strpos( $content, 'wp:waldorf-idstein/news-panel' ) && false !== strpos( $content, 'wp:waldorf-idstein/tagesrhythmus' ) ) {
+		update_option( 'waldorf_idstein_home_blocks_version', 3 );
+		return;
+	}
+
+	if ( false === strpos( $content, '<section class="hero">' ) && false === strpos( $content, '<section class="rhythm">' ) && false === strpos( $content, 'wp-block-group hero' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_home_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_home_blocks_version', 3 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_home_page_to_blocks', 31 );
 
 function waldorf_idstein_contact_page_block_content() {
 	return
@@ -533,6 +651,79 @@ function waldorf_idstein_fallback_news_items() {
 	);
 }
 
+function waldorf_idstein_default_timetable_rows() {
+	return array(
+		array(
+			'time' => '07:30',
+			'text' => 'Ankommen & freies Spiel mit Naturmaterialien (Krippe & Familiengruppen)',
+		),
+		array(
+			'time' => '09:00',
+			'text' => 'Morgenkreis mit Liedern und Reimen zur Jahreszeit',
+		),
+		array(
+			'time' => '09:30',
+			'text' => 'Gemeinsames vollwertiges Frühstück',
+		),
+		array(
+			'time' => '10:00',
+			'text' => 'Garten oder Wald: Bewegung, Sinneserfahrungen, Ruhe (Fr: Waldtag)',
+		),
+		array(
+			'time' => '12:00',
+			'text' => 'Abschlusslied und Abholung der Nestkinder (2 Jahre)',
+		),
+		array(
+			'time' => '12:45',
+			'text' => 'Mittagessen & Märchen/Tischpuppenspiel für die Größeren',
+		),
+		array(
+			'time' => '15:15',
+			'text' => 'Optional: Nachmittagsbetreuung (Mo–Do) mit ruhigem Spiel & Gartenzeit',
+		),
+	);
+}
+
+function waldorf_idstein_render_news_panel_block() {
+	return waldorf_idstein_render_news_panel_html();
+}
+
+function waldorf_idstein_render_tagesrhythmus_block( $attributes ) {
+	$badge_text = isset( $attributes['badgeText'] ) ? wp_strip_all_tags( (string) $attributes['badgeText'] ) : 'Tagesrhythmus';
+	$heading    = isset( $attributes['heading'] ) ? wp_strip_all_tags( (string) $attributes['heading'] ) : 'Verlässliche Abläufe geben Sicherheit';
+	$intro      = isset( $attributes['intro'] ) ? wp_kses_post( (string) $attributes['intro'] ) : '';
+	$rows       = isset( $attributes['rows'] ) && is_array( $attributes['rows'] ) ? $attributes['rows'] : waldorf_idstein_default_timetable_rows();
+
+	ob_start();
+	?>
+	<section class="rhythm timetable-block">
+		<div>
+			<p class="badge"><?php echo esc_html( $badge_text ); ?></p>
+			<h2><?php echo esc_html( $heading ); ?></h2>
+			<p><?php echo wp_kses_post( $intro ); ?></p>
+		</div>
+		<div class="timeline">
+			<?php foreach ( $rows as $row ) : ?>
+				<?php
+				$time = isset( $row['time'] ) ? wp_strip_all_tags( (string) $row['time'] ) : '';
+				$text = isset( $row['text'] ) ? wp_strip_all_tags( (string) $row['text'] ) : '';
+
+				if ( '' === $time && '' === $text ) {
+					continue;
+				}
+				?>
+				<div class="time-row">
+					<p class="time"><?php echo esc_html( $time ); ?></p>
+					<p class="time-text"><?php echo esc_html( $text ); ?></p>
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</section>
+	<?php
+
+	return trim( (string) ob_get_clean() );
+}
+
 function waldorf_idstein_seed_news_posts() {
 	if ( (int) get_option( 'waldorf_idstein_news_seed_version', 0 ) >= 1 ) {
 		return;
@@ -593,7 +784,10 @@ function waldorf_idstein_render_news_panel_html() {
 	ob_start();
 	?>
 	<div class="panel news-panel">
-		<h2>Aktuelles</h2>
+		<div class="news-panel-header">
+			<h2>Aktuelles</h2>
+			<p class="news-panel-link"><a class="link" href="<?php echo esc_url( waldorf_idstein_news_archive_url() ); ?>">Alle Neuigkeiten ansehen →</a></p>
+		</div>
 		<div class="card-grid">
 			<?php if ( $query->have_posts() ) : ?>
 				<?php while ( $query->have_posts() ) : ?>
@@ -606,7 +800,7 @@ function waldorf_idstein_render_news_panel_html() {
 					}
 					?>
 					<article class="card news-card">
-						<p class="news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
+						<p class="badge news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
 						<h3><?php the_title(); ?></h3>
 						<p><?php echo esc_html( $excerpt ); ?></p>
 						<a class="link" href="<?php the_permalink(); ?>">Mehr erfahren →</a>
@@ -629,109 +823,6 @@ function waldorf_idstein_render_news_panel_html() {
 	return trim( (string) ob_get_clean() );
 }
 
-function waldorf_idstein_replace_frontpage_news_panel( $content ) {
-	if ( is_admin() || ! is_front_page() || ! in_the_loop() || ! is_main_query() ) {
-		return $content;
-	}
-
-	if ( false === strpos( $content, 'class="hero"' ) ) {
-		return $content;
-	}
-
-	$replacement = waldorf_idstein_render_news_panel_html();
-
-	if ( '' === $replacement ) {
-		return $content;
-	}
-
-	libxml_use_internal_errors( true );
-
-	$document = new DOMDocument( '1.0', 'UTF-8' );
-	$loaded   = $document->loadHTML(
-		'<?xml encoding="utf-8" ?><div id="waldorf-root">' . $content . '</div>',
-		LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
-	);
-
-	if ( ! $loaded ) {
-		libxml_clear_errors();
-		return $content;
-	}
-
-	$xpath = new DOMXPath( $document );
-	$hero  = $xpath->query( '//*[contains(concat(" ", normalize-space(@class), " "), " hero ")]' )->item( 0 );
-
-	if ( ! $hero ) {
-		libxml_clear_errors();
-		return $content;
-	}
-
-	$existing_panel = null;
-
-	foreach ( $hero->childNodes as $child ) {
-		if ( XML_ELEMENT_NODE !== $child->nodeType ) {
-			continue;
-		}
-
-		$class_name = $child->attributes?->getNamedItem( 'class' )?->nodeValue ?? '';
-
-		if ( false !== strpos( ' ' . $class_name . ' ', ' panel ' ) ) {
-			$existing_panel = $child;
-			break;
-		}
-	}
-
-	$fragment_document = new DOMDocument( '1.0', 'UTF-8' );
-	$fragment_loaded   = $fragment_document->loadHTML(
-		'<?xml encoding="utf-8" ?>' . $replacement,
-		LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
-	);
-
-	if ( ! $fragment_loaded ) {
-		libxml_clear_errors();
-		return $content;
-	}
-
-	$nodes = array();
-
-	foreach ( $fragment_document->childNodes as $node ) {
-		if ( XML_PI_NODE === $node->nodeType ) {
-			continue;
-		}
-
-		$nodes[] = $document->importNode( $node, true );
-	}
-
-	if ( empty( $nodes ) ) {
-		libxml_clear_errors();
-		return $content;
-	}
-
-	if ( $existing_panel ) {
-		$hero->replaceChild( $nodes[0], $existing_panel );
-
-		for ( $index = 1; $index < count( $nodes ); $index++ ) {
-			$hero->appendChild( $nodes[ $index ] );
-		}
-	} else {
-		foreach ( $nodes as $node ) {
-			$hero->appendChild( $node );
-		}
-	}
-
-	$root = $document->getElementById( 'waldorf-root' );
-	$html = '';
-
-	if ( $root ) {
-		foreach ( $root->childNodes as $child ) {
-			$html .= $document->saveHTML( $child );
-		}
-	}
-
-	libxml_clear_errors();
-
-	return '' !== $html ? $html : $content;
-}
-add_filter( 'the_content', 'waldorf_idstein_replace_frontpage_news_panel', 20 );
 
 function waldorf_idstein_contact_form_target_url() {
 	$page = get_page_by_path( 'kontakt' );
