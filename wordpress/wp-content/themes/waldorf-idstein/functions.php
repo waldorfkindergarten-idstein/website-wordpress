@@ -1107,8 +1107,36 @@ function waldorf_idstein_append_application_form( $content ) {
 }
 add_filter( 'the_content', 'waldorf_idstein_append_application_form', 31 );
 
+function waldorf_idstein_page_aliases() {
+	return array(
+		'start'                => array( 'start', 'start-2' ),
+		'gruppen'              => array( 'gruppen' ),
+		'anmeldung-formulare'  => array( 'anmeldung-formulare', 'formulare', 'formulare-2', 'downloads' ),
+		'kontakt'              => array( 'kontakt' ),
+		'impressum'            => array( 'impressum' ),
+		'datenschutz'          => array( 'datenschutz', 'datenschutz-2' ),
+		'intern'               => array( 'intern', 'intern-2' ),
+		'aktuelles'            => array( 'aktuelles' ),
+	);
+}
+
+function waldorf_idstein_find_page( $slug ) {
+	$aliases = waldorf_idstein_page_aliases();
+	$candidates = $aliases[ $slug ] ?? array( $slug );
+
+	foreach ( $candidates as $candidate ) {
+		$page = get_page_by_path( $candidate );
+
+		if ( $page ) {
+			return $page;
+		}
+	}
+
+	return null;
+}
+
 function waldorf_idstein_page_url( $slug ) {
-	$page = get_page_by_path( $slug );
+	$page = waldorf_idstein_find_page( $slug );
 
 	if ( $page ) {
 		return get_permalink( $page );
@@ -1128,8 +1156,8 @@ function waldorf_idstein_default_menu_items() {
 			'url'   => waldorf_idstein_page_url( 'gruppen' ),
 		),
 		array(
-			'label' => 'Downloads',
-			'url'   => waldorf_idstein_page_url( 'formulare' ),
+			'label' => 'Anmeldung',
+			'url'   => waldorf_idstein_page_url( 'anmeldung-formulare' ),
 		),
 		array(
 			'label' => 'Kontakt',
@@ -1137,6 +1165,184 @@ function waldorf_idstein_default_menu_items() {
 		),
 	);
 }
+
+function waldorf_idstein_news_archive_url() {
+	return waldorf_idstein_page_url( 'aktuelles' );
+}
+
+function waldorf_idstein_render_news_archive_html() {
+	$query = new WP_Query(
+		array(
+			'post_type'           => 'post',
+			'post_status'         => 'publish',
+			'posts_per_page'      => 12,
+			'ignore_sticky_posts' => true,
+			'post__not_in'        => array_values(
+				array_filter(
+					array_map(
+						static function ( $slug ) {
+							$post = get_page_by_path( $slug, OBJECT, 'post' );
+							return $post ? (int) $post->ID : 0;
+						},
+						array( 'hello-world', 'hallo-welt' )
+					)
+				)
+			),
+		)
+	);
+
+	ob_start();
+	?>
+	<section class="panel news-panel news-archive-panel">
+		<h1>Aktuelles</h1>
+		<div class="card-grid">
+			<?php if ( $query->have_posts() ) : ?>
+				<?php while ( $query->have_posts() ) : ?>
+					<?php
+					$query->the_post();
+					$excerpt = get_the_excerpt();
+
+					if ( '' === trim( $excerpt ) ) {
+						$excerpt = wp_trim_words( wp_strip_all_tags( get_the_content() ), 28 );
+					}
+					?>
+					<article class="card news-card">
+						<p class="news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
+						<h3><?php the_title(); ?></h3>
+						<p><?php echo esc_html( $excerpt ); ?></p>
+						<a class="link" href="<?php the_permalink(); ?>">Mehr erfahren →</a>
+					</article>
+				<?php endwhile; ?>
+				<?php wp_reset_postdata(); ?>
+			<?php else : ?>
+				<p>Noch keine Neuigkeiten vorhanden.</p>
+			<?php endif; ?>
+		</div>
+	</section>
+	<?php
+
+	return trim( (string) ob_get_clean() );
+}
+
+function waldorf_idstein_replace_news_archive_page( $content ) {
+	if ( is_admin() || ! is_page() || ! in_the_loop() || ! is_main_query() || ! is_page( 'aktuelles' ) ) {
+		return $content;
+	}
+
+	return waldorf_idstein_render_news_archive_html();
+}
+add_filter( 'the_content', 'waldorf_idstein_replace_news_archive_page', 25 );
+
+function waldorf_idstein_clean_page_structure() {
+	if ( (int) get_option( 'waldorf_idstein_page_cleanup_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$updates = array(
+		array(
+			'from'  => 'start-2',
+			'title' => 'Start',
+			'slug'  => 'start',
+		),
+		array(
+			'from'  => 'formulare-2',
+			'title' => 'Anmeldung & Formulare',
+			'slug'  => 'anmeldung-formulare',
+		),
+		array(
+			'from'  => 'datenschutz-2',
+			'title' => 'Datenschutz',
+			'slug'  => 'datenschutz',
+		),
+		array(
+			'from'  => 'intern-2',
+			'title' => 'Intern',
+			'slug'  => 'intern',
+		),
+	);
+
+	foreach ( $updates as $update ) {
+		$page = get_page_by_path( $update['from'] );
+
+		if ( ! $page ) {
+			continue;
+		}
+
+		$conflict = get_page_by_path( $update['slug'] );
+
+		if ( $conflict && (int) $conflict->ID !== (int) $page->ID ) {
+			continue;
+		}
+
+		wp_update_post(
+			array(
+				'ID'         => $page->ID,
+				'post_title' => $update['title'],
+				'post_name'  => $update['slug'],
+			)
+		);
+	}
+
+	if ( ! waldorf_idstein_find_page( 'aktuelles' ) ) {
+		wp_insert_post(
+			array(
+				'post_type'    => 'page',
+				'post_status'  => 'publish',
+				'post_title'   => 'Aktuelles',
+				'post_name'    => 'aktuelles',
+				'post_content' => '<!-- wp:paragraph --><p>Aktuelle Neuigkeiten aus unserem Kindergarten.</p><!-- /wp:paragraph -->',
+			)
+		);
+	}
+
+	flush_rewrite_rules();
+	update_option( 'waldorf_idstein_page_cleanup_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_clean_page_structure', 41 );
+
+function waldorf_idstein_normalize_news_posts() {
+	if ( (int) get_option( 'waldorf_idstein_news_cleanup_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$canonical = array(
+		'Kennenlerntag · 6. Oktober'           => 'kennenlerntag-6-oktober',
+		'Kindersachen-Flohmarkt · 14. Oktober' => 'kindersachen-flohmarkt-14-oktober',
+		'Wir suchen Erzieher:innen'            => 'wir-suchen-erzieherinnen',
+	);
+
+	foreach ( $canonical as $title => $slug ) {
+		$posts = get_posts(
+			array(
+				'post_type'      => 'post',
+				'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private', 'trash' ),
+				'title'          => $title,
+				'posts_per_page' => -1,
+			)
+		);
+
+		if ( empty( $posts ) ) {
+			continue;
+		}
+
+		$keep = array_shift( $posts );
+
+		foreach ( $posts as $duplicate ) {
+			wp_delete_post( $duplicate->ID, true );
+		}
+
+		wp_update_post(
+			array(
+				'ID'        => $keep->ID,
+				'post_name' => $slug,
+			)
+		);
+	}
+
+	flush_rewrite_rules();
+	update_option( 'waldorf_idstein_news_cleanup_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_normalize_news_posts', 42 );
 
 function waldorf_idstein_footer_links() {
 	return array(
