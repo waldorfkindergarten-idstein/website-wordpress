@@ -1,0 +1,14 @@
+.venv/
+latest.zip
+.env
+
+wordpress/wp-config.php
+wordpress/.htaccess
+
+wordpress/wp-content/cache/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/uploads/
+wordpress/wp-content/languages/
+
+wordpress/oc-bootstrap-setup.php
+wordpress/oc-fix-formulare.php

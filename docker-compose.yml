@@ -1,0 +1,52 @@
+services:
+  db:
+    image: mariadb:11.4
+    container_name: waldorf-wp-db
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: ${WP_DB_NAME:-wordpress}
+      MARIADB_USER: ${WP_DB_USER:-wordpress}
+      MARIADB_PASSWORD: ${WP_DB_PASSWORD:-wordpress}
+      MARIADB_ROOT_PASSWORD: ${WP_DB_ROOT_PASSWORD:-rootpassword}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    image: wordpress:6.9.4-php8.3-apache
+    container_name: waldorf-wp-app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${WP_PORT:-8080}:80"
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${WP_DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${WP_DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:-wordpress}
+      WORDPRESS_DEBUG: ${WP_DEBUG:-0}
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_HOME', 'http://localhost:${WP_PORT:-8080}' );
+        define( 'WP_SITEURL', 'http://localhost:${WP_PORT:-8080}' );
+        define( 'FS_METHOD', 'direct' );
+        define( 'AUTOMATIC_UPDATER_DISABLED', true );
+    volumes:
+      - ./wordpress:/var/www/html
+
+  adminer:
+    image: adminer:4.8.1
+    container_name: waldorf-wp-adminer
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "${ADMINER_PORT:-8081}:8080"
+
+volumes:
+  db_data:
