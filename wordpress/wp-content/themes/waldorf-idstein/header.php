@@ -7,7 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/svg+xml" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/favicon.svg' ); ?>">
+	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/favicon/apple-touch-icon.png' ); ?>">
+	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/favicon/favicon-96x96.png' ); ?>">
+	<link rel="icon" type="image/svg+xml" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/favicon/favicon.svg' ); ?>">
+	<link rel="shortcut icon" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/favicon/favicon.ico' ); ?>">
+	<link rel="manifest" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/favicon/site.webmanifest' ); ?>">
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class( 'page wash-enabled' ); ?> data-wash-enabled="true">
