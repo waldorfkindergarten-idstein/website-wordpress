@@ -537,6 +537,119 @@ a:hover {
   margin: 0;
 }
 
+.contact-form-panel {
+  gap: 12px;
+}
+
+.contact-form {
+  display: grid;
+  gap: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.form-field {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.form-field-wide {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-weight: 700;
+  color: #2d2d2d;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  border: 1px solid rgba(161, 13, 89, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2d2d2d;
+  padding: 12px 14px;
+  font: inherit;
+  box-shadow: inset 0 1px 2px rgba(69, 41, 29, 0.04);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.contact-form select {
+  width: 100%;
+  border: 1px solid rgba(161, 13, 89, 0.18);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #2d2d2d;
+  padding: 12px 14px;
+  font: inherit;
+  box-shadow: inset 0 1px 2px rgba(69, 41, 29, 0.04);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  outline: none;
+  border-color: rgba(161, 13, 89, 0.45);
+  box-shadow: 0 0 0 3px rgba(161, 13, 89, 0.12);
+}
+
+.form-actions {
+  margin: 0;
+}
+
+.form-field-honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-consent-field {
+  gap: 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 600;
+  color: #454546;
+}
+
+.checkbox-label input {
+  width: auto;
+  margin-top: 3px;
+  box-shadow: none;
+}
+
+.form-message {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.form-message-success {
+  background: rgba(53, 130, 67, 0.12);
+  color: #2d6a36;
+}
+
+.form-message-error {
+  background: rgba(161, 13, 89, 0.1);
+  color: #8d164d;
+}
+
 .wash-toggle {
   position: fixed;
   right: 16px;
@@ -815,6 +928,10 @@ a:hover {
 
 @media (max-width: 640px) {
   .time-row {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
     grid-template-columns: 1fr;
   }
 

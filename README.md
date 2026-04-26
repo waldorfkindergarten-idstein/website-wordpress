@@ -55,3 +55,14 @@ Important: git will version the code/files, but not WordPress database content s
 ## Current design status
 
 The theme is functional, but the homepage still needs a parity pass against the Astro/Vercel reference. The Docker setup is intended to make those visual fixes safer and faster to iterate on locally.
+
+## Editor patterns
+
+The theme registers reusable Gutenberg patterns under the category `Waldorf Idstein`.
+
+These are intended for editors who should not need to write HTML manually:
+
+- Intro-Bereich
+- Panel-Bereich
+- Kontakt in zwei Spalten
+- Downloads/Formulare
