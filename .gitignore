@@ -1,6 +1,7 @@
 .venv/
 latest.zip
 .env
+*:Zone.Identifier
 
 wordpress/wp-config.php
 wordpress/.htaccess

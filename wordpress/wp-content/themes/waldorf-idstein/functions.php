@@ -170,6 +170,326 @@ function waldorf_idstein_register_block_patterns() {
 }
 add_action( 'init', 'waldorf_idstein_register_block_patterns', 30 );
 
+function waldorf_idstein_contact_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"intro"} -->' .
+		'<section class="wp-block-group intro">' .
+		'<!-- wp:paragraph {"className":"badge"} --><p class="badge">Kontakt</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":1} --><h1>Wir freuen uns auf Ihre Nachricht</h1><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"lede"} --><p class="lede">Fragen zu Anmeldung, Gruppen oder pädagogischen Themen? Melden Sie sich telefonisch oder per E-Mail – wir antworten zeitnah.</p><!-- /wp:paragraph -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:columns {"className":"grid"} --><div class="wp-block-columns grid">' .
+		'<!-- wp:column --><div class="wp-block-column">' .
+		'<!-- wp:heading {"level":2} --><h2>Waldorfkindergarten Idstein</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"contact"} --><p class="contact">Limburger Strasse 79<br>65510 Idstein</p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph {"className":"contact"} --><p class="contact">Telefon 06126-92141<br><span class="note">(Mo-Do 12:30-13:30 Uhr, Mi 9:00-12:00 Uhr)</span></p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph {"className":"contact"} --><p class="contact"><a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a></p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph {"className":"contact"} --><p class="contact"><a href="http://www.waldorfkindergarten-idstein.de">www.waldorfkindergarten-idstein.de</a></p><!-- /wp:paragraph -->' .
+		'</div><!-- /wp:column -->' .
+		'<!-- wp:column --><div class="wp-block-column">' .
+		'<!-- wp:heading {"level":2} --><h2>Verein</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"small"} --><p class="small">Verein zur Foerderung des Waldorfkindergartens Idstein e.V.</p><!-- /wp:paragraph -->' .
+		'<!-- wp:list {"className":"list"} --><ul class="list"><li><strong>Geschaeftsfuehrerin:</strong> Monika Igl</li><li><strong>Geschaeftsfuehrender Vorstand:</strong> Kristina Falke, Diana Pietsch, Barbara Simon, Janka Steininger</li><li><strong>Paedagogische Vorstandsmitglieder:</strong> Nicola Kirberg, Christel Claassen</li><li><strong>Vereinsregister:</strong> Amtsgericht Idstein VR 5056</li></ul><!-- /wp:list -->' .
+		'<!-- wp:group {"className":"links","layout":{"type":"flex","flexWrap":"wrap"}} --><div class="wp-block-group links"><!-- wp:paragraph --><p><a href="/downloads/vereinssatzung.pdf">Vereinssatzung (PDF)</a></p><!-- /wp:paragraph --><!-- wp:paragraph --><p><a href="/downloads/beitragsordnung-2022.pdf">Beitragsordnung (PDF)</a></p><!-- /wp:paragraph --></div><!-- /wp:group -->' .
+		'</div><!-- /wp:column -->' .
+		'</div><!-- /wp:columns -->' .
+		'</section><!-- /wp:group -->';
+}
+
+function waldorf_idstein_migrate_contact_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_contact_blocks_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'kontakt' );
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false === strpos( $content, '<section class="intro">' ) && false === strpos( $content, '<section class="panel grid">' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_contact_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_contact_blocks_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_contact_page_to_blocks', 35 );
+
+function waldorf_idstein_downloads_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"intro"} -->' .
+		'<section class="wp-block-group intro">' .
+		'<!-- wp:paragraph {"className":"badge"} --><p class="badge">Downloads</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":1} --><h1>Formulare und Unterlagen</h1><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"lede"} --><p class="lede">Melden Sie sich gerne telefonisch oder per E-Mail fuer einen Platz oder laden Sie die passenden Formulare direkt herunter. Fuer Fragen stehen wir jederzeit zur Verfuegung.</p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph {"className":"contact"} --><p class="contact">Telefon: 06126/92141 · <a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a></p><!-- /wp:paragraph -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":2} --><h2>Anmeldeformulare und Infos</h2><!-- /wp:heading -->' .
+		'<!-- wp:list {"className":"list"} --><ul class="list"><li><a href="/downloads/anmeldung-familiengruppe.pdf">Anmeldung Familiengruppe</a></li><li><a href="/downloads/anmeldung-wiegenstube.pdf">Anmeldung Wiegenstube</a></li><li><a href="/downloads/anmeldung-kindergarten-u3.pdf">Anmeldung Kindergarten U3</a></li><li><a href="/downloads/beitragsordnung-2022.pdf">Beitragsordnung ab August 2022</a></li><li><a href="/downloads/vereinssatzung.pdf">Vereinssatzung</a></li></ul><!-- /wp:list -->' .
+		'</section><!-- /wp:group -->';
+}
+
+function waldorf_idstein_migrate_downloads_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_downloads_blocks_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$page = null;
+
+	foreach ( array( 'formulare', 'formulare-2', 'downloads' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+
+		if ( $page ) {
+			break;
+		}
+	}
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false === strpos( $content, '<section class="intro">' ) && false === strpos( $content, '<section class="panel">' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_downloads_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_downloads_blocks_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_downloads_page_to_blocks', 36 );
+
+function waldorf_idstein_gruppen_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"intro"} -->' .
+		'<section class="wp-block-group intro">' .
+		'<!-- wp:paragraph {"className":"badge"} --><p class="badge">Unsere Arbeit</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":1} --><h1>Gruppen, Rhythmus und Waldorfpädagogik</h1><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"lede"} --><p class="lede">Vom ersten Krippenjahr bis zum Schuleintritt bleiben die Kinder in vertrauten Gruppen und erleben Waldorfpaedagogik im Tagesrhythmus – mit viel Natur, Wiederholung und Geborgenheit.</p><!-- /wp:paragraph -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":2} --><h2>Familiengruppen · Lerchennest und Spatzennest</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"eyebrow"} --><p class="eyebrow">16 Kinder pro Gruppe · bis zu 4 Nestkinder (2 Jahre)</p><!-- /wp:paragraph -->' .
+		'<!-- wp:list {"className":"list"} --><ul class="list"><li><strong>Zeiten:</strong> Mo-Do 07:30-12:45/13:00 Uhr (mit Mittagessen), optional bis 15:15 Uhr; Fr 07:30-12:30 Uhr ohne Mittagessen. Nestkinder: Mo-Do 07:30-12:00 Uhr.</li><li><strong>Geborgenheit und Kontinuitaet:</strong> gleiche Bezugsgruppe und Bezugserzieherin von der Krippe bis zum Schuleintritt.</li><li><strong>Tagesablauf:</strong> freies Spiel, Morgenkreis zur Jahreszeit, vollwertiges Fruehstueck, Garten oder Wald, Abschlusslied fuer Nestkinder; fuer die Grossen Mittagessen und Maerchen/Tischpuppenspiel.</li></ul><!-- /wp:list -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":2} --><h2>Krippengruppe · Wiegenstube</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"eyebrow"} --><p class="eyebrow">10 Kinder · 1-3 Jahre</p><!-- /wp:paragraph -->' .
+		'<!-- wp:list {"className":"list"} --><ul class="list"><li><strong>Zeiten:</strong> Mo-Do 07:30-12:45 Uhr (mit Mittagessen), optional bis 15:15 Uhr; Fr 07:30-13:00 Uhr (mit Mittagessen).</li><li><strong>Atmosphaere:</strong> warmer, ruhiger Raum mit klaren Ritualen, Schlafzeiten und frisch gekochten Mahlzeiten.</li><li><strong>Erleben:</strong> behutsames Pflegen und Wickeln, Spaziergaenge, Zeit im Garten, Lieder, Handgestenspiele und freies Erkunden.</li></ul><!-- /wp:list -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":2} --><h2>Schwerpunkte der Waldorfpaedagogik</h2><!-- /wp:heading -->' .
+		'<!-- wp:columns {"className":"grid"} --><div class="wp-block-columns grid">' .
+		'<!-- wp:column --><div class="wp-block-column"><!-- wp:heading {"level":3} --><h3>Unterste Sinne staerken</h3><!-- /wp:heading --><!-- wp:paragraph {"className":"small"} --><p class="small">Tast-, Bewegungs-, Gleichgewichts- und Lebenssinn</p><!-- /wp:paragraph --><!-- wp:list {"className":"list"} --><ul class="list"><li>Freies Spiel mit Naturmaterialien, Matschecke, Backen, Kneten</li><li>Finger- und Ballspiele, Balancieren, Klettern, Schaukeln</li><li>Raeume in warmen Farben, klare Tagesrhythmen fuer Behaglichkeit</li></ul><!-- /wp:list --></div><!-- /wp:column -->' .
+		'<!-- wp:column --><div class="wp-block-column"><!-- wp:heading {"level":3} --><h3>Naturverbundenheit</h3><!-- /wp:heading --><!-- wp:list {"className":"list"} --><ul class="list"><li>Waldtag jede Woche: Erde, Wasser, Wind und Jahreszeiten erleben</li><li>Feiern im Jahreslauf: Johanni, Erntedank, Michaeli u.a.</li><li>Bewegung und Sinneserfahrung draussen: Klettern, Balancieren, Rollen</li></ul><!-- /wp:list --></div><!-- /wp:column -->' .
+		'<!-- wp:column --><div class="wp-block-column"><!-- wp:heading {"level":3} --><h3>Schulkindfoerderung</h3><!-- /wp:heading --><!-- wp:list {"className":"list"} --><ul class="list"><li>Zweiter Waldtag mit Kraeuter sammeln und Beobachten</li><li>Weben, Schnitzen, Tischpuppen- und Marionettenspiele, Leier/Harfenspiel</li><li>Soziale Verantwortung: Grosse helfen Kleinen, Dienste fuer die Gemeinschaft</li></ul><!-- /wp:list --></div><!-- /wp:column -->' .
+		'</div><!-- /wp:columns -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":2} --><h2>Weitere Angebote</h2><!-- /wp:heading -->' .
+		'<!-- wp:list {"className":"list"} --><ul class="list"><li>Elternfortbildungen: Themenabende, kuenstlerische und handwerkliche Kurse</li><li>Einzelberatung nach Vereinbarung, wenn Alltag oder Krisen belasten</li><li>E-Mail oder Telefon fuer Termine: <a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a>, 06126/92141</li></ul><!-- /wp:list -->' .
+		'</section><!-- /wp:group -->';
+}
+
+function waldorf_idstein_migrate_gruppen_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_gruppen_blocks_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'gruppen' );
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false === strpos( $content, '<section class="intro">' ) && false === strpos( $content, '<section class="panel">' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_gruppen_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_gruppen_blocks_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_gruppen_page_to_blocks', 37 );
+
+function waldorf_idstein_impressum_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":1} --><h1>Impressum</h1><!-- /wp:heading -->' .
+		'<!-- wp:heading {"level":2} --><h2>Herausgeber</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph --><p>Verein zur Foerderung des Waldorfkindergartens Idstein e.V.<br>Limburger Strasse 79<br>65510 Idstein</p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph --><p>Telefon 06126-92141 (Mo-Do 12:30-13:30 Uhr, Mi 9:00-12:00 Uhr)<br><a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a><br><a href="http://www.waldorfkindergarten-idstein.de">www.waldorfkindergarten-idstein.de</a></p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph --><p>Vereinsregister: Amtsgericht Idstein VR 5056</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":2} --><h2>Vorstand</h2><!-- /wp:heading -->' .
+		'<!-- wp:list {"className":"list"} --><ul class="list"><li><strong>Geschaeftsfuehrerin:</strong> Monika Igl</li><li><strong>Geschaeftsfuehrender Vorstand:</strong> Kristina Falke, Diana Pietsch, Barbara Simon, Janka Steininger</li><li><strong>Paedagogische Vorstandsmitglieder:</strong> Nicola Kirberg, Christel Claassen</li></ul><!-- /wp:list -->' .
+		'<!-- wp:heading {"level":2} --><h2>Haftung / Nutzung</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph --><p>Der Waldorfkindergarten Idstein uebernimmt keine Gewaehrleistung und keine Haftung im Zusammenhang mit der Nutzung dieser Website oder fuer indirekte, zufaellige oder Folgeschaeden. Alle Informationen werden nach bestem Wissen zur Verfuegung gestellt; eine Garantie fuer Vollstaendigkeit, Richtigkeit und Aktualitaet kann nicht uebernommen werden. Angaben nach § 6 TDG und rechtliche Hinweise koennen jederzeit geaendert werden. Wir sind grundsaetzlich nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":2} --><h2>Warenzeichen</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph --><p>Alle erwaehnten Markenrechte stehen dem jeweiligen Rechtsinhaber zu. Die Publikation darf nur zu Informationszwecken genutzt, nicht veraendert und nicht zu gewerblichen oder politischen Zwecken verbreitet werden. Copyright-Hinweise sind auf jeder Kopie zu erhalten. Alle Rechte vorbehalten.</p><!-- /wp:paragraph -->' .
+		'</section><!-- /wp:group -->';
+}
+
+function waldorf_idstein_migrate_impressum_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_impressum_blocks_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$page = get_page_by_path( 'impressum' );
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false === strpos( $content, '<section class="panel">' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_impressum_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_impressum_blocks_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_impressum_page_to_blocks', 38 );
+
+function waldorf_idstein_datenschutz_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":1} --><h1>Datenschutzerklaerung</h1><!-- /wp:heading --><!-- wp:paragraph --><p>Wir freuen uns ueber Ihr Interesse an unserem Kindergarten. Datenschutz hat einen besonders hohen Stellenwert fuer die Geschaeftsleitung der Verein zur Foerderung des Waldorfkindergartens Idstein e.V. Die Nutzung unserer Website ist grundsaetzlich ohne Angabe personenbezogener Daten moeglich. Sofern besondere Services in Anspruch genommen werden, kann eine Verarbeitung personenbezogener Daten erforderlich werden. In diesem Fall holen wir, sofern keine gesetzliche Grundlage besteht, eine Einwilligung der betroffenen Person ein.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Verantwortlicher</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Verein zur Foerderung des Waldorfkindergartens Idstein e.V.<br>Limburger Strasse 79, 65510 Idstein<br>Tel.: 06126-92141 · <a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a><br><a href="http://www.waldorfkindergarten-idstein.de">www.waldorfkindergarten-idstein.de</a></p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Erhebung und Zweck</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Beim Aufruf unserer Seiten werden serverseitig u.a. Browsertyp, Betriebssystem, Referrer, Datum/Uhrzeit, IP-Adresse, ISP und abgerufene Unterseiten protokolliert. Eine Zuordnung zu einer Person erfolgt nicht. Die Daten dienen der Auslieferung von Inhalten, der technischen Stabilitaet, der Optimierung und zur Strafverfolgung im Falle von Angriffen.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Rechtsgrundlagen</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Die Verarbeitung erfolgt je nach Zweck auf Basis von Art. 6 Abs. 1 lit. a DS-GVO (Einwilligung), lit. b (Vertrag/Vorvertrag), lit. c (rechtliche Verpflichtung), lit. d (lebenswichtige Interessen) oder lit. f (berechtigtes Interesse).</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Speicherdauer</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Personenbezogene Daten werden nur solange gespeichert, wie es der Zweck oder gesetzliche Aufbewahrungsfristen erfordern. Entfaellt der Zweck oder laeuft die Frist ab, werden Daten geloescht oder gesperrt.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Ihre Rechte</h2><!-- /wp:heading --><!-- wp:list {"className":"list"} --><ul class="list"><li>Bestaetigung, ob Daten verarbeitet werden</li><li>Auskunft ueber gespeicherte Daten und Empfaenger</li><li>Berichtigung unrichtiger oder Vervollstaendigung unvollstaendiger Daten</li><li>Loeschung oder Einschraenkung der Verarbeitung im Rahmen gesetzlicher Vorgaben</li><li>Widerspruch gegen Verarbeitung auf Basis von Art. 6 Abs. 1 lit. e/f DS-GVO</li><li>Datenuebertragbarkeit (Art. 20 DS-GVO)</li><li>Widerruf erteilter Einwilligungen mit Wirkung fuer die Zukunft</li></ul><!-- /wp:list --><!-- wp:paragraph --><p>Zur Ausuebung Ihrer Rechte koennen Sie sich jederzeit an uns wenden.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Bewerbungen</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Uebermittelte Bewerbungsunterlagen verarbeiten wir zum Zweck der Abwicklung des Bewerbungsverfahrens. Bei Absage loeschen wir die Unterlagen zwei Monate nach Bescheid, sofern keine berechtigten Interessen entgegenstehen (z.B. Beweispflicht nach AGG). Bei Einstellung werden die Daten fuer das Beschaeftigungsverhaeltnis verarbeitet.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Keine automatisierte Entscheidungsfindung</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Wir setzen keine automatisierten Entscheidungen einschliesslich Profiling ein.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Bereitstellung von Daten</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Die Bereitstellung personenbezogener Daten kann gesetzlich oder vertraglich erforderlich sein oder zum Abschluss eines Vertrages notwendig werden. Ohne Bereitstellung kann ein Vertragsabschluss ggf. nicht erfolgen. Wir informieren im Einzelfall ueber Pflichtangaben.</p><!-- /wp:paragraph --></section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} --><section class="wp-block-group panel"><!-- wp:heading {"level":2} --><h2>Hinweis zur Streitbeilegung</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p><!-- /wp:paragraph --></section><!-- /wp:group -->';
+}
+
+function waldorf_idstein_migrate_datenschutz_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_datenschutz_blocks_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$page = null;
+
+	foreach ( array( 'datenschutz', 'datenschutz-2' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+
+		if ( $page ) {
+			break;
+		}
+	}
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false === strpos( $content, '<section class="panel">' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_datenschutz_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_datenschutz_blocks_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_datenschutz_page_to_blocks', 39 );
+
+function waldorf_idstein_intern_page_block_content() {
+	return
+		'<!-- wp:group {"tagName":"section","className":"intro"} -->' .
+		'<section class="wp-block-group intro">' .
+		'<!-- wp:paragraph {"className":"badge"} --><p class="badge">Intern</p><!-- /wp:paragraph -->' .
+		'<!-- wp:heading {"level":1} --><h1>Interner Bereich</h1><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"lede"} --><p class="lede">Hier stellen wir Elternbriefe und Materialien fuer unsere Familien bereit. Bitte melden Sie sich im Buero, wenn Sie aktuelle Unterlagen per E-Mail erhalten moechten.</p><!-- /wp:paragraph -->' .
+		'</section><!-- /wp:group -->' .
+		'<!-- wp:group {"tagName":"section","className":"panel"} -->' .
+		'<section class="wp-block-group panel">' .
+		'<!-- wp:heading {"level":2} --><h2>Kontakt fuer Elternunterlagen</h2><!-- /wp:heading -->' .
+		'<!-- wp:paragraph {"className":"contact"} --><p class="contact">Telefon 06126-92141 (Mo-Do 12:30-13:30 Uhr, Mi 9:00-12:00 Uhr)<br><a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a></p><!-- /wp:paragraph -->' .
+		'<!-- wp:paragraph {"className":"note"} --><p class="note">Auf Wunsch senden wir Ihnen die neuesten Elternbriefe und Materialien digital zu.</p><!-- /wp:paragraph -->' .
+		'</section><!-- /wp:group -->';
+}
+
+function waldorf_idstein_migrate_intern_page_to_blocks() {
+	if ( (int) get_option( 'waldorf_idstein_intern_blocks_version', 0 ) >= 1 ) {
+		return;
+	}
+
+	$page = null;
+
+	foreach ( array( 'intern', 'intern-2' ) as $slug ) {
+		$page = get_page_by_path( $slug );
+
+		if ( $page ) {
+			break;
+		}
+	}
+
+	if ( ! $page ) {
+		return;
+	}
+
+	$content = (string) get_post_field( 'post_content', $page->ID );
+
+	if ( false === strpos( $content, '<section class="intro">' ) && false === strpos( $content, '<section class="panel">' ) ) {
+		return;
+	}
+
+	wp_update_post(
+		array(
+			'ID'           => $page->ID,
+			'post_content' => waldorf_idstein_intern_page_block_content(),
+		)
+	);
+
+	update_option( 'waldorf_idstein_intern_blocks_version', 1 );
+}
+add_action( 'init', 'waldorf_idstein_migrate_intern_page_to_blocks', 40 );
+
 function waldorf_idstein_update_post_menu_labels() {
 	global $menu, $submenu;
 
