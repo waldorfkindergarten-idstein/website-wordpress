@@ -6,9 +6,9 @@
  * Description: Vier Fotos im Mosaik, darunter eine vierspaltige Raumliste.
  */
 ?>
-<!-- wp:group {"anchor":"haus","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"haus","metadata":{"name":"Unser Haus"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="haus" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
-	<!-- wp:group {"className":"pb-reveal","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
+	<!-- wp:group {"metadata":{"name":"Einleitung"},"className":"pb-reveal","templateLock":"contentOnly","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 	<div class="wp-block-group pb-reveal">
 		<!-- wp:group {"className":"pb-sec-head","layout":{"type":"default"}} -->
 		<div class="wp-block-group pb-sec-head">
@@ -22,28 +22,14 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:html -->
-	<div class="pb-mosaic pb-reveal" style="margin-top:46px">
-		<figure class="pb-photo pb-mosaic__1">
-			<img src="<?php echo esc_url( waldorf_pb_img( 'photo-gruppenraum.jpg' ) ); ?>" alt="Gruppenraum mit Jahreszeitentisch" loading="lazy" decoding="async">
-			<figcaption>Beispielbild · Gruppenraum &amp; Jahreszeitentisch</figcaption>
-		</figure>
-		<figure class="pb-photo pb-mosaic__2">
-			<img src="<?php echo esc_url( waldorf_pb_img( 'photo-malecke.jpg' ) ); ?>" alt="Mal- und Handarbeitsecke" loading="lazy" decoding="async">
-			<figcaption>Beispielbild · Mal- und Handarbeitsecke</figcaption>
-		</figure>
-		<figure class="pb-photo pb-mosaic__3">
-			<img src="<?php echo esc_url( waldorf_pb_img( 'photo-holz.jpg' ) ); ?>" alt="Freies Spiel mit Holz" loading="lazy" decoding="async">
-			<figcaption>Beispielbild · Freies Spiel mit Holz</figcaption>
-		</figure>
-		<figure class="pb-photo pb-mosaic__4">
-			<img src="<?php echo esc_url( waldorf_pb_img( 'photo-garten.jpg' ) ); ?>" alt="Garten mit Obstbäumen und Sandbereich" loading="lazy" decoding="async">
-			<figcaption>Beispielbild · Garten (Panorama)</figcaption>
-		</figure>
-	</div>
-	<!-- /wp:html -->
+	<!-- wp:waldorf/mosaik {"metadata":{"name":"Fotos aus dem Haus"}} -->
+		<!-- wp:waldorf/photo {"metadata":{"name":"Gruppenraum"},"shape":"mosaic1","fallback":"photo-gruppenraum.jpg","alt":"Gruppenraum mit Jahreszeitentisch","caption":"Beispielbild · Gruppenraum & Jahreszeitentisch"} /-->
+		<!-- wp:waldorf/photo {"metadata":{"name":"Mal- und Handarbeitsecke"},"shape":"mosaic2","fallback":"photo-malecke.jpg","alt":"Mal- und Handarbeitsecke","caption":"Beispielbild · Mal- und Handarbeitsecke"} /-->
+		<!-- wp:waldorf/photo {"metadata":{"name":"Freies Spiel mit Holz"},"shape":"mosaic3","fallback":"photo-holz.jpg","alt":"Freies Spiel mit Holz","caption":"Beispielbild · Freies Spiel mit Holz"} /-->
+		<!-- wp:waldorf/photo {"metadata":{"name":"Garten"},"shape":"mosaic4","fallback":"photo-garten.jpg","alt":"Garten mit Obstbäumen und Sandbereich","caption":"Beispielbild · Garten (Panorama)"} /-->
+	<!-- /wp:waldorf/mosaik -->
 
-	<!-- wp:columns {"style":{"spacing":{"margin":{"top":"32px"},"blockGap":{"left":"22px"}}}} -->
+	<!-- wp:columns {"metadata":{"name":"Räume im Überblick"},"templateLock":"contentOnly","style":{"spacing":{"margin":{"top":"32px"},"blockGap":{"left":"22px"}}}} -->
 	<div class="wp-block-columns" style="margin-top:32px">
 		<!-- wp:column {"style":{"border":{"top":{"color":"var(--wp--custom--line, rgba(120,18,70,.14))","width":"2px"}},"spacing":{"padding":{"top":"14px"}}}} -->
 		<div class="wp-block-column" style="border-top-color:var(--wp--custom--line, rgba(120,18,70,.14));border-top-width:2px;padding-top:14px">

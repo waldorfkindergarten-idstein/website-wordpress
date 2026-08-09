@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "waldorf/mosaik",
+  "version": "1.0.0",
+  "title": "Foto-Mosaik",
+  "category": "waldorf",
+  "icon": "images-alt2",
+  "description": "Vier frei sortierbare Fotos in einem festen Mosaik-Raster.",
+  "keywords": [
+    "Bild",
+    "Foto",
+    "Galerie"
+  ],
+  "textdomain": "waldorf-pfirsichbluete",
+  "allowedBlocks": [
+    "waldorf/photo"
+  ],
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}
