@@ -6,7 +6,7 @@
  * Description: Vier Schritte zum Platz plus aufklappbare Fragen.
  */
 ?>
-<!-- wp:group {"anchor":"anmeldung","metadata":{"name":"Anmeldung und FAQ"},"lock":{"move":true,"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-white","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"anmeldung","metadata":{"name":"Anmeldung und FAQ"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-white","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-white-gradient-background has-background" id="anmeldung" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">

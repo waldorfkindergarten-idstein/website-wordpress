@@ -34,7 +34,7 @@ Recommended local values:
 
 Track:
 
-- `wordpress/wp-content/themes/waldorf-idstein/`
+- `wordpress/wp-content/themes/waldorf-pfirsichbluete/`
 - intentional plugins in `wordpress/wp-content/plugins/`
 - `wordpress/downloads/`
 - this Docker setup and docs
@@ -52,17 +52,18 @@ Use local Docker to verify design/theme changes first, then upload only changed 
 
 Important: git will version the code/files, but not WordPress database content such as pages, menus, users, and settings.
 
-## Current design status
+## Current design and editor status
 
-The theme is functional, but the homepage still needs a parity pass against the Astro/Vercel reference. The Docker setup is intended to make those visual fixes safer and faster to iterate on locally.
+The `waldorf-pfirsichbluete` block theme contains the completed visual homepage
+and editable dynamic content blocks. Its front-page template renders the content
+of the static page selected under WordPress **Settings > Reading**.
 
-## Editor patterns
+After the atomic cutover deployment, the public homepage uses a canonical safe
+fallback until an authenticated administrator triggers the migration. The theme
+then migrates only exactly recognized legacy content and source media into normal
+Gutenberg page content and Media Library attachments. It never assumes a page or
+attachment ID and refuses to overwrite unrecognized editor-owned content.
+Uploads and database changes remain deployment state and are not tracked by Git.
 
-The theme registers reusable Gutenberg patterns under the category `Waldorf Idstein`.
-
-These are intended for editors who should not need to write HTML manually:
-
-- Intro-Bereich
-- Panel-Bereich
-- Kontakt in zwei Spalten
-- Downloads/Formulare
+Editor and deployment instructions are maintained in
+`wordpress/wp-content/themes/waldorf-pfirsichbluete/readme.md`.

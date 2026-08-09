@@ -6,7 +6,7 @@
  * Description: Aufmacher mit Aquarell-Hintergrund, Foto in organischer Form, Siegel und Terminhinweis.
  */
 ?>
-<!-- wp:group {"className":"pb-hero","style":{"spacing":{"padding":{"top":"96px","bottom":"70px"}}},"layout":{"type":"constrained"},"templateLock":"all","metadata":{"name":"Hero"}} -->
+<!-- wp:group {"className":"pb-hero","style":{"spacing":{"padding":{"top":"96px","bottom":"70px"}}},"layout":{"type":"constrained"},"templateLock":"all","lock":{"remove":true},"metadata":{"name":"Hero"}} -->
 <div class="wp-block-group pb-hero" style="padding-top:96px;padding-bottom:70px">
 	<!-- wp:waldorf/dekoration {"variant":"hero-background","lock":{"move":true,"remove":true},"metadata":{"name":"Aquarell-Hintergrund"}} /-->
 

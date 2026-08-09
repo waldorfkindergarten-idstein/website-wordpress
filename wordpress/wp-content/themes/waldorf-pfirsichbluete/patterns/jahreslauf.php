@@ -6,7 +6,7 @@
  * Description: Sechs Festkarten mit Aquarell-Motiven.
  */
 ?>
-<!-- wp:group {"anchor":"jahreslauf","metadata":{"name":"Jahreslauf und Feste"},"templateLock":"all","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"jahreslauf","metadata":{"name":"Jahreslauf und Feste"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-rose-gradient-background has-background" id="jahreslauf" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"metadata":{"name":"Überschrift"},"templateLock":"contentOnly","className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">

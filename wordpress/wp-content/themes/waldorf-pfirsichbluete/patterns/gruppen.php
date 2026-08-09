@@ -6,7 +6,7 @@
  * Description: Drei Gruppenkarten mit Foto, Alters-Tag und Eckdaten.
  */
 ?>
-<!-- wp:group {"anchor":"gruppen","metadata":{"name":"Unsere Gruppen"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-white","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"gruppen","metadata":{"name":"Unsere Gruppen"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-white","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-white-gradient-background has-background" id="gruppen" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"metadata":{"name":"Einleitung"},"className":"pb-reveal pb-sec-head","templateLock":"contentOnly","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">

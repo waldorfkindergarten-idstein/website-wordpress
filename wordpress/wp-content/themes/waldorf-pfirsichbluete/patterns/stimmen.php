@@ -6,7 +6,7 @@
  * Description: Sortierbare Zitatkarten von Familien.
  */
 ?>
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"},"templateLock":"all","metadata":{"name":"Elternstimmen"}} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"},"templateLock":"all","lock":{"remove":true},"metadata":{"name":"Elternstimmen"}} -->
 <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 	<!-- wp:group {"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">

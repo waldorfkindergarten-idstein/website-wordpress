@@ -6,7 +6,7 @@
  * Description: Zeitstrahl des Tagesablaufs plus Wochenübersicht mit Waldtag.
  */
 ?>
-<!-- wp:group {"anchor":"rhythmus","metadata":{"name":"Tagesrhythmus"},"templateLock":"all","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"rhythmus","metadata":{"name":"Tagesrhythmus"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="rhythmus" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"metadata":{"name":"Einleitung Tagesrhythmus"},"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">

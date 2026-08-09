@@ -6,7 +6,7 @@
  * Description: Breiter Aquarell-Block mit zentriertem Aufruf.
  */
 ?>
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Kennenlern-Aufruf"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"var:preset|spacing|60"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--60);padding-bottom:var(--wp--preset--spacing--60)">
 	<!-- wp:group {"className":"pb-cta pb-reveal","layout":{"type":"constrained"}} -->
 	<div class="wp-block-group pb-cta pb-reveal">
