@@ -39,6 +39,15 @@ class WP_Error {
 	}
 }
 
+class WP_Block_Template {
+	/** @var string */
+	public $id = '';
+	/** @var string */
+	public $slug = '';
+	/** @var string */
+	public $source = 'theme';
+}
+
 $registered_actions = array();
 $registered_filters = array();
 $test_filters       = array();
@@ -46,6 +55,7 @@ $test_options       = array();
 $test_is_admin      = false;
 $test_is_front_page = false;
 $test_did_wp        = 0;
+$test_file_template = null;
 
 function add_action( string $hook, string $callback ): void {
 	global $registered_actions;
@@ -101,6 +111,13 @@ function did_action( string $hook ): int {
 	global $test_did_wp;
 	return 'wp' === $hook ? $test_did_wp : 0;
 }
+function get_stylesheet(): string {
+	return 'test-theme';
+}
+function get_block_file_template( string $id, string $template_type ) {
+	global $test_file_template;
+	return $test_file_template;
+}
 
 require $theme . '/inc/content-migration.php';
 
@@ -141,6 +158,30 @@ $test_options[ WALDORF_PB_CONTENT_MIGRATION_OPTION ] = 0;
 $test_is_front_page = false;
 verify( ! waldorf_pb_should_render_front_page_fallback(), 'Fallback does not affect other frontend views.' );
 
+$wrapped = '<section class="wp-block-post-content entry-content custom" data-layout="wide">legacy</section>';
+verify(
+	'<section class="wp-block-post-content entry-content custom" data-layout="wide">canonical</section>' === waldorf_pb_replace_post_content_inner( $wrapped, 'canonical', array() ),
+	'Fallback replaces only wrapper inner content and preserves exact core attributes.'
+);
+
+$test_is_front_page = true;
+$custom_template = new WP_Block_Template();
+$custom_template->id = 'test-theme//front-page';
+$custom_template->slug = 'front-page';
+$custom_template->source = 'custom';
+$other_template = new WP_Block_Template();
+$other_template->id = 'test-theme//page';
+$other_template->slug = 'page';
+$test_file_template = new WP_Block_Template();
+$test_file_template->id = 'test-theme//front-page';
+$test_file_template->slug = 'front-page';
+$templates = waldorf_pb_use_file_front_page_template_in_list_until_migrated( array( $custom_template, $other_template ), array(), 'wp_template' );
+verify( $test_file_template === $templates[0] && $other_template === $templates[1], 'Plural template resolution replaces only a custom front-page template.' );
+$test_options[ WALDORF_PB_CONTENT_MIGRATION_OPTION ] = WALDORF_PB_CONTENT_MIGRATION_VERSION;
+verify( $custom_template === waldorf_pb_use_file_front_page_template_in_list_until_migrated( array( $custom_template ), array(), 'wp_template' )[0], 'Plural template fallback disappears after completion.' );
+$test_options[ WALDORF_PB_CONTENT_MIGRATION_OPTION ] = 0;
+$test_is_front_page = false;
+
 $legacy_fixture = '<!-- wp:group --> <div>Known legacy fixture</div> <!-- /wp:group -->';
 $test_filters['waldorf_pb_legacy_content_hashes'] = static function () use ( $legacy_fixture ): array {
 	return array( hash( 'sha256', waldorf_pb_normalize_legacy_content( $legacy_fixture ) ) );
@@ -153,7 +194,7 @@ $canonical = waldorf_pb_build_canonical_front_page_content();
 verify( ! is_wp_error( $canonical ), 'Canonical local patterns load.' );
 $canonical_schema = waldorf_pb_front_page_schema_from_content( $canonical );
 verify( 'new' === waldorf_pb_classify_front_page_content( $canonical ), 'The complete canonical schema is recognized as new: ' . implode( ', ', $canonical_schema ) );
-verify( 'new' === waldorf_pb_classify_front_page_content( str_replace( 'Herzlich willkommen', 'Willkommen', $canonical ) ), 'Legitimate text edits retain complete-new recognition.' );
+verify( 'new' === waldorf_pb_classify_front_page_content( str_replace( 'Ein warmes Zuhause', 'Ein geborgenes Zuhause', $canonical ) ), 'Legitimate text edits retain complete-new recognition.' );
 verify( false === strpos( $canonical, 'wp:pattern' ), 'Canonical content has no persisted pattern references.' );
 verify( false !== strpos( $canonical, '"variant":"back-to-top"' ), 'Canonical content includes back-to-top decoration.' );
 
@@ -251,6 +292,30 @@ $changed = false;
 $blocks  = waldorf_pb_hydrate_front_page_assets( $blocks, $attachments, $changed );
 verify( ! $changed, 'A second hydration pass is idempotent.' );
 
+$backup = array(
+	'page_id'        => 10,
+	'content'        => 'legacy original',
+	'hash'           => hash( 'sha256', 'legacy original' ),
+	'target_content' => $canonical,
+	'target_hash'    => hash( 'sha256', $canonical ),
+	'original_type'  => 'legacy',
+	'revision_id'    => 55,
+);
+$test_options[ WALDORF_PB_CONTENT_MIGRATION_BACKUP ] = $backup;
+verify( is_array( waldorf_pb_get_content_backup( 10 ) ), 'A durable original/target backup validates.' );
+verify( 'original' === waldorf_pb_content_backup_state( 'legacy original', $backup ), 'Backup identifies its exact original.' );
+verify( 'target' === waldorf_pb_content_backup_state( $canonical, $backup ), 'Backup identifies its exact target.' );
+verify( 'divergent' === waldorf_pb_content_backup_state( $canonical . 'edited', $backup ), 'Backup rejects content matching neither exact hash.' );
+$old_backup = array(
+	'page_id' => 10,
+	'content' => 'legacy original',
+	'hash'    => hash( 'sha256', 'legacy original' ),
+);
+$test_options[ WALDORF_PB_CONTENT_MIGRATION_BACKUP ] = $old_backup;
+$validated_old_backup = waldorf_pb_get_content_backup( 10 );
+verify( is_array( $validated_old_backup ) && null === $validated_old_backup['target_content'], 'An original-only unshipped v2 backup remains upgradeable.' );
+unset( $test_options[ WALDORF_PB_CONTENT_MIGRATION_BACKUP ] );
+
 $now = 2000000000;
 verify( $now - 601 === waldorf_pb_lock_timestamp( ( $now - 601 ) . ':test-token' ), 'Lock timestamp parser accepts a valid token.' );
 verify( 0 === waldorf_pb_lock_timestamp( 'malformed' ), 'Lock timestamp parser rejects malformed data.' );
@@ -261,15 +326,20 @@ $front_template = file_get_contents( $theme . '/templates/front-page.html' );
 verify( false !== strpos( $front_template, 'wp:post-content' ) && false === strpos( $front_template, 'wp:pattern' ), 'Front template retains post-content only.' );
 verify( isset( $registered_filters['render_block_core/post-content'] ), 'Frontend post-content fallback filter is registered.' );
 verify( isset( $registered_filters['pre_get_block_template'] ), 'Incomplete migration protects against a DB template override before its DB result returns.' );
+verify( isset( $registered_filters['get_block_templates'] ), 'Plural template resolution is protected on WordPress 6.5.' );
 verify( isset( $registered_actions['admin_init'] ) && ! isset( $registered_actions['init'] ), 'Automatic writes are registered only on admin_init.' );
 
 $functions = file_get_contents( $theme . '/functions.php' );
 verify( false !== strpos( $functions, "add_editor_style( 'assets/css/components.css' )" ), 'Shared component styles load in the editor.' );
 
 $migration_source = file_get_contents( $theme . '/inc/content-migration.php' );
-$page_update       = strpos( $migration_source, '$result = wp_update_post(' );
-$version_update    = strpos( $migration_source, 'update_option( WALDORF_PB_CONTENT_MIGRATION_OPTION' );
+$page_update       = strpos( $migration_source, '$result = waldorf_pb_write_page_content(' );
+$version_update    = false === $page_update ? false : strpos( $migration_source, 'update_option( WALDORF_PB_CONTENT_MIGRATION_OPTION', $page_update );
 verify( false !== $page_update && false !== $version_update && $page_update < $version_update, 'Completion is recorded only after the page update path.' );
+preg_match_all( '/\bwp_update_post\(\s*array\(/', $migration_source, $wp_update_matches );
+verify( 1 === count( $wp_update_matches[0] ), 'All array-form post-content writes use one centralized helper.' );
+verify( 1 === preg_match( '/\x27post_content\x27\s*=>\s*wp_slash\(\s*\$content\s*\)/', $migration_source ), 'The centralized wp_update_post helper applies wp_slash to post_content.' );
+verify( false !== strpos( $migration_source, 'waldorf_pb_write_page_content( $page_id, $original_content )' ), 'Rollback uses the same wp_slash-correct helper.' );
 verify( 0 === preg_match( '/page_on_front[^\n]*\b12\b/', $migration_source ), 'No front-page ID is hardcoded.' );
 verify( false !== strpos( $migration_source, "'_waldorf_pb_source_filename'" ) && false !== strpos( $migration_source, "'_waldorf_pb_source_sha256'" ), 'Filename and SHA-256 attachment identity markers are declared.' );
 verify( false !== strpos( $migration_source, "'waldorf_pb_content_migration_backup'" ), 'Independent backup option is declared.' );
@@ -278,6 +348,9 @@ verify( false !== strpos( $migration_source, 'SELECT option_value FROM' ), 'Owne
 verify( substr_count( $migration_source, 'waldorf_pb_migration_lock_is_owned( $lock_token )' ) >= 4, 'Lock ownership is revalidated around destructive writes.' );
 verify( false !== strpos( $migration_source, 'clean_post_cache( $page_id )' ) && false !== strpos( $migration_source, "'front_page_changed'" ), 'Page content is reloaded and optimistically checked after imports.' );
 verify( false !== strpos( $migration_source, 'waldorf_pb_require_original_revision' ) && false !== strpos( $migration_source, 'waldorf_pb_restore_original_content' ), 'Revision verification and rollback paths are present.' );
+verify( false !== strpos( $migration_source, 'target_content' ) && false !== strpos( $migration_source, 'target_hash' ), 'Durable backup stores exact original and target states.' );
+verify( false !== strpos( $migration_source, 'waldorf_pb_prepare_content_recovery' ) && false !== strpos( $migration_source, 'waldorf_pb_reconcile_after_throwable' ), 'Retry and Throwable reconciliation paths are present.' );
+verify( false !== strpos( $migration_source, 'catch ( Throwable $throwable )' ) && false !== strpos( $migration_source, "'migration_exception'" ), 'Locked migration converts Throwable to actionable WP_Error.' );
 verify( false !== strpos( $migration_source, "'custom_front_page_template'" ) && false !== strpos( $migration_source, "'custom' === \$template->source" ), 'Supported template API detects DB overrides.' );
 verify( false !== strpos( $migration_source, 'WALDORF_PB_MIGRATION_RETRY_SECONDS' ) && false !== strpos( $migration_source, 'check_admin_referer' ), 'Failure retries are throttled with a nonce-protected manual path.' );
 verify( false !== strpos( $migration_source, "did_action( 'wp' ) > 0" ), 'Fallback condition only evaluates front-page query state after the frontend query exists.' );

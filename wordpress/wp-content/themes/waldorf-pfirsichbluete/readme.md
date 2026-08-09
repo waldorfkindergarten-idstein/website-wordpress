@@ -117,11 +117,15 @@ hat Vorrang vor der Theme-Datei und stoppt die Migration. Dort **Startseite**
 erzwingt das Frontend aus Sicherheitsgründen die Theme-Datei mit dem Fallback.
 
 Vor jedem Seitenupdate entsteht die nicht automatisch geladene Sicherungsoption
-`waldorf_pb_content_migration_backup` mit Seiten-ID, Originalinhalt, SHA-256 und
-Zeitpunkt. Bei Legacy-Inhalt ist zusätzlich eine positive und inhaltlich
-verifizierte WordPress-Revision Pflicht. Nach dem Update werden Zielinhalt,
-Sicherung und Revision erneut geprüft; bei Abweichungen wird der Originalinhalt
-wiederhergestellt und keine Version gesetzt. Zur Diagnose:
+`waldorf_pb_content_migration_backup` mit Seiten-ID, exaktem Original- und
+Zielinhalt, beiden SHA-256-Prüfsummen und Zeitpunkt. Bei Legacy-Inhalt ist
+zusätzlich eine positive und inhaltlich verifizierte WordPress-Revision Pflicht.
+Nach dem Update werden Zielinhalt, Sicherung und Revision erneut geprüft. Geht
+der Lock verloren oder tritt nach dem Schreiben ein Fehler auf, erkennt der
+nächste Lauf Original und Ziel anhand der exakten Hashes: ein korrektes Ziel wird
+sicher abgeschlossen, ein abweichender Zwischenzustand auf das Original
+zurückgesetzt. Dadurch bleibt kein dauerhafter `backup_conflict` zurück. Zur
+Diagnose:
 
 ```bash
 wp option get waldorf_pb_content_migration_error --format=json
@@ -161,6 +165,11 @@ mit einer WordPress-Datenbank:
 ```bash
 php tests/verify-content-migration.php
 ```
+
+`tests/integration-content-migration.php` ist destruktiv und verweigert jeden
+Datenbanknamen ohne Präfix `waldorf_integration_`. Es darf ausschließlich in
+einem kurzlebigen Container mit separater Datenbank und schreibgeschütztem
+Worktree-Mount ausgeführt werden, niemals gegen die lokale oder produktive DB.
 
 Theme lokal aktivieren:
 
