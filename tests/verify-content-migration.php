@@ -163,6 +163,10 @@ verify(
 	'<section class="wp-block-post-content entry-content custom" data-layout="wide">canonical</section>' === waldorf_pb_replace_post_content_inner( $wrapped, 'canonical', array() ),
 	'Fallback replaces only wrapper inner content and preserves exact core attributes.'
 );
+verify(
+	'<div class="entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow">canonical</div>' === waldorf_pb_replace_post_content_inner( '', 'canonical', array( 'attrs' => array() ) ),
+	'Empty post-content receives the explicit core-equivalent flow wrapper.'
+);
 
 $test_is_front_page = true;
 $custom_template = new WP_Block_Template();
@@ -313,7 +317,8 @@ $old_backup = array(
 );
 $test_options[ WALDORF_PB_CONTENT_MIGRATION_BACKUP ] = $old_backup;
 $validated_old_backup = waldorf_pb_get_content_backup( 10 );
-verify( is_array( $validated_old_backup ) && null === $validated_old_backup['target_content'], 'An original-only unshipped v2 backup remains upgradeable.' );
+verify( is_array( $validated_old_backup ) && null === $validated_old_backup['target_content'], 'An original-only unshipped v2 backup validates without inventing a target.' );
+verify( 'divergent' === waldorf_pb_content_backup_state( $canonical, $validated_old_backup ), 'Complete-new content is divergent when an old backup has no exact target.' );
 unset( $test_options[ WALDORF_PB_CONTENT_MIGRATION_BACKUP ] );
 
 $now = 2000000000;
@@ -351,6 +356,8 @@ verify( false !== strpos( $migration_source, 'waldorf_pb_require_original_revisi
 verify( false !== strpos( $migration_source, 'target_content' ) && false !== strpos( $migration_source, 'target_hash' ), 'Durable backup stores exact original and target states.' );
 verify( false !== strpos( $migration_source, 'waldorf_pb_prepare_content_recovery' ) && false !== strpos( $migration_source, 'waldorf_pb_reconcile_after_throwable' ), 'Retry and Throwable reconciliation paths are present.' );
 verify( false !== strpos( $migration_source, 'catch ( Throwable $throwable )' ) && false !== strpos( $migration_source, "'migration_exception'" ), 'Locked migration converts Throwable to actionable WP_Error.' );
+verify( false !== strpos( $migration_source, "'migration_state_divergent'" ) && false !== strpos( $migration_source, "'migration_exception_divergent'" ), 'Divergent retry and exception states halt without automatic restoration.' );
+verify( false === strpos( $migration_source, 'get_block_wrapper_attributes(' ), 'Empty fallback does not call block-support wrapper APIs outside core rendering.' );
 verify( false !== strpos( $migration_source, "'custom_front_page_template'" ) && false !== strpos( $migration_source, "'custom' === \$template->source" ), 'Supported template API detects DB overrides.' );
 verify( false !== strpos( $migration_source, 'WALDORF_PB_MIGRATION_RETRY_SECONDS' ) && false !== strpos( $migration_source, 'check_admin_referer' ), 'Failure retries are throttled with a nonce-protected manual path.' );
 verify( false !== strpos( $migration_source, "did_action( 'wp' ) > 0" ), 'Fallback condition only evaluates front-page query state after the frontend query exists.' );

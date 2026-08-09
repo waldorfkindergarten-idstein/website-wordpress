@@ -112,6 +112,9 @@ $instance = (object) array( 'context' => array( 'postId' => $page_id ) );
 $fallback = waldorf_pb_render_front_page_fallback( $wrapper, array( 'attrs' => array() ), $instance );
 waldorf_pb_integration_verify( 0 === strpos( $fallback, '<div class="wp-block-post-content entry-content integration-wrapper" data-preserved="yes">' ), 'Fallback preserves the actual core wrapper.' );
 waldorf_pb_integration_verify( false === strpos( $fallback, '>legacy</div>' ) && false !== strpos( $fallback, 'Ein warmes Zuhause' ), 'Fallback renders canonical content before migration.' );
+$empty_fallback = waldorf_pb_render_front_page_fallback( '', array( 'attrs' => array() ), $instance );
+waldorf_pb_integration_verify( 0 === strpos( $empty_fallback, '<div class="entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow">' ), 'Actual empty post-content fallback emits the explicit core-equivalent flow wrapper.' );
+waldorf_pb_integration_verify( false !== strpos( $empty_fallback, 'Ein warmes Zuhause' ), 'Actual empty post-content fallback contains canonical content.' );
 
 $result = waldorf_pb_run_content_migration();
 $migration_detail = is_wp_error( $result ) ? $result->get_error_code() . ': ' . $result->get_error_message() : gettype( $result );
@@ -186,20 +189,6 @@ delete_option( WALDORF_PB_CONTENT_MIGRATION_OPTION );
 $recovery_result = waldorf_pb_run_content_migration();
 waldorf_pb_integration_verify( true === $recovery_result, 'Complete-new page with existing legacy backup finishes recovery without conflict.' );
 
-$full_backup = get_option( WALDORF_PB_CONTENT_MIGRATION_BACKUP );
-$original_only_backup = array(
-	'page_id' => $full_backup['page_id'],
-	'content' => $full_backup['content'],
-	'hash'    => $full_backup['hash'],
-	'time'    => $full_backup['time'],
-);
-update_option( WALDORF_PB_CONTENT_MIGRATION_BACKUP, $original_only_backup, false );
-delete_option( WALDORF_PB_CONTENT_MIGRATION_OPTION );
-$old_backup_result = waldorf_pb_run_content_migration();
-waldorf_pb_integration_verify( true === $old_backup_result, 'Complete-new page upgrades an original-only unshipped v2 backup without conflict.' );
-$upgraded_backup = waldorf_pb_get_content_backup( $page_id );
-waldorf_pb_integration_verify( is_array( $upgraded_backup ) && 'target' === waldorf_pb_content_backup_state( $migrated, $upgraded_backup ), 'Original-only backup gains an exact recoverable target.' );
-
 $second_result = waldorf_pb_run_content_migration();
 waldorf_pb_integration_verify( true === $second_result, 'Completed second migration pass is a successful no-op.' );
 waldorf_pb_integration_verify( $attachment_count === count( get_posts( array( 'post_type' => 'attachment', 'post_status' => 'inherit', 'posts_per_page' => -1, 'fields' => 'ids', 'meta_key' => WALDORF_PB_SOURCE_META_KEY ) ) ), 'Second pass creates no duplicate attachments.' );
@@ -207,5 +196,17 @@ waldorf_pb_integration_verify( $revision_count === count( wp_get_post_revisions(
 
 $after_fallback = waldorf_pb_render_front_page_fallback( $wrapper, array( 'attrs' => array() ), $instance );
 waldorf_pb_integration_verify( $wrapper === $after_fallback, 'Fallback disappears after successful version.' );
+
+$editor_content = str_replace( 'Ein warmes Zuhause', 'Ein redaktionell geändertes Zuhause', $migrated );
+waldorf_pb_integration_verify( $editor_content !== $migrated && 'new' === waldorf_pb_classify_front_page_content( $editor_content ), 'Editor regression fixture remains structurally complete-new.' );
+$backup_before_editor = get_option( WALDORF_PB_CONTENT_MIGRATION_BACKUP );
+$editor_write = waldorf_pb_write_page_content( $page_id, $editor_content );
+waldorf_pb_integration_verify( ! is_wp_error( $editor_write ) && $editor_content === (string) get_post_field( 'post_content', $page_id ), 'Editor modification was persisted byte-for-byte.' );
+delete_option( WALDORF_PB_CONTENT_MIGRATION_OPTION );
+$divergent_result = waldorf_pb_run_content_migration();
+waldorf_pb_integration_verify( is_wp_error( $divergent_result ) && 'migration_state_divergent' === $divergent_result->get_error_code(), 'Retry halts for complete-new content differing from durable original and target.' );
+waldorf_pb_integration_verify( $editor_content === (string) get_post_field( 'post_content', $page_id ), 'Divergent editor content is preserved byte-for-byte.' );
+waldorf_pb_integration_verify( $backup_before_editor === get_option( WALDORF_PB_CONTENT_MIGRATION_BACKUP ), 'Divergent retry leaves durable backup unchanged.' );
+waldorf_pb_integration_verify( (int) get_option( WALDORF_PB_CONTENT_MIGRATION_OPTION, 0 ) < WALDORF_PB_CONTENT_MIGRATION_VERSION, 'Divergent retry leaves migration version incomplete.' );
 
 fwrite( STDOUT, "OK: {$checks} isolated WordPress integration checks passed.\n" );

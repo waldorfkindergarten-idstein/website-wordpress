@@ -395,9 +395,11 @@ function waldorf_pb_replace_post_content_inner( string $block_content, string $i
 		$tag_name = $block['attrs']['tagName'];
 	}
 
-	$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'entry-content' ) );
-
-	return sprintf( '<%1$s %2$s>%3$s</%1$s>', $tag_name, $wrapper_attributes, $inner_content );
+	return sprintf(
+		'<%1$s class="entry-content wp-block-post-content is-layout-flow wp-block-post-content-is-layout-flow">%2$s</%1$s>',
+		$tag_name,
+		$inner_content
+	);
 }
 
 /**
@@ -951,7 +953,7 @@ function waldorf_pb_store_content_backup( int $page_id, string $original_content
 		}
 
 		$state = waldorf_pb_content_backup_state( $current_content, $validated );
-		if ( ! is_string( $validated['target_content'] ) && ( 'original' === $state || 'new' === waldorf_pb_classify_front_page_content( $current_content ) ) ) {
+		if ( ! is_string( $validated['target_content'] ) && 'original' === $state ) {
 			$backup['revision_id'] = absint( $validated['revision_id'] ?? 0 );
 			$backup['time']        = isset( $validated['time'] ) ? (int) $validated['time'] : time();
 			if ( ! update_option( WALDORF_PB_CONTENT_MIGRATION_BACKUP, $backup, false ) ) {
@@ -1112,20 +1114,10 @@ function waldorf_pb_prepare_content_recovery( WP_Post $page, string $lock_token 
 	}
 
 	$state = waldorf_pb_content_backup_state( $current_content, $backup );
-	if ( 'divergent' === $state && ! is_string( $backup['target_content'] ) && 'new' === $current_type ) {
-		// Upgrade a valid original-only backup produced by the unshipped v2 review build.
-		$state = 'target';
-	}
-
 	if ( 'divergent' === $state ) {
-		if ( ! waldorf_pb_migration_lock_is_owned( $lock_token ) ) {
-			return new WP_Error( 'migration_recovery_locked', 'Der Seitenzustand weicht von Sicherung und Ziel ab; Wiederherstellung wartet auf den aktuellen Lock-Inhaber.' );
-		}
-
-		return waldorf_pb_restore_original_content(
-			$page->ID,
-			(string) $backup['content'],
-			new WP_Error( 'migration_state_restored', 'Der unvollständige Migrationszustand wich von Original und Ziel ab; das gesicherte Original wurde wiederhergestellt.' )
+		return new WP_Error(
+			'migration_state_divergent',
+			'Der aktuelle Startseiteninhalt entspricht weder dem dauerhaft gesicherten Original noch dem exakten Migrationsziel. Er gilt als redaktionell bearbeitet und wurde nicht verändert; Seite und Sicherung müssen manuell geprüft werden.'
 		);
 	}
 
@@ -1160,6 +1152,9 @@ function waldorf_pb_reconcile_after_throwable( string $lock_token, WP_Error $cau
 	$state = waldorf_pb_content_backup_state( (string) $page->post_content, $backup );
 	if ( 'original' === $state ) {
 		return $cause;
+	}
+	if ( 'divergent' === $state ) {
+		return new WP_Error( 'migration_exception_divergent', $cause->get_error_message() . ' Der aktuelle Inhalt weicht von gesichertem Original und Ziel ab und wurde als redaktionell geschützt nicht verändert.' );
 	}
 	if ( ! waldorf_pb_migration_lock_is_owned( $lock_token ) ) {
 		return new WP_Error( 'migration_exception_recovery_pending', $cause->get_error_message() . ' Der Lock ging verloren; der nächste Lauf gleicht Ziel und Sicherung ab.' );

@@ -123,9 +123,10 @@ zusätzlich eine positive und inhaltlich verifizierte WordPress-Revision Pflicht
 Nach dem Update werden Zielinhalt, Sicherung und Revision erneut geprüft. Geht
 der Lock verloren oder tritt nach dem Schreiben ein Fehler auf, erkennt der
 nächste Lauf Original und Ziel anhand der exakten Hashes: ein korrektes Ziel wird
-sicher abgeschlossen, ein abweichender Zwischenzustand auf das Original
-zurückgesetzt. Dadurch bleibt kein dauerhafter `backup_conflict` zurück. Zur
-Diagnose:
+sicher abgeschlossen. Jeder Inhalt, der von Original und Ziel abweicht, gilt
+dagegen als redaktionell bearbeitet: Seite, Sicherung und unvollständige Version
+bleiben unverändert und der Admin-Hinweis fordert eine manuelle Prüfung. Dadurch
+wird keine zwischenzeitliche Editor-Änderung automatisch zurückgesetzt. Zur Diagnose:
 
 ```bash
 wp option get waldorf_pb_content_migration_error --format=json
