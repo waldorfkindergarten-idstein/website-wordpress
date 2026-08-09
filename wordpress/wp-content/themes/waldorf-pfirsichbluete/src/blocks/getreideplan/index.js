@@ -24,11 +24,7 @@ function Edit() {
 
 	return (
 		<ul { ...blockProps }>
-			<InnerBlocks
-				allowedBlocks={ ALLOWED_BLOCKS }
-				template={ TEMPLATE }
-				templateLock={ false }
-			/>
+			<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } template={ TEMPLATE } templateLock={ false } />
 		</ul>
 	);
 }

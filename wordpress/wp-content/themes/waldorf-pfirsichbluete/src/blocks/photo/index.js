@@ -8,13 +8,7 @@ import {
 	useBlockProps,
 } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import {
-	FocalPointPicker,
-	PanelBody,
-	SelectControl,
-	TextControl,
-	ToolbarGroup,
-} from '@wordpress/components';
+import { FocalPointPicker, PanelBody, SelectControl, TextControl, ToolbarGroup } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -73,29 +67,19 @@ const SHAPES = {
 function getFallbackUrl( baseUrl, fallback ) {
 	const filename = fallback.split( '/' ).pop();
 
-	return filename && baseUrl
-		? `${ baseUrl }${ encodeURIComponent( filename ) }`
-		: '';
+	return filename && baseUrl ? `${ baseUrl }${ encodeURIComponent( filename ) }` : '';
 }
 
 function Edit( { attributes, context, setAttributes } ) {
 	const { alt, caption, fallback, focalPoint, id, shape } = attributes;
 	const isMosaic = true === context[ 'waldorf/isMosaic' ];
-	const media = useSelect(
-		( select ) => ( id ? select( coreStore ).getMedia( id ) : null ),
-		[ id ]
-	);
+	const media = useSelect( ( select ) => ( id ? select( coreStore ).getMedia( id ) : null ), [ id ] );
 	const fallbackBaseUrl = useSelect(
-		( select ) =>
-			select( blockEditorStore ).getSettings().waldorfPhotoImageBaseUrl ||
-			'',
+		( select ) => select( blockEditorStore ).getSettings().waldorfPhotoImageBaseUrl || '',
 		[]
 	);
 	const fallbackUrl = getFallbackUrl( fallbackBaseUrl, fallback );
-	const mediaUrl =
-		media?.media_details?.sizes?.large?.source_url ||
-		media?.source_url ||
-		'';
+	const mediaUrl = media?.media_details?.sizes?.large?.source_url || media?.source_url || '';
 	const imageUrl = mediaUrl || fallbackUrl;
 	const selectedShape = SHAPES[ shape ] || SHAPES.hero;
 	const objectPosition = `${ focalPoint.x * 100 }% ${ focalPoint.y * 100 }%`;
@@ -132,72 +116,45 @@ function Edit( { attributes, context, setAttributes } ) {
 						<SelectControl
 							label={ __( 'Form', 'waldorf-pfirsichbluete' ) }
 							value={ shape }
-							options={ Object.entries( SHAPES ).map(
-								( [ value, option ] ) => ( {
-									label: option.label,
-									value,
-								} )
-							) }
-							onChange={ ( value ) =>
-								setAttributes( { shape: value } )
-							}
+							options={ Object.entries( SHAPES ).map( ( [ value, option ] ) => ( {
+								label: option.label,
+								value,
+							} ) ) }
+							onChange={ ( value ) => setAttributes( { shape: value } ) }
 						/>
 					) }
 
 					{ imageUrl && (
 						<FocalPointPicker
-							label={ __(
-								'Bildausschnitt',
-								'waldorf-pfirsichbluete'
-							) }
+							label={ __( 'Bildausschnitt', 'waldorf-pfirsichbluete' ) }
 							url={ imageUrl }
 							value={ focalPoint }
-							onChange={ ( value ) =>
-								setAttributes( { focalPoint: value } )
-							}
+							onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
 						/>
 					) }
 
 					<TextControl
-						label={ __(
-							'Alternativtext',
-							'waldorf-pfirsichbluete'
-						) }
+						label={ __( 'Alternativtext', 'waldorf-pfirsichbluete' ) }
 						help={ __(
 							'Leer lassen, um den Alternativtext aus der Mediathek zu verwenden.',
 							'waldorf-pfirsichbluete'
 						) }
 						value={ alt }
-						onChange={ ( value ) =>
-							setAttributes( { alt: value } )
-						}
+						onChange={ ( value ) => setAttributes( { alt: value } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
 
 			<figure { ...blockProps }>
 				{ id && imageUrl ? (
-					<img
-						src={ imageUrl }
-						alt={ alt }
-						style={ { objectPosition } }
-					/>
+					<img src={ imageUrl } alt={ alt } style={ { objectPosition } } />
 				) : (
 					<div className="waldorf-photo__placeholder">
-						{ fallbackUrl && (
-							<img
-								src={ fallbackUrl }
-								alt=""
-								style={ { objectPosition } }
-							/>
-						) }
+						{ fallbackUrl && <img src={ fallbackUrl } alt="" style={ { objectPosition } } /> }
 						<MediaPlaceholder
 							icon="format-image"
 							labels={ {
-								title: __(
-									'Foto auswählen',
-									'waldorf-pfirsichbluete'
-								),
+								title: __( 'Foto auswählen', 'waldorf-pfirsichbluete' ),
 							} }
 							onSelect={ onSelectImage }
 							accept="image/*"
@@ -209,15 +166,10 @@ function Edit( { attributes, context, setAttributes } ) {
 				<RichText
 					tagName="figcaption"
 					className="wp-element-caption"
-					placeholder={ __(
-						'Bildunterschrift …',
-						'waldorf-pfirsichbluete'
-					) }
+					placeholder={ __( 'Bildunterschrift …', 'waldorf-pfirsichbluete' ) }
 					value={ caption }
 					allowedFormats={ [] }
-					onChange={ ( value ) =>
-						setAttributes( { caption: value } )
-					}
+					onChange={ ( value ) => setAttributes( { caption: value } ) }
 				/>
 			</figure>
 		</>

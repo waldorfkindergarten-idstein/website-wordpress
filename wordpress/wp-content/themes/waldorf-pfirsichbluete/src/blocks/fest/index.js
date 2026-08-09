@@ -1,8 +1,4 @@
-import {
-	InspectorControls,
-	RichText,
-	useBlockProps,
-} from '@wordpress/block-editor';
+import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -27,16 +23,12 @@ function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Aquarell-Motiv', 'waldorf-pfirsichbluete' ) }
-				>
+				<PanelBody title={ __( 'Aquarell-Motiv', 'waldorf-pfirsichbluete' ) }>
 					<SelectControl
 						label={ __( 'Motiv', 'waldorf-pfirsichbluete' ) }
 						value={ motif }
 						options={ MOTIFS }
-						onChange={ ( value ) =>
-							setAttributes( { motif: value } )
-						}
+						onChange={ ( value ) => setAttributes( { motif: value } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -59,10 +51,7 @@ function Edit( { attributes, setAttributes } ) {
 				/>
 				<RichText
 					tagName="p"
-					placeholder={ __(
-						'Beschreibung',
-						'waldorf-pfirsichbluete'
-					) }
+					placeholder={ __( 'Beschreibung', 'waldorf-pfirsichbluete' ) }
 					value={ text }
 					allowedFormats={ [] }
 					onChange={ ( value ) => setAttributes( { text: value } ) }

@@ -28,10 +28,7 @@ function Edit( { attributes, setAttributes } ) {
 				tagName="span"
 				value={ attributes.date }
 				allowedFormats={ [] }
-				placeholder={ __(
-					'Datum und Uhrzeit …',
-					'waldorf-pfirsichbluete'
-				) }
+				placeholder={ __( 'Datum und Uhrzeit …', 'waldorf-pfirsichbluete' ) }
 				onChange={ ( date ) => setAttributes( { date } ) }
 			/>
 		</div>

@@ -21,10 +21,7 @@ function Edit( { attributes, setAttributes } ) {
 					tagName="span"
 					value={ attributes.label }
 					allowedFormats={ [] }
-					placeholder={ __(
-						'Beschriftung …',
-						'waldorf-pfirsichbluete'
-					) }
+					placeholder={ __( 'Beschriftung …', 'waldorf-pfirsichbluete' ) }
 					onChange={ ( label ) => setAttributes( { label } ) }
 				/>
 			</div>

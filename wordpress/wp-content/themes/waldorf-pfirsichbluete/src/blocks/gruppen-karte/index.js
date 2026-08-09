@@ -8,12 +8,7 @@ import {
 	useBlockProps,
 } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import {
-	FocalPointPicker,
-	PanelBody,
-	TextControl,
-	ToolbarGroup,
-} from '@wordpress/components';
+import { FocalPointPicker, PanelBody, TextControl, ToolbarGroup } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -26,40 +21,18 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
 function getFallbackUrl( baseUrl, fallback ) {
 	const filename = fallback.split( '/' ).pop();
 
-	return filename && baseUrl
-		? `${ baseUrl }${ encodeURIComponent( filename ) }`
-		: '';
+	return filename && baseUrl ? `${ baseUrl }${ encodeURIComponent( filename ) }` : '';
 }
 
 function Edit( { attributes, setAttributes } ) {
-	const {
-		alt,
-		caption,
-		facts,
-		fallback,
-		focalPoint,
-		id,
-		linkLabel,
-		tag,
-		text,
-		title,
-		url,
-	} = attributes;
-	const media = useSelect(
-		( select ) => ( id ? select( coreStore ).getMedia( id ) : null ),
-		[ id ]
-	);
+	const { alt, caption, facts, fallback, focalPoint, id, linkLabel, tag, text, title, url } = attributes;
+	const media = useSelect( ( select ) => ( id ? select( coreStore ).getMedia( id ) : null ), [ id ] );
 	const fallbackBaseUrl = useSelect(
-		( select ) =>
-			select( blockEditorStore ).getSettings().waldorfPhotoImageBaseUrl ||
-			'',
+		( select ) => select( blockEditorStore ).getSettings().waldorfPhotoImageBaseUrl || '',
 		[]
 	);
 	const fallbackUrl = getFallbackUrl( fallbackBaseUrl, fallback );
-	const mediaUrl =
-		media?.media_details?.sizes?.large?.source_url ||
-		media?.source_url ||
-		'';
+	const mediaUrl = media?.media_details?.sizes?.large?.source_url || media?.source_url || '';
 	const imageUrl = mediaUrl || fallbackUrl;
 	const objectPosition = `${ focalPoint.x * 100 }% ${ focalPoint.y * 100 }%`;
 	const blockProps = useBlockProps( { className: 'pb-gcard pb-reveal' } );
@@ -73,9 +46,7 @@ function Edit( { attributes, setAttributes } ) {
 
 	const updateFact = ( index, key, value ) => {
 		setAttributes( {
-			facts: facts.map( ( fact, factIndex ) =>
-				factIndex === index ? { ...fact, [ key ]: value } : fact
-			),
+			facts: facts.map( ( fact, factIndex ) => ( factIndex === index ? { ...fact, [ key ]: value } : fact ) ),
 		} );
 	};
 
@@ -98,45 +69,30 @@ function Edit( { attributes, setAttributes } ) {
 				<PanelBody title={ __( 'Foto', 'waldorf-pfirsichbluete' ) }>
 					{ imageUrl && (
 						<FocalPointPicker
-							label={ __(
-								'Bildausschnitt',
-								'waldorf-pfirsichbluete'
-							) }
+							label={ __( 'Bildausschnitt', 'waldorf-pfirsichbluete' ) }
 							url={ imageUrl }
 							value={ focalPoint }
-							onChange={ ( value ) =>
-								setAttributes( { focalPoint: value } )
-							}
+							onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
 						/>
 					) }
 
 					<TextControl
-						label={ __(
-							'Alternativtext',
-							'waldorf-pfirsichbluete'
-						) }
+						label={ __( 'Alternativtext', 'waldorf-pfirsichbluete' ) }
 						help={ __(
 							'Leer lassen, um den Alternativtext aus der Mediathek zu verwenden.',
 							'waldorf-pfirsichbluete'
 						) }
 						value={ alt }
-						onChange={ ( value ) =>
-							setAttributes( { alt: value } )
-						}
+						onChange={ ( value ) => setAttributes( { alt: value } ) }
 					/>
 				</PanelBody>
 
-				<PanelBody
-					title={ __( 'Link', 'waldorf-pfirsichbluete' ) }
-					initialOpen={ false }
-				>
+				<PanelBody title={ __( 'Link', 'waldorf-pfirsichbluete' ) } initialOpen={ false }>
 					<TextControl
 						label={ __( 'Linkziel', 'waldorf-pfirsichbluete' ) }
 						type="url"
 						value={ url }
-						onChange={ ( value ) =>
-							setAttributes( { url: value } )
-						}
+						onChange={ ( value ) => setAttributes( { url: value } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -144,27 +100,14 @@ function Edit( { attributes, setAttributes } ) {
 			<article { ...blockProps }>
 				<figure className="pb-photo pb-gcard__photo">
 					{ id && imageUrl ? (
-						<img
-							src={ imageUrl }
-							alt={ alt }
-							style={ { objectPosition } }
-						/>
+						<img src={ imageUrl } alt={ alt } style={ { objectPosition } } />
 					) : (
 						<div className="waldorf-gruppen-karte__placeholder">
-							{ fallbackUrl && (
-								<img
-									src={ fallbackUrl }
-									alt=""
-									style={ { objectPosition } }
-								/>
-							) }
+							{ fallbackUrl && <img src={ fallbackUrl } alt="" style={ { objectPosition } } /> }
 							<MediaPlaceholder
 								icon="format-image"
 								labels={ {
-									title: __(
-										'Gruppenfoto auswählen',
-										'waldorf-pfirsichbluete'
-									),
+									title: __( 'Gruppenfoto auswählen', 'waldorf-pfirsichbluete' ),
 								} }
 								onSelect={ onSelectImage }
 								accept="image/*"
@@ -175,15 +118,10 @@ function Edit( { attributes, setAttributes } ) {
 
 					<RichText
 						tagName="figcaption"
-						placeholder={ __(
-							'Bildunterschrift …',
-							'waldorf-pfirsichbluete'
-						) }
+						placeholder={ __( 'Bildunterschrift …', 'waldorf-pfirsichbluete' ) }
 						value={ caption }
 						allowedFormats={ [] }
-						onChange={ ( value ) =>
-							setAttributes( { caption: value } )
-						}
+						onChange={ ( value ) => setAttributes( { caption: value } ) }
 					/>
 				</figure>
 
@@ -191,66 +129,41 @@ function Edit( { attributes, setAttributes } ) {
 					<RichText
 						tagName="span"
 						className="pb-tag"
-						placeholder={ __(
-							'Altersgruppe',
-							'waldorf-pfirsichbluete'
-						) }
+						placeholder={ __( 'Altersgruppe', 'waldorf-pfirsichbluete' ) }
 						value={ tag }
 						allowedFormats={ [] }
-						onChange={ ( value ) =>
-							setAttributes( { tag: value } )
-						}
+						onChange={ ( value ) => setAttributes( { tag: value } ) }
 					/>
 					<RichText
 						tagName="h3"
-						placeholder={ __(
-							'Gruppenname',
-							'waldorf-pfirsichbluete'
-						) }
+						placeholder={ __( 'Gruppenname', 'waldorf-pfirsichbluete' ) }
 						value={ title }
 						allowedFormats={ [] }
-						onChange={ ( value ) =>
-							setAttributes( { title: value } )
-						}
+						onChange={ ( value ) => setAttributes( { title: value } ) }
 					/>
 					<RichText
 						tagName="p"
-						placeholder={ __(
-							'Beschreibung',
-							'waldorf-pfirsichbluete'
-						) }
+						placeholder={ __( 'Beschreibung', 'waldorf-pfirsichbluete' ) }
 						value={ text }
 						allowedFormats={ [] }
-						onChange={ ( value ) =>
-							setAttributes( { text: value } )
-						}
+						onChange={ ( value ) => setAttributes( { text: value } ) }
 					/>
 					<ul className="pb-meta-list">
 						{ facts.map( ( fact, index ) => (
 							<li key={ index }>
 								<RichText
 									tagName="span"
-									placeholder={ __(
-										'Bezeichnung',
-										'waldorf-pfirsichbluete'
-									) }
+									placeholder={ __( 'Bezeichnung', 'waldorf-pfirsichbluete' ) }
 									value={ fact.label }
 									allowedFormats={ [] }
-									onChange={ ( value ) =>
-										updateFact( index, 'label', value )
-									}
+									onChange={ ( value ) => updateFact( index, 'label', value ) }
 								/>
 								<RichText
 									tagName="b"
-									placeholder={ __(
-										'Wert',
-										'waldorf-pfirsichbluete'
-									) }
+									placeholder={ __( 'Wert', 'waldorf-pfirsichbluete' ) }
 									value={ fact.value }
 									allowedFormats={ [] }
-									onChange={ ( value ) =>
-										updateFact( index, 'value', value )
-									}
+									onChange={ ( value ) => updateFact( index, 'value', value ) }
 								/>
 							</li>
 						) ) }
@@ -258,15 +171,10 @@ function Edit( { attributes, setAttributes } ) {
 					<RichText
 						tagName="span"
 						className="pb-more"
-						placeholder={ __(
-							'Linktext',
-							'waldorf-pfirsichbluete'
-						) }
+						placeholder={ __( 'Linktext', 'waldorf-pfirsichbluete' ) }
 						value={ linkLabel }
 						allowedFormats={ [] }
-						onChange={ ( value ) =>
-							setAttributes( { linkLabel: value } )
-						}
+						onChange={ ( value ) => setAttributes( { linkLabel: value } ) }
 					/>
 				</div>
 			</article>

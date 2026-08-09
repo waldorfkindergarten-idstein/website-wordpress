@@ -1,8 +1,4 @@
-import {
-	InspectorControls,
-	RichText,
-	useBlockProps,
-} from '@wordpress/block-editor';
+import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -18,18 +14,11 @@ function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Wochentag', 'waldorf-pfirsichbluete' ) }
-				>
+				<PanelBody title={ __( 'Wochentag', 'waldorf-pfirsichbluete' ) }>
 					<ToggleControl
-						label={ __(
-							'Waldtag hervorheben',
-							'waldorf-pfirsichbluete'
-						) }
+						label={ __( 'Waldtag hervorheben', 'waldorf-pfirsichbluete' ) }
 						checked={ isForestDay }
-						onChange={ ( value ) =>
-							setAttributes( { isForestDay: value } )
-						}
+						onChange={ ( value ) => setAttributes( { isForestDay: value } ) }
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -41,9 +30,7 @@ function Edit( { attributes, setAttributes } ) {
 					placeholder={ __( 'Wochentag', 'waldorf-pfirsichbluete' ) }
 					value={ weekday }
 					allowedFormats={ [] }
-					onChange={ ( value ) =>
-						setAttributes( { weekday: value } )
-					}
+					onChange={ ( value ) => setAttributes( { weekday: value } ) }
 				/>
 				<RichText
 					tagName="h4"
@@ -54,10 +41,7 @@ function Edit( { attributes, setAttributes } ) {
 				/>
 				<RichText
 					tagName="p"
-					placeholder={ __(
-						'Beschreibung',
-						'waldorf-pfirsichbluete'
-					) }
+					placeholder={ __( 'Beschreibung', 'waldorf-pfirsichbluete' ) }
 					value={ text }
 					allowedFormats={ [] }
 					onChange={ ( value ) => setAttributes( { text: value } ) }

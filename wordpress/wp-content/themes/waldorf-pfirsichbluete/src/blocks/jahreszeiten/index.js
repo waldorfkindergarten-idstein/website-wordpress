@@ -1,10 +1,4 @@
-import {
-	InnerBlocks,
-	InspectorControls,
-	RichText,
-	useBlockProps,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
+import { InnerBlocks, InspectorControls, RichText, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { ColorPalette, PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -29,17 +23,11 @@ function SeasonContent( { attributes, setAttributes } ) {
 				<div>
 					<RichText
 						tagName="b"
-						{ ...richTextProps(
-							'season',
-							__( 'Jahreszeit', 'waldorf-pfirsichbluete' )
-						) }
+						{ ...richTextProps( 'season', __( 'Jahreszeit', 'waldorf-pfirsichbluete' ) ) }
 					/>
 					<RichText
 						tagName="span"
-						{ ...richTextProps(
-							'ringLabel',
-							__( 'Bezeichnung', 'waldorf-pfirsichbluete' )
-						) }
+						{ ...richTextProps( 'ringLabel', __( 'Bezeichnung', 'waldorf-pfirsichbluete' ) ) }
 					/>
 				</div>
 			</div>
@@ -48,28 +36,19 @@ function SeasonContent( { attributes, setAttributes } ) {
 				<RichText
 					tagName="p"
 					className="pb-eyebrow"
-					{ ...richTextProps(
-						'eyebrow',
-						__( 'Übertitel', 'waldorf-pfirsichbluete' )
-					) }
+					{ ...richTextProps( 'eyebrow', __( 'Übertitel', 'waldorf-pfirsichbluete' ) ) }
 				/>
 				<RichText
 					tagName="h3"
 					className="wp-block-heading"
 					style={ { marginTop: '0.2em', marginBottom: '0.25em' } }
-					{ ...richTextProps(
-						'title',
-						__( 'Überschrift', 'waldorf-pfirsichbluete' )
-					) }
+					{ ...richTextProps( 'title', __( 'Überschrift', 'waldorf-pfirsichbluete' ) ) }
 				/>
 				<RichText
 					tagName="p"
 					className="has-text-color"
 					style={ { color: '#5a4046' } }
-					{ ...richTextProps(
-						'text',
-						__( 'Beschreibung', 'waldorf-pfirsichbluete' )
-					) }
+					{ ...richTextProps( 'text', __( 'Beschreibung', 'waldorf-pfirsichbluete' ) ) }
 				/>
 
 				<div className="pb-swatches" style={ { marginTop: '14px' } }>
@@ -100,31 +79,21 @@ function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody
-					title={ __( 'Farbtupfer', 'waldorf-pfirsichbluete' ) }
-				>
+				<PanelBody title={ __( 'Farbtupfer', 'waldorf-pfirsichbluete' ) }>
 					{ colors.map( ( [ attribute, color ], index ) => (
 						<ColorPalette
 							key={ attribute }
 							clearable={ false }
-							label={ `${ __(
-								'Farbe',
-								'waldorf-pfirsichbluete'
-							) } ${ index + 1 }` }
+							label={ `${ __( 'Farbe', 'waldorf-pfirsichbluete' ) } ${ index + 1 }` }
 							value={ color }
-							onChange={ ( value ) =>
-								setAttributes( { [ attribute ]: value } )
-							}
+							onChange={ ( value ) => setAttributes( { [ attribute ]: value } ) }
 						/>
 					) ) }
 				</PanelBody>
 			</InspectorControls>
 
 			<div { ...innerBlocksProps }>
-				<SeasonContent
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
+				<SeasonContent attributes={ attributes } setAttributes={ setAttributes } />
 				{ innerBlocksProps.children }
 			</div>
 		</>
