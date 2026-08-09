@@ -1298,7 +1298,7 @@ function waldorf_idstein_render_news_archive_html() {
 					}
 					?>
 					<article class="card news-card">
-						<p class="news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
+						<p class="badge news-date-badge"><?php echo esc_html( get_the_date( 'd.m.Y' ) ); ?></p>
 						<h3><?php the_title(); ?></h3>
 						<p><?php echo esc_html( $excerpt ); ?></p>
 						<a class="link" href="<?php the_permalink(); ?>">Mehr erfahren →</a>

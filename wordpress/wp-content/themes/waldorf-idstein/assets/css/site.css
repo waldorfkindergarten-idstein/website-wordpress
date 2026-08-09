@@ -507,11 +507,6 @@ a:hover {
   width: fit-content;
 }
 
-.news-date-badge {
-  background: rgba(122, 12, 67, 0.08);
-  color: #7a0c43;
-}
-
 .badge.news-date-badge {
   font-size: 12px;
   width: fit-content;
