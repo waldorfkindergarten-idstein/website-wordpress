@@ -16,15 +16,13 @@
 			<!-- wp:heading {"style":{"spacing":{"margin":{"top":"0.3em","bottom":"0.4em"}}}} --><h2 class="wp-block-heading">Jeder Tag hat sein Getreide</h2><!-- /wp:heading -->
 			<!-- wp:paragraph {"style":{"color":{"text":"#6e5a55"}}} --><p class="has-text-color" style="color:#6e5a55">Bio-vegetarisch, frisch gekocht und im festen Wochenrhythmus. Die Kinder helfen beim Schnippeln und Tischdecken.</p><!-- /wp:paragraph -->
 
-			<!-- wp:group {"tagName":"ul","metadata":{"name":"Getreide-Wochenplan"},"allowedBlocks":["waldorf/getreidetag"],"templateLock":false,"className":"pb-grain","style":{"spacing":{"margin":{"top":"24px"},"blockGap":"0"}},"layout":{"type":"default"}} -->
-			<ul class="wp-block-group pb-grain" style="margin-top:24px">
+			<!-- wp:waldorf/getreideplan {"metadata":{"name":"Getreide-Wochenplan"},"lock":{"move":true,"remove":true}} -->
 				<!-- wp:waldorf/getreidetag {"day":"Montag","grain":"Reis","note":"mit Gemüse der Saison","metadata":{"name":"Montag · Reis"}} /-->
 				<!-- wp:waldorf/getreidetag {"day":"Dienstag","grain":"Gerste","note":"als Eintopf oder Auflauf","metadata":{"name":"Dienstag · Gerste"}} /-->
 				<!-- wp:waldorf/getreidetag {"day":"Mittwoch","grain":"Hirse","note":"süß oder herzhaft","metadata":{"name":"Mittwoch · Hirse"}} /-->
 				<!-- wp:waldorf/getreidetag {"day":"Donnerstag","grain":"Roggen","note":"frisch gebackenes Brot","metadata":{"name":"Donnerstag · Roggen"}} /-->
 				<!-- wp:waldorf/getreidetag {"day":"Freitag","grain":"Hafer","note":"Müsli und Suppe für den Waldtag","metadata":{"name":"Freitag · Hafer"}} /-->
-			</ul>
-			<!-- /wp:group -->
+			<!-- /wp:waldorf/getreideplan -->
 
 			<!-- wp:group {"metadata":{"name":"Essens-Auszeichnungen"},"allowedBlocks":["waldorf/auszeichnung"],"templateLock":false,"className":"pb-badges","style":{"spacing":{"margin":{"top":"24px"},"blockGap":"0"}},"layout":{"type":"default"}} -->
 			<div class="wp-block-group pb-badges" style="margin-top:24px">

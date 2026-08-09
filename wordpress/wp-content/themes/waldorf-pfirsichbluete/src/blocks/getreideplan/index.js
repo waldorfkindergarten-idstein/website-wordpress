@@ -4,29 +4,32 @@ import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
 
-const ALLOWED_BLOCKS = [ 'waldorf/tagesablauf-punkt' ];
+const ALLOWED_BLOCKS = [ 'waldorf/getreidetag' ];
 const TEMPLATE = [
 	[
-		'waldorf/tagesablauf-punkt',
+		'waldorf/getreidetag',
 		{
-			time: '8:00',
-			title: __( 'Programmpunkt', 'waldorf-pfirsichbluete' ),
-			detail: __( 'Beschreibung ergänzen', 'waldorf-pfirsichbluete' ),
+			day: __( 'Montag', 'waldorf-pfirsichbluete' ),
+			grain: __( 'Getreide', 'waldorf-pfirsichbluete' ),
+			note: __( 'Hinweis ergänzen', 'waldorf-pfirsichbluete' ),
 		},
 	],
 ];
 
 function Edit() {
-	const blockProps = useBlockProps( { className: 'pb-timeline' } );
+	const blockProps = useBlockProps( {
+		className: 'pb-grain',
+		style: { marginTop: '24px' },
+	} );
 
 	return (
-		<ol { ...blockProps }>
+		<ul { ...blockProps }>
 			<InnerBlocks
 				allowedBlocks={ ALLOWED_BLOCKS }
 				template={ TEMPLATE }
 				templateLock={ false }
 			/>
-		</ol>
+		</ul>
 	);
 }
 

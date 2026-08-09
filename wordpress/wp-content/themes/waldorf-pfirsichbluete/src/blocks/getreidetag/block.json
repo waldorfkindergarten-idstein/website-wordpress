@@ -9,6 +9,7 @@
 	"description": "Ein Wochentag im Getreideplan.",
 	"keywords": [ "Getreide", "Essen", "Wochenplan" ],
 	"textdomain": "waldorf-pfirsichbluete",
+	"parent": [ "waldorf/getreideplan" ],
 	"attributes": {
 		"day": {
 			"type": "string",

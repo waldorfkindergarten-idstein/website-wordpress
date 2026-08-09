@@ -28,6 +28,27 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'render' => 'file:./render.php'
 	),
+	'getreideplan' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'waldorf/getreideplan',
+		'version' => '1.0.0',
+		'title' => 'Getreideplan',
+		'category' => 'waldorf',
+		'icon' => 'editor-ul',
+		'description' => 'Ein sortierbarer Wochenplan für die Getreidetage.',
+		'keywords' => array(
+			'Getreide',
+			'Essen',
+			'Wochenplan'
+		),
+		'textdomain' => 'waldorf-pfirsichbluete',
+		'supports' => array(
+			'html' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
 	'getreidetag' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
 		'apiVersion' => 3,
@@ -43,6 +64,9 @@ return array(
 			'Wochenplan'
 		),
 		'textdomain' => 'waldorf-pfirsichbluete',
+		'parent' => array(
+			'waldorf/getreideplan'
+		),
 		'attributes' => array(
 			'day' => array(
 				'type' => 'string',

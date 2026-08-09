@@ -13,6 +13,9 @@
     "Wochenplan"
   ],
   "textdomain": "waldorf-pfirsichbluete",
+  "parent": [
+    "waldorf/getreideplan"
+  ],
   "attributes": {
     "day": {
       "type": "string",
