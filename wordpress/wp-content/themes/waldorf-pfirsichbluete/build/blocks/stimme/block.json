@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "waldorf/stimme",
+  "version": "1.0.0",
+  "title": "Elternstimme",
+  "category": "waldorf",
+  "icon": "format-quote",
+  "description": "Ein Zitat mit Quellenangabe.",
+  "parent": [
+    "waldorf/sammlung"
+  ],
+  "textdomain": "waldorf-pfirsichbluete",
+  "attributes": {
+    "quote": {
+      "type": "string",
+      "default": "Was Familien über uns erzählen."
+    },
+    "source": {
+      "type": "string",
+      "default": "Eine Familie"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

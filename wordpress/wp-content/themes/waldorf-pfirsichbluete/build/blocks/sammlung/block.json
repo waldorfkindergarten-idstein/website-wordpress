@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "waldorf/sammlung",
+  "version": "1.0.0",
+  "title": "Waldorf-Sammlung",
+  "category": "waldorf",
+  "icon": "screenoptions",
+  "description": "Eine geschützte, sortierbare Sammlung passender Waldorf-Bausteine.",
+  "textdomain": "waldorf-pfirsichbluete",
+  "attributes": {
+    "variant": {
+      "type": "string",
+      "enum": [
+        "chips",
+        "facts",
+        "testimonials"
+      ],
+      "default": "chips"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

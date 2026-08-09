@@ -23,6 +23,4 @@
 <!-- wp:pattern {"slug":"waldorf-pfirsichbluete/cta"} /-->
 <!-- wp:pattern {"slug":"waldorf-pfirsichbluete/kontakt"} /-->
 
-<!-- wp:html -->
-<button class="pb-totop" type="button" aria-label="Nach oben">↑</button>
-<!-- /wp:html -->
+<!-- wp:waldorf/dekoration {"variant":"back-to-top","lock":{"move":true,"remove":true},"metadata":{"name":"Zurück nach oben"}} /-->
