@@ -6,7 +6,7 @@
  * Description: Neuigkeiten aus dem Blog mit hervorgehobenem Beitrag und Terminliste.
  */
 ?>
-<!-- wp:group {"anchor":"aktuelles","metadata":{"name":"Aktuelles und Termine"},"lock":{"move":true,"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"aktuelles","metadata":{"name":"Aktuelles und Termine"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-rose-gradient-background has-background" id="aktuelles" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"className":"pb-reveal","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 	<div class="wp-block-group pb-reveal">

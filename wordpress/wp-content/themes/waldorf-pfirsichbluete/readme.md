@@ -1,93 +1,139 @@
 # Waldorf Pfirsichblüte
 
-Block theme (full-site editing) für den Idsteiner Waldorfkindergarten.
-Umsetzung des Entwurfs aus `design.html` — Aquarell-Ästhetik in Pflaume, Pfirsich
-und Creme, mit handschriftlichen Akzenten und organischen Bildformen.
+Block-Theme für den Idsteiner Waldorfkindergarten. Farben, Schriften und
+Abstände kommen aus `theme.json`; die Startseite besteht aus redaktionell
+bearbeitbaren Gutenberg-Blöcken.
 
-## Aufbau
+## Startseite bearbeiten
 
-```
-theme.json              Alle Design-Tokens: Farben, Schriften, Abstände, Radien, Schatten
-style.css               Nur der Theme-Header (Block-Themes stylen über theme.json)
-functions.php           Asset-Laden, Block-Styles, Pattern-Kategorien
-templates/              index · front-page · page · page-full · single · archive · search · 404
-parts/                  header · footer
-patterns/               15 Seitenabschnitte + `front-page` (setzt sie zusammen)
-assets/css/             components.css — was theme.json nicht ausdrücken kann
-assets/fonts/           Petrona, Nunito Sans, Caveat (variable woff2, selbst gehostet)
-assets/images/          Fotos, Aquarell-Motive, Papierstruktur, Logo
-assets/js/              theme.js — Sticky-Header, Reveal, Nach-oben-Button
-```
+1. Im WordPress-Backend **Seiten > Start** öffnen.
+2. Über **Dokumentübersicht > Listenansicht** den gewünschten Abschnitt oder
+   Baustein auswählen. Die Namen entsprechen den sichtbaren Bereichen.
+3. Text direkt in der Vorschau anklicken und ändern.
+4. Änderungen zuerst über **Vorschau** auf Desktop und Mobil prüfen, dann
+   **Speichern**.
 
-## Design-Tokens
-
-Alles Gestalterische liegt in `theme.json` und ist im Website-Editor unter
-**Design → Stile** anpassbar. Wer dort eine Farbe ändert, ändert sie überall —
-auch in `components.css`, weil diese Datei ausschließlich über die
-CSS-Custom-Properties von WordPress arbeitet:
-
-| Token | Wert | CSS-Variable |
-|---|---|---|
-| Pflaume | `#781246` | `--wp--preset--color--plum` |
-| Pfirsich | `#efc3ae` | `--wp--preset--color--peach` |
-| Creme | `#F6EFE3` | `--wp--preset--color--cream` |
-| Tinte | `#3a2a2e` | `--wp--preset--color--ink` |
-| Überschriften | Petrona | `--wp--preset--font-family--serif` |
-| Fließtext | Nunito Sans | `--wp--preset--font-family--sans` |
-| Akzente | Caveat | `--wp--preset--font-family--hand` |
-
-## Abschnitte bearbeiten
-
-Die Startseite besteht aus 15 Patterns. Im Editor lassen sie sich einzeln
-einfügen (Kategorie **Waldorf: Seitenabschnitte**), umsortieren oder entfernen.
-Die Reihenfolge der Startseite steht in `patterns/front-page.php`.
-
-Inhalte mit Wiederholungen (Gruppen, Feste, Tagesablauf, Termine, Downloads)
-liegen als PHP-Arrays am Kopf der jeweiligen Pattern-Datei — dort ändern, nicht
-im Markup.
-
-## Block-Style-Varianten
-
-| Block | Variante | Wirkung |
-|---|---|---|
-| Button | Zurückhaltend | Heller Glas-Button mit Rand statt Pflaume |
-| Gruppe | Karte | Creme-Karte mit Rand und Hover-Anhebung |
-| Gruppe | Milchglas | Halbtransparent mit Weichzeichner |
-| Bild | Organische Form | Weiche, asymmetrische Silhouette |
-| Liste | Mit Pfirsich-Punkten | Punkte statt Aufzählungszeichen |
-| Trenner | Handgezeichnet | Gezeichnete Linie statt Strich |
+Abschnitte lassen sich in der Listenansicht mit den Pfeilen oder per Ziehen
+umsortieren. Wiederholbare Einträge wie Gruppen, Feste, Teammitglieder,
+Tagespunkte, Termine, Fragen und Downloads werden innerhalb ihres benannten
+Sammelblocks umsortiert. Wo ein **+** angezeigt wird, können passende Einträge
+ergänzt werden; fest geschützte Listen lassen sich nur bearbeiten und
+umsortieren.
 
 ## Fotos
 
-Alle mitgelieferten Fotos sind **Beispielbilder** und tragen sichtbar den
-Hinweis „Beispielbild“. Eigene Bilder ersetzen sie 1:1 an derselben Stelle.
-Die Bildunterschriften sind normale `<figcaption>`-Elemente und im Editor
-direkt überschreibbar. Sollen sie site-weit verschwinden, genügt die Klasse
-`pb-no-labels` am `<body>`.
+1. In der Listenansicht **Foto**, **Hero-Foto** oder eine **Gruppenkarte** wählen.
+2. In der Block-Werkzeugleiste **Bild ersetzen** auswählen und ein Bild aus der
+   Mediathek wählen oder hochladen.
+3. Rechts unter **Foto > Bildausschnitt** den Fokuspunkt setzen.
+4. Einen sachlichen Alternativtext eintragen. Bei rein dekorativen Bildern darf
+   er leer bleiben; dann wird der Alternativtext der Mediathek verwendet.
+5. Die Bildunterschrift direkt unter dem Foto bearbeiten. Eine leere
+   Bildunterschrift wird nicht ausgegeben.
 
-## Schriften
+Die zehn mitgelieferten `photo-*.jpg` werden bei der ersten Migration exakt in
+die Mediathek kopiert. Danach sind die Medien redaktionell austauschbar;
+Aquarelle, Logo und andere Dekorationen bleiben Theme-Dateien.
 
-Selbst gehostet, keine Verbindung zu Google-Servern (DSGVO). Es sind
-Variable Fonts: eine Datei deckt alle Schnitte einer Familie ab. Latin und
-Latin-Extended sind getrennt, damit Browser nur laden, was sie brauchen.
+## Wiederholbare Inhalte
 
-## Barrierefreiheit
+Gruppenkarten, Feste, Personen, Tagesablauf-Punkte, Termine, FAQs und Downloads
+sind normale Blöcke, keine PHP-Listen. Den übergeordneten Sammelblock in der
+Listenansicht aufklappen, einen Eintrag auswählen und dessen Felder direkt oder
+in der rechten Seitenleiste bearbeiten. Einträge lassen sich innerhalb ihrer
+Liste verschieben. Einfügen oder Entfernen ist nur bei Listen möglich, die dafür
+ein **+** beziehungsweise das Drei-Punkte-Menü anbieten.
 
-- Sichtbarer Fokus-Rahmen auf allen Links (`:focus-visible`, 2px Pflaume)
-- `prefers-reduced-motion` schaltet Animationen und Hover-Verschiebungen ab
-- FAQ nutzt natives `<details>`/`<summary>` — funktioniert ohne JavaScript
-- `theme.js` ist reine Zugabe; ohne JavaScript bleibt alles lesbar und bedienbar
+## Downloads
+
+Im Abschnitt **Downloads und Formulare** den Eintrag auswählen und über
+**Datei auswählen** beziehungsweise **Datei ersetzen** mit einem Medium
+verbinden. Titel und Beschreibung sind direkt bearbeitbar; Typ und Dateigröße
+werden aus dem Medium ermittelt.
+
+Bei der Migration werden fünf vorhandene PDFs aus `wordpress/downloads/` in die
+Mediathek importiert. Automatisch verknüpft werden nur eindeutige Zuordnungen:
+
+| Download-Block | Datei |
+|---|---|
+| Anmeldebogen | `anmeldung-familiengruppe.pdf` |
+| Gebührenordnung | `beitragsordnung-2022.pdf` |
+| Satzung des Vereins | `vereinssatzung.pdf` |
+
+`anmeldung-wiegenstube.pdf` und `anmeldung-kindergarten-u3.pdf` stehen danach
+in der Mediathek zur Auswahl. Konzeption, Packliste sowie Ferien und
+Schließtage bleiben absichtlich unverknüpft, bis die richtigen Dateien vorliegen.
+
+## Schutzmechanismen
+
+- Abschnittshüllen sind gegen versehentliches Löschen geschützt, bleiben aber
+  in der Listenansicht verschiebbar.
+- Das innere Layout eines Abschnitts ist gesperrt; Texte, Medien und vorgesehene
+  wiederholbare Einträge bleiben bearbeitbar.
+- Eigene Waldorf-Blöcke unterstützen kein **Als HTML bearbeiten**.
+- Zum Entsperren oder Umbauen der Struktur ist technische Administration nötig;
+  nicht über den Code-Editor arbeiten.
+- Vor größeren redaktionellen Änderungen eine Vorschau nutzen. WordPress legt
+  Revisionen der Seite an.
+
+## Migration und Deployment
+
+Die Migration in `inc/content-migration.php` läuft nach dem Deployment einmalig
+vor dem Rendern der Startseite. Sie ermittelt ausschließlich die unter
+**Einstellungen > Lesen** konfigurierte statische Startseite, importiert Medien
+idempotent und ersetzt nur die bekannte Legacy-Startseite des alten Themes oder
+eine vollständig leere Seite. Nicht erkannte Inhalte werden nie überschrieben;
+Administratoren sehen stattdessen einen Hinweis.
+
+Bereits vorhandene neue Waldorf-Blöcke werden nicht neu angelegt. Die Migration
+ergänzt dort nur fehlende IDs für bekannte Fallback-Fotos und eindeutig
+zuordenbare Download-Platzhalter. Vor dem Ersetzen von Legacy-Inhalten wird eine
+Revision angefordert. Erst nach erfolgreichem Speichern wird die
+Migrationsversion gesetzt.
+
+Uploads und Datenbank sind nicht Teil von Git. Deshalb nach jedem Deployment
+im Backend den Migrationshinweis, die Mediathek und **Seiten > Start** prüfen und
+anschließend die öffentliche Startseite auf Desktop und Mobil kontrollieren.
 
 ## Entwicklung
 
 ```bash
-docker compose up -d          # http://localhost:8080
-docker compose down           # stoppen
+docker compose up -d
+docker compose down
 ```
 
-Theme wechseln:
+Bei Änderungen unter `src/` im Theme-Verzeichnis:
+
+```bash
+npm install
+npm run build
+npm run lint
+```
+
+Die fokussierte Migrationsprüfung läuft aus dem Repository-Stamm mit:
+
+```bash
+php tests/verify-content-migration.php
+```
+
+Theme lokal aktivieren:
 
 ```bash
 docker exec waldorf-wp-app wp theme activate waldorf-pfirsichbluete --allow-root
-docker exec waldorf-wp-app wp theme activate waldorf-idstein --allow-root   # zurück
+```
+
+## Technischer Aufbau
+
+```text
+theme.json              Design-Tokens und globale Block-Einstellungen
+functions.php           Theme-Bootstrap und Editor-/Frontend-Assets
+inc/                    versionierte Inhalts- und Medienmigration
+templates/              Block-Templates; front-page rendert post-content
+parts/                  Header und Footer
+patterns/               kanonische Standardabschnitte für neue Inhalte
+src/blocks/             Quellen der dynamischen redaktionellen Blöcke
+build/blocks/           gebaute, von WordPress registrierte Blöcke
+assets/css/             gemeinsame Komponentenstile für Frontend und Editor
+assets/images/          Fallback-Fotos und Theme-eigene Dekorationen
+assets/js/              optionale Frontend-Interaktionen
 ```

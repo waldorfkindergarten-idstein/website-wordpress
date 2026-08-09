@@ -6,7 +6,7 @@
  * Description: Getreide-Wochenplan mit Foto und Bio-Auszeichnungen.
  */
 ?>
-<!-- wp:group {"anchor":"verpflegung","metadata":{"name":"Verpflegung"},"templateLock":"all","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"verpflegung","metadata":{"name":"Verpflegung"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="verpflegung" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:columns {"metadata":{"name":"Getreideplan und Foto"},"verticalAlignment":"center","style":{"spacing":{"blockGap":{"left":"56px"}}}} -->
 	<div class="wp-block-columns are-vertically-aligned-center">

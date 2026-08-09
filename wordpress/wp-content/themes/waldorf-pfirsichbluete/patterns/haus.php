@@ -6,7 +6,7 @@
  * Description: Vier Fotos im Mosaik, darunter eine vierspaltige Raumliste.
  */
 ?>
-<!-- wp:group {"anchor":"haus","metadata":{"name":"Unser Haus"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"haus","metadata":{"name":"Unser Haus"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="haus" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"metadata":{"name":"Einleitung"},"className":"pb-reveal","templateLock":"contentOnly","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 	<div class="wp-block-group pb-reveal">

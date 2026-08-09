@@ -6,7 +6,7 @@
  * Description: Breiter Streifen mit Jahreszeit-Ring, Text und Farbtupfern.
  */
 ?>
-<!-- wp:group {"metadata":{"name":"Jahreszeitentisch"},"templateLock":"all","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"metadata":{"name":"Jahreszeitentisch"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 	<!-- wp:group {"className":"pb-season pb-reveal","metadata":{"name":"Jahreszeiten-Inhalt"},"templateLock":"all","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center","justifyContent":"space-between"},"style":{"spacing":{"blockGap":"34px"}}} -->
 	<div class="wp-block-group pb-season pb-reveal">

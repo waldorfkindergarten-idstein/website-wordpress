@@ -6,7 +6,7 @@
  * Description: Fünf Personen mit Monogramm in organischer Form.
  */
 ?>
-<!-- wp:group {"anchor":"team","metadata":{"name":"Unser Team"},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"team","metadata":{"name":"Unser Team"},"templateLock":"all","lock":{"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="team" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"metadata":{"name":"Einleitung"},"className":"pb-reveal pb-sec-head","templateLock":"contentOnly","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">
