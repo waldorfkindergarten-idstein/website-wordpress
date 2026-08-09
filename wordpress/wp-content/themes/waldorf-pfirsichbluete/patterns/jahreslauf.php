@@ -5,19 +5,10 @@
  * Categories: waldorf-sections
  * Description: Sechs Festkarten mit Aquarell-Motiven.
  */
-
-$waldorf_pb_feste = array(
-	array( 'September', 'Michaeli',            'Mut und Kraft: Drachenbrot backen, gemeinsam etwas wagen.' ),
-	array( 'November',  'Martini',             'Laternen ziehen durch die Dämmerung, Lieder wärmen.' ),
-	array( 'Dezember',  'Advent',             'Der Adventsgarten mit Moos, Kerzen und leiser Musik.' ),
-	array( 'Februar',   'Fasching',            'Verkleiden mit Tüchern statt Kostümen – und Krapfen für alle.' ),
-	array( 'April',     'Ostern',              'Kressegärtchen säen, Eier mit Zwiebelschalen färben, Suche im Garten.' ),
-	array( 'Juni',      'Johanni',             'Das Sommerfest am längsten Tag: Blumenkränze, Springen, Musik.' ),
-);
 ?>
-<!-- wp:group {"anchor":"jahreslauf","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"jahreslauf","metadata":{"name":"Jahreslauf und Feste"},"templateLock":"all","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-rose-gradient-background has-background" id="jahreslauf" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
-	<!-- wp:group {"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
+	<!-- wp:group {"metadata":{"name":"Überschrift"},"templateLock":"contentOnly","className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">
 		<!-- wp:paragraph {"className":"pb-eyebrow"} --><p class="pb-eyebrow">Jahreslauf</p><!-- /wp:paragraph -->
 		<!-- wp:heading {"style":{"spacing":{"margin":{"top":"0.28em","bottom":"0.35em"}}}} --><h2 class="wp-block-heading">Feste, die das Jahr gliedern</h2><!-- /wp:heading -->
@@ -25,16 +16,15 @@ $waldorf_pb_feste = array(
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:html -->
-	<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:46px">
-		<?php foreach ( $waldorf_pb_feste as $waldorf_pb_f ) : ?>
-			<div class="pb-fest pb-reveal">
-				<div class="pb-meta"><?php echo esc_html( $waldorf_pb_f[0] ); ?></div>
-				<h4><?php echo esc_html( $waldorf_pb_f[1] ); ?></h4>
-				<p><?php echo esc_html( $waldorf_pb_f[2] ); ?></p>
-			</div>
-		<?php endforeach; ?>
+	<!-- wp:waldorf/feste {"metadata":{"name":"Feste"},"templateLock":false} -->
+	<div class="wp-block-waldorf-feste" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:46px">
+		<!-- wp:waldorf/fest {"month":"September","title":"Michaeli","text":"Mut und Kraft: Drachenbrot backen, gemeinsam etwas wagen.","motif":"c","metadata":{"name":"Michaeli (September)"}} /-->
+		<!-- wp:waldorf/fest {"month":"November","title":"Martini","text":"Laternen ziehen durch die Dämmerung, Lieder wärmen.","motif":"summer","metadata":{"name":"Martini (November)"}} /-->
+		<!-- wp:waldorf/fest {"month":"Dezember","title":"Advent","text":"Der Adventsgarten mit Moos, Kerzen und leiser Musik.","motif":"e","metadata":{"name":"Advent (Dezember)"}} /-->
+		<!-- wp:waldorf/fest {"month":"Februar","title":"Fasching","text":"Verkleiden mit Tüchern statt Kostümen – und Krapfen für alle.","motif":"f","metadata":{"name":"Fasching (Februar)"}} /-->
+		<!-- wp:waldorf/fest {"month":"April","title":"Ostern","text":"Kressegärtchen säen, Eier mit Zwiebelschalen färben, Suche im Garten.","motif":"b","metadata":{"name":"Ostern (April)"}} /-->
+		<!-- wp:waldorf/fest {"month":"Juni","title":"Johanni","text":"Das Sommerfest am längsten Tag: Blumenkränze, Springen, Musik.","motif":"d","metadata":{"name":"Johanni (Juni)"}} /-->
 	</div>
-	<!-- /wp:html -->
+	<!-- /wp:waldorf/feste -->
 </div>
 <!-- /wp:group -->

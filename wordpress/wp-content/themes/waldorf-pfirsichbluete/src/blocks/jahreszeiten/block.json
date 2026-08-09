@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/jahreszeiten",
+	"version": "1.0.0",
+	"title": "Jahreszeiten",
+	"category": "waldorf",
+	"icon": "palmtree",
+	"description": "Ein geschützter Jahreszeiten-Streifen mit frei bearbeitbaren Inhalten.",
+	"keywords": [ "Jahreszeit", "Jahreszeitentisch", "Waldorf" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"allowedBlocks": [ "core/buttons" ],
+	"attributes": {
+		"season": {
+			"type": "string",
+			"default": "Sommer",
+			"role": "content"
+		},
+		"ringLabel": {
+			"type": "string",
+			"default": "Jahreszeit",
+			"role": "content"
+		},
+		"eyebrow": {
+			"type": "string",
+			"default": "Jahreszeitentisch",
+			"role": "content"
+		},
+		"title": {
+			"type": "string",
+			"default": "Der Sommer steht auf dem Tisch",
+			"role": "content"
+		},
+		"text": {
+			"type": "string",
+			"default": "Ein kleiner Tisch im Gruppenraum erzählt vom Lauf des Jahres.",
+			"role": "content"
+		},
+		"colorOne": {
+			"type": "string",
+			"default": "#e8c66a"
+		},
+		"colorTwo": {
+			"type": "string",
+			"default": "#8fa9c9"
+		},
+		"colorThree": {
+			"type": "string",
+			"default": "#cdd6b6"
+		},
+		"colorFour": {
+			"type": "string",
+			"default": "#efc3ae"
+		},
+		"templateLock": {
+			"type": "string",
+			"default": "all"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css"
+}

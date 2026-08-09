@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/fest",
+	"version": "1.0.0",
+	"title": "Fest",
+	"category": "waldorf",
+	"icon": "calendar-alt",
+	"description": "Ein Fest im Jahreslauf.",
+	"keywords": [ "Fest", "Jahreslauf", "Waldorf" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"parent": [ "waldorf/feste" ],
+	"attributes": {
+		"month": {
+			"type": "string",
+			"default": "Monat",
+			"role": "content"
+		},
+		"title": {
+			"type": "string",
+			"default": "Fest",
+			"role": "content"
+		},
+		"text": {
+			"type": "string",
+			"default": "Beschreibung des Festes.",
+			"role": "content"
+		},
+		"motif": {
+			"type": "string",
+			"enum": [ "c", "summer", "e", "f", "b", "d" ],
+			"default": "c"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
