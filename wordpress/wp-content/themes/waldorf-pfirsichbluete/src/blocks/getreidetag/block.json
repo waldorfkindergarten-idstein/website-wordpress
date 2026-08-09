@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/getreidetag",
+	"version": "1.0.0",
+	"title": "Getreidetag",
+	"category": "waldorf",
+	"icon": "food",
+	"description": "Ein Wochentag im Getreideplan.",
+	"keywords": [ "Getreide", "Essen", "Wochenplan" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"parent": [ "waldorf/getreideplan" ],
+	"attributes": {
+		"day": {
+			"type": "string",
+			"default": "Montag"
+		},
+		"grain": {
+			"type": "string",
+			"default": "Reis"
+		},
+		"note": {
+			"type": "string",
+			"default": "mit Gemüse der Saison"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

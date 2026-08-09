@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/auszeichnung",
+	"version": "1.0.0",
+	"title": "Essens-Auszeichnung",
+	"category": "waldorf",
+	"icon": "yes-alt",
+	"description": "Eine kurze Auszeichnung für die Verpflegung.",
+	"keywords": [ "Bio", "Essen", "Auszeichnung" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"default": "100 % Bio"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

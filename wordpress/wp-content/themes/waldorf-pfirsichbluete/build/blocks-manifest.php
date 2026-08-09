@@ -269,5 +269,107 @@ return array(
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
 		'render' => 'file:./render.php'
+	),
+	'tag' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'waldorf/tag',
+		'version' => '1.0.0',
+		'title' => 'Wochentag',
+		'category' => 'waldorf',
+		'icon' => 'calendar-alt',
+		'description' => 'Ein wiederkehrendes Angebot im Wochenrhythmus.',
+		'keywords' => array(
+			'Tag',
+			'Woche',
+			'Waldtag'
+		),
+		'textdomain' => 'waldorf-pfirsichbluete',
+		'attributes' => array(
+			'weekday' => array(
+				'type' => 'string',
+				'default' => 'Montag'
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Malen'
+			),
+			'text' => array(
+				'type' => 'string',
+				'default' => 'Mit Aquarellfarben auf großem Papier.'
+			),
+			'isForestDay' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'supports' => array(
+			'html' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'tagesablauf' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'waldorf/tagesablauf',
+		'version' => '1.0.0',
+		'title' => 'Tagesablauf',
+		'category' => 'waldorf',
+		'icon' => 'clock',
+		'description' => 'Ein sortierbarer Zeitstrahl für den Tagesablauf.',
+		'keywords' => array(
+			'Zeit',
+			'Zeitstrahl',
+			'Rhythmus'
+		),
+		'textdomain' => 'waldorf-pfirsichbluete',
+		'supports' => array(
+			'html' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
+	),
+	'tagesablauf-punkt' => array(
+		'$schema' => 'https://schemas.wp.org/trunk/block.json',
+		'apiVersion' => 3,
+		'name' => 'waldorf/tagesablauf-punkt',
+		'version' => '1.0.0',
+		'title' => 'Tagesablauf-Punkt',
+		'category' => 'waldorf',
+		'icon' => 'marker',
+		'description' => 'Eine Uhrzeit mit Titel und Zusatz im Tagesablauf.',
+		'keywords' => array(
+			'Uhrzeit',
+			'Termin',
+			'Tagesablauf'
+		),
+		'textdomain' => 'waldorf-pfirsichbluete',
+		'parent' => array(
+			'waldorf/tagesablauf'
+		),
+		'attributes' => array(
+			'time' => array(
+				'type' => 'string',
+				'default' => '8:00'
+			),
+			'title' => array(
+				'type' => 'string',
+				'default' => 'Programmpunkt'
+			),
+			'detail' => array(
+				'type' => 'string',
+				'default' => 'Beschreibung ergänzen'
+			),
+			'isExtended' => array(
+				'type' => 'boolean',
+				'default' => false
+			)
+		),
+		'supports' => array(
+			'html' => false
+		),
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
 	)
 );

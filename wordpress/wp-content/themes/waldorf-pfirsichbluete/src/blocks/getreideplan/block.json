@@ -1,0 +1,17 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/getreideplan",
+	"version": "1.0.0",
+	"title": "Getreideplan",
+	"category": "waldorf",
+	"icon": "editor-ul",
+	"description": "Ein sortierbarer Wochenplan für die Getreidetage.",
+	"keywords": [ "Getreide", "Essen", "Wochenplan" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
