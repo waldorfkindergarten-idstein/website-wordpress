@@ -1,7 +1,16 @@
 .wp-block-waldorf-jahreszeiten {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 34px;
 
 	.block-editor-inner-blocks {
 		flex: none;
+	}
+
+	> .pb-sec-head {
+		flex-grow: 1;
 	}
 
 	.block-editor-block-list__layout {

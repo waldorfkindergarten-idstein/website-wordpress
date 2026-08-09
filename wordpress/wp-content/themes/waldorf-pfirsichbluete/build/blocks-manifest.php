@@ -85,7 +85,8 @@ return array(
 			'html' => false,
 			'reusable' => false
 		),
-		'editorScript' => 'file:./index.js'
+		'editorScript' => 'file:./index.js',
+		'render' => 'file:./render.php'
 	),
 	'jahreszeiten' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',
@@ -158,7 +159,7 @@ return array(
 		),
 		'editorScript' => 'file:./index.js',
 		'editorStyle' => 'file:./index.css',
-		'style' => 'file:./style-index.css'
+		'render' => 'file:./render.php'
 	),
 	'photo' => array(
 		'$schema' => 'https://schemas.wp.org/trunk/block.json',

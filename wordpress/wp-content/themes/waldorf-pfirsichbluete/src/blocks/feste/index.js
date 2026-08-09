@@ -1,4 +1,8 @@
-import { useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import {
+	InnerBlocks,
+	useBlockProps,
+	useInnerBlocksProps,
+} from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 
 import metadata from './block.json';
@@ -22,10 +26,7 @@ function Edit() {
 }
 
 function Save() {
-	const blockProps = useBlockProps.save( { style: GRID_STYLE } );
-	const innerBlocksProps = useInnerBlocksProps.save( blockProps );
-
-	return <div { ...innerBlocksProps } />;
+	return <InnerBlocks.Content />;
 }
 
 registerBlockType( metadata.name, {

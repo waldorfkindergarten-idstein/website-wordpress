@@ -11,7 +11,6 @@ import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
 import './editor.scss';
-import './style.scss';
 
 const ALLOWED_BLOCKS = [ 'core/buttons' ];
 
@@ -132,53 +131,8 @@ function Edit( { attributes, setAttributes } ) {
 	);
 }
 
-function Save( { attributes } ) {
-	const blockProps = useBlockProps.save( {
-		className: 'pb-season pb-reveal',
-	} );
-
-	return (
-		<div { ...blockProps }>
-			<div className="pb-season__ring">
-				<div>
-					<RichText.Content tagName="b" value={ attributes.season } />
-					<RichText.Content
-						tagName="span"
-						value={ attributes.ringLabel }
-					/>
-				</div>
-			</div>
-
-			<div className="wp-block-group pb-sec-head pb-sec-head--wide">
-				<RichText.Content
-					tagName="p"
-					className="pb-eyebrow"
-					value={ attributes.eyebrow }
-				/>
-				<RichText.Content
-					tagName="h3"
-					className="wp-block-heading"
-					style={ { marginTop: '0.2em', marginBottom: '0.25em' } }
-					value={ attributes.title }
-				/>
-				<RichText.Content
-					tagName="p"
-					className="has-text-color"
-					style={ { color: '#5a4046' } }
-					value={ attributes.text }
-				/>
-
-				<div className="pb-swatches" style={ { marginTop: '14px' } }>
-					<i style={ { background: attributes.colorOne } } />
-					<i style={ { background: attributes.colorTwo } } />
-					<i style={ { background: attributes.colorThree } } />
-					<i style={ { background: attributes.colorFour } } />
-				</div>
-			</div>
-
-			<InnerBlocks.Content />
-		</div>
-	);
+function Save() {
+	return <InnerBlocks.Content />;
 }
 
 registerBlockType( metadata.name, {
