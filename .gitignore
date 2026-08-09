@@ -13,3 +13,10 @@ wordpress/wp-content/languages/
 
 wordpress/oc-bootstrap-setup.php
 wordpress/oc-fix-formulare.php
+
+node_modules/
+
+# Visual-Regression: Screenshots bleiben lokal (~55 MB), der Geometrie-
+# Fingerabdruck baseline/geometry.json ist Text und wird eingecheckt.
+tests/visual/*/*.png
+tests/visual/diff-*/

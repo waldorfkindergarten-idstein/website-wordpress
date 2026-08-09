@@ -1,0 +1,18 @@
+{
+  "name": "waldorf-visual-regression",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Visual regression harness for the waldorf-pfirsichbluete theme.",
+  "scripts": {
+    "capture": "node capture.mjs",
+    "compare": "node compare.mjs",
+    "check": "node capture.mjs verify && node compare.mjs baseline verify",
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "pixelmatch": "^7.2.0",
+    "playwright": "^1.62.1",
+    "pngjs": "^7.0.0"
+  }
+}
