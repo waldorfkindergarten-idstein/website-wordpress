@@ -1,0 +1,1748 @@
+/**
+ * Waldorf Pfirsichblüte — component layer.
+ *
+ * theme.json owns colour, type, spacing and block defaults. This file covers the
+ * things it has no vocabulary for: organic photo silhouettes, the day-rhythm
+ * timeline, the photo mosaic, and the sticky header.
+ *
+ * Everything below reads from the theme.json presets, so changing a colour in the
+ * Site Editor changes it here too.
+ */
+
+:root {
+	--pb-cream: var(--wp--preset--color--cream);
+	--pb-cream-light: var(--wp--preset--color--cream-light);
+	--pb-ink: var(--wp--preset--color--ink);
+	--pb-ink-soft: var(--wp--preset--color--ink-soft);
+	--pb-ink-heading: var(--wp--preset--color--ink-heading);
+	--pb-plum: var(--wp--preset--color--plum);
+	--pb-plum-light: var(--wp--preset--color--plum-light);
+	--pb-peach: var(--wp--preset--color--peach);
+	--pb-ochre: var(--wp--preset--color--ochre);
+	--pb-sage: var(--wp--preset--color--sage);
+	--pb-dark: var(--wp--preset--color--dark);
+
+	--pb-serif: var(--wp--preset--font-family--serif);
+	--pb-sans: var(--wp--preset--font-family--sans);
+	--pb-hand: var(--wp--preset--font-family--hand);
+
+	--pb-line: rgba(120, 18, 70, 0.14);
+	--pb-shadow: var(--wp--preset--shadow--soft);
+	--pb-shadow-card: var(--wp--preset--shadow--card);
+
+	--pb-r-md: 18px;
+	--pb-r-lg: 22px;
+	--pb-r-xl: 26px;
+	--pb-r-2xl: 30px;
+	--pb-r-3xl: 36px;
+	--pb-r-4xl: 40px;
+	--pb-pill: 999px;
+}
+
+/* -------------------------------------------------------------------------
+ * Page ground — paper texture behind everything
+ * ---------------------------------------------------------------------- */
+
+body {
+	background-image: url("../images/paper-texture.jpg");
+	background-size: 560px;
+	-webkit-font-smoothing: antialiased;
+	/* `clip` rather than `hidden`: hidden makes the body a scroll container,
+	 * which silently breaks `position: sticky` on the header. */
+	overflow-x: clip;
+}
+
+/* -------------------------------------------------------------------------
+ * Anchor navigation
+ * ---------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+	html {
+		scroll-behavior: smooth;
+	}
+}
+
+/* Stop the sticky header covering the heading a visitor just jumped to.
+ * 80px header + a little breathing room. */
+:where(.wp-site-blocks) [id] {
+	scroll-margin-top: 104px;
+}
+
+/* Template parts must not box in the sticky header — a wrapper element becomes
+ * its containing block, so the header would only stick within the part's own
+ * height. Belt and braces alongside the unwrapped template-part blocks. */
+.wp-site-blocks > .wp-block-template-part {
+	display: contents;
+}
+
+/* -------------------------------------------------------------------------
+ * Typographic accents
+ * ---------------------------------------------------------------------- */
+
+.pb-kicker {
+	font-family: var(--pb-hand);
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: var(--pb-plum);
+	line-height: 1.2;
+}
+
+.pb-eyebrow {
+	font-size: 0.74rem;
+	font-weight: 700;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--pb-plum-light);
+	line-height: 1.5;
+}
+
+.pb-note-hand {
+	font-family: var(--pb-hand);
+	font-size: 1.15rem;
+	font-weight: 600;
+	color: var(--pb-ochre);
+}
+
+.pb-meta {
+	font-size: 0.7rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--pb-ochre);
+}
+
+/* -------------------------------------------------------------------------
+ * Section headers
+ *
+ * The measure lives on the container, not on each child. A constrained layout
+ * with a `ch` contentSize would resolve `ch` against every child's own
+ * font-size — giving the eyebrow, the heading and the paragraph three
+ * different widths, which its `margin-inline: auto` then centres to three
+ * different left edges.
+ * ---------------------------------------------------------------------- */
+
+/* The container stays a normal full-width child of the constrained section, so
+ * core's centring puts it exactly on the content column. The measure is capped
+ * on the children instead — in px, because `ch` resolves against each child's
+ * own font-size and would give the eyebrow, heading and paragraph three
+ * different widths. 620px / 540px are the design's 62ch / 54ch at the 16px base.
+ * The children sit in a flow layout, so they get no auto margins and all share
+ * one left edge. */
+.pb-sec-head > * {
+	max-width: 620px;
+}
+
+.pb-sec-head > p:not(.pb-eyebrow):not(.pb-note-hand) {
+	max-width: 540px;
+}
+
+.pb-sec-head--wide > * {
+	max-width: 560px;
+}
+
+/* -------------------------------------------------------------------------
+ * Buttons — ghost variation
+ * ---------------------------------------------------------------------- */
+
+.wp-block-button__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6em;
+	transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+}
+
+.wp-block-button__link:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 20px 40px -16px rgba(120, 18, 70, 0.8);
+}
+
+.wp-block-button.is-style-ghost .wp-block-button__link {
+	background: rgba(255, 255, 255, 0.55);
+	color: var(--pb-plum);
+	border: 1.5px solid var(--pb-line);
+	box-shadow: none;
+}
+
+.wp-block-button.is-style-ghost .wp-block-button__link:hover {
+	background: #fff;
+}
+
+.wp-block-button.is-style-ghost.is-small .wp-block-button__link,
+.wp-block-button.is-small .wp-block-button__link {
+	padding: 0.6em 1.1em;
+	font-size: 0.88rem;
+}
+
+/* -------------------------------------------------------------------------
+ * Group block styles
+ * ---------------------------------------------------------------------- */
+
+.wp-block-group.is-style-card {
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-xl);
+	padding: 30px 28px;
+	transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.wp-block-group.is-style-card:hover {
+	transform: translateY(-6px);
+	box-shadow: var(--pb-shadow);
+}
+
+.wp-block-group.is-style-glass {
+	background: rgba(255, 255, 255, 0.58);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-xl);
+	padding: 30px 28px;
+	backdrop-filter: blur(2px);
+}
+
+/* -------------------------------------------------------------------------
+ * Lists with peach dots
+ * ---------------------------------------------------------------------- */
+
+.wp-block-list.is-style-dotted {
+	list-style: none;
+	padding-left: 0;
+	display: grid;
+	gap: 7px;
+}
+
+.wp-block-list.is-style-dotted li {
+	position: relative;
+	padding-left: 20px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--pb-ink-soft);
+}
+
+.wp-block-list.is-style-dotted li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.62em;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--pb-peach);
+}
+
+/* -------------------------------------------------------------------------
+ * Hand-drawn separator
+ * ---------------------------------------------------------------------- */
+
+.wp-block-separator.is-style-hand-drawn {
+	border: none;
+	height: 26px;
+	background: url("../images/divider.png") center / 1200px 26px repeat-x;
+	opacity: 0.5;
+	max-width: none;
+	width: 100%;
+}
+
+/* -------------------------------------------------------------------------
+ * Organic photo silhouettes
+ *
+ * These are the CSS border-radius percentages from the original design. Each
+ * pair of opposing radii sums to 100%, which is what produces the soft
+ * asymmetric "pebble" rather than a rounded rectangle.
+ * ---------------------------------------------------------------------- */
+
+.pb-photo {
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	background: var(--pb-peach);
+	box-shadow: var(--pb-shadow);
+	isolation: isolate;
+}
+
+.pb-photo img,
+.pb-photo .wp-block-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.pb-photo::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgba(239, 195, 174, 0.14), rgba(74, 32, 46, 0.14));
+}
+
+.pb-shape-hero,
+.wp-block-image.is-style-blob img {
+	border-radius: 54% 46% 47% 53% / 46% 50% 50% 54%;
+}
+
+.pb-shape-mosaic {
+	border-radius: 44% 56% 52% 48% / 38% 40% 60% 62%;
+}
+
+.pb-shape-rhythm {
+	border-radius: 48% 52% 55% 45% / 44% 42% 58% 56%;
+}
+
+.pb-shape-food {
+	border-radius: 52% 48% 44% 56% / 48% 44% 56% 52%;
+}
+
+.pb-shape-person {
+	border-radius: 50% 50% 48% 52% / 46% 48% 52% 54%;
+}
+
+.pb-shape-round {
+	border-radius: var(--pb-r-xl);
+}
+
+/* Caption chip sitting on a photo.
+ * Applies to both hand-written markup and the core image block's <figcaption>,
+ * so editors can retype the caption in place. */
+.pb-photo__label,
+.pb-photo figcaption {
+	position: absolute;
+	left: 50%;
+	bottom: 24%;
+	transform: translateX(-50%);
+	z-index: 2;
+	width: max-content;
+	max-width: 72%;
+	margin: 0;
+	text-align: center;
+	font-family: var(--pb-sans);
+	font-size: 0.72rem;
+	font-weight: 700;
+	line-height: 1.35;
+	letter-spacing: 0.04em;
+	color: #6e4a44;
+	background: rgba(255, 255, 255, 0.82);
+	padding: 0.45em 0.9em;
+	border-radius: var(--pb-pill);
+	backdrop-filter: blur(2px);
+}
+
+/* Cards clip their photo square, so the caption sits closer to the edge */
+.pb-gcard__photo figcaption {
+	bottom: 14px;
+}
+
+/* Editors can turn the labels off site-wide */
+body.pb-no-labels .pb-photo__label,
+body.pb-no-labels .pb-photo figcaption {
+	display: none;
+}
+
+/* -------------------------------------------------------------------------
+ * Top utility bar
+ * ---------------------------------------------------------------------- */
+
+.pb-topbar {
+	background: var(--pb-dark);
+	color: var(--wp--preset--color--dark-text);
+	font-size: 0.79rem;
+	font-weight: 600;
+	position: relative;
+	z-index: 60;
+}
+
+.pb-topbar a {
+	color: #f0dade;
+}
+
+.pb-topbar a:hover {
+	color: #fff;
+}
+
+.pb-topbar ul {
+	list-style: none;
+	display: flex;
+	gap: 22px;
+	flex-wrap: wrap;
+	margin: 0;
+	padding: 0;
+}
+
+.pb-topbar li {
+	display: flex;
+	align-items: center;
+	gap: 0.45em;
+}
+
+.pb-topbar li::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--pb-peach);
+	flex: none;
+}
+
+.pb-topbar .pb-topbar__links li::before {
+	display: none;
+}
+
+/* -------------------------------------------------------------------------
+ * Sticky header
+ * ---------------------------------------------------------------------- */
+
+.pb-header {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: rgba(248, 241, 231, 0.72);
+	backdrop-filter: blur(10px);
+	transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
+}
+
+.pb-header.is-scrolled {
+	background: rgba(248, 241, 231, 0.93);
+	box-shadow: 0 1px 0 var(--pb-line), 0 18px 30px -30px rgba(74, 32, 46, 0.5);
+}
+
+.pb-header .wp-block-site-logo img {
+	height: 52px;
+	width: auto;
+	transition: height 0.4s;
+}
+
+.pb-header.is-scrolled .wp-block-site-logo img {
+	height: 44px;
+}
+
+.pb-brand-tag {
+	font-size: 0.62rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--pb-ink-soft);
+	border-left: 1px solid var(--pb-line);
+	padding-left: 14px;
+	max-width: 130px;
+	line-height: 1.5;
+}
+
+@media (max-width: 1120px) {
+	.pb-brand-tag {
+		display: none;
+	}
+}
+
+/* Underline sweep on the main navigation */
+.pb-header .wp-block-navigation .wp-block-navigation-item__content {
+	position: relative;
+	font-weight: 600;
+	padding-block: 6px;
+}
+
+.pb-header .wp-block-navigation .wp-block-navigation-item__content::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	border-radius: 2px;
+	background: var(--pb-plum);
+	transition: width 0.3s;
+}
+
+.pb-header .wp-block-navigation .wp-block-navigation-item:hover .wp-block-navigation-item__content::after {
+	width: 100%;
+}
+
+/* The "Kennenlerntag" call to action inside the nav */
+.pb-header .wp-block-navigation .pb-nav-cta .wp-block-navigation-item__content,
+.pb-header .wp-block-navigation .wp-block-navigation-item.pb-nav-cta a {
+	background: var(--pb-plum);
+	color: var(--wp--preset--color--plum-on);
+	border-radius: var(--pb-pill);
+	padding: 0.55em 1.15em;
+	font-weight: 700;
+}
+
+.pb-header .wp-block-navigation .pb-nav-cta .wp-block-navigation-item__content::after {
+	display: none;
+}
+
+/* -------------------------------------------------------------------------
+ * Navigation dropdown — the design's `.drop` card
+ * ---------------------------------------------------------------------- */
+
+.pb-header .wp-block-navigation .wp-block-navigation__submenu-container {
+	--pb-submenu-gap: 10px;
+
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-lg);
+	padding: 12px;
+	min-width: 236px;
+	box-shadow: var(--pb-shadow);
+	margin-top: var(--pb-submenu-gap);
+}
+
+/* Invisible bridge across the offset. Without it the gap between the parent
+ * item and the dropdown is a dead zone: the pointer leaves the <li>, `:hover`
+ * drops, and the menu closes before it can be reached. Height is tied to the
+ * same variable as the margin so the two cannot drift apart. */
+.pb-header .wp-block-navigation .wp-block-navigation__submenu-container::before {
+	content: "";
+	position: absolute;
+	top: calc(-1 * var(--pb-submenu-gap));
+	left: 0;
+	right: 0;
+	height: var(--pb-submenu-gap);
+}
+
+.pb-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+	display: block;
+	padding: 0.5em 0.8em;
+	border-radius: var(--pb-r-xs, 12px);
+	font-size: 0.92rem;
+	font-weight: 600;
+	color: var(--pb-ink);
+}
+
+.pb-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content::after {
+	display: none;
+}
+
+.pb-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover,
+.pb-header .wp-block-navigation .wp-block-navigation__submenu-container .wp-block-navigation-item__content:focus-visible {
+	background: rgba(120, 18, 70, 0.07);
+	color: var(--pb-plum);
+}
+
+/* The parent item keeps its underline sweep; the caret should not shift it */
+.pb-header .wp-block-navigation .wp-block-navigation-submenu__toggle {
+	padding-right: 0;
+}
+
+/* Mobile overlay: the plum pill would look out of place full-width */
+.pb-header .wp-block-navigation__responsive-container.is-menu-open .pb-nav-cta .wp-block-navigation-item__content {
+	display: inline-flex;
+}
+
+/* -------------------------------------------------------------------------
+ * Hero
+ * ---------------------------------------------------------------------- */
+
+.pb-hero {
+	position: relative;
+	overflow: hidden;
+}
+
+/* The compound selector matters: as a direct child of a constrained group this
+ * element inherits `max-width: <content-size>` and `margin-inline: auto` from
+ * core's layout rules, which would box the full-bleed watercolour into the
+ * content column despite `inset: 0`. */
+.pb-hero > .pb-hero__bg {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	max-width: none;
+	margin: 0;
+	background: url("../images/hero-bg.png") center / cover no-repeat;
+	opacity: 0.96;
+}
+
+.pb-hero__bg::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(246, 239, 227, 0.25), rgba(246, 239, 227, 0) 32%, rgba(246, 239, 227, 0.88));
+}
+
+.pb-hero h1 em {
+	font-style: italic;
+	color: var(--pb-plum);
+}
+
+.pb-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.pb-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	background: rgba(255, 255, 255, 0.6);
+	border: 1px solid var(--pb-line);
+	padding: 0.5em 1em;
+	border-radius: var(--pb-pill);
+	font-size: 0.86rem;
+	font-weight: 700;
+	color: var(--pb-plum);
+}
+
+.pb-chip::before {
+	content: "";
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	background: var(--pb-peach);
+	box-shadow: 0 0 0 2px rgba(192, 138, 62, 0.4);
+}
+
+.pb-facts {
+	display: flex;
+	gap: 34px;
+	flex-wrap: wrap;
+	padding-top: 26px;
+	border-top: 1px solid var(--pb-line);
+}
+
+.pb-fact b {
+	display: block;
+	font-family: var(--pb-serif);
+	font-size: 1.9rem;
+	color: var(--pb-plum);
+	line-height: 1;
+}
+
+.pb-fact span {
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--pb-ink-soft);
+}
+
+/* Seal + date pill floating over the hero photo */
+.pb-hero__figure {
+	position: relative;
+}
+
+.pb-seal {
+	position: absolute;
+	left: -26px;
+	bottom: 30px;
+	width: 118px;
+	height: 118px;
+	border-radius: 50%;
+	background: #fdf6ef;
+	box-shadow: var(--pb-shadow);
+	display: grid;
+	place-items: center;
+	text-align: center;
+	rotate: -8deg;
+	z-index: 2;
+}
+
+.pb-seal > * {
+	max-width: 96px;
+}
+
+.pb-seal b {
+	display: block;
+	font-family: var(--pb-hand);
+	font-size: 1.45rem;
+	font-weight: 700;
+	color: var(--pb-plum);
+	line-height: 0.95;
+}
+
+.pb-seal span {
+	display: block;
+	margin-top: 3px;
+	font-size: 0.5rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--pb-ink-soft);
+	line-height: 1.2;
+}
+
+.pb-date-pill {
+	position: absolute;
+	right: -10px;
+	top: 26px;
+	z-index: 2;
+	max-width: 210px;
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-lg);
+	padding: 12px 18px;
+	box-shadow: var(--pb-shadow);
+	rotate: 3deg;
+}
+
+.pb-date-pill b {
+	display: block;
+	margin-top: 2px;
+	font-family: var(--pb-serif);
+	font-size: 1.1rem;
+	color: var(--pb-plum);
+}
+
+.pb-date-pill span:last-child {
+	font-size: 0.8rem;
+	font-weight: 600;
+	color: var(--pb-ink-soft);
+}
+
+@media (max-width: 900px) {
+	.pb-date-pill {
+		right: 0;
+		top: 0;
+	}
+}
+
+/* On narrow screens the seal would sit on top of the photo caption */
+@media (max-width: 620px) {
+	.pb-seal {
+		width: 92px;
+		height: 92px;
+		left: -8px;
+		bottom: 12px;
+	}
+
+	.pb-seal b {
+		font-size: 1.15rem;
+	}
+
+	.pb-seal span {
+		font-size: 0.42rem;
+	}
+
+	.pb-hero__figure .pb-photo figcaption {
+		bottom: 32%;
+		max-width: 84%;
+	}
+}
+
+/* -------------------------------------------------------------------------
+ * Season strip
+ * ---------------------------------------------------------------------- */
+
+.pb-season {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--pb-r-3xl);
+	padding: clamp(26px, 4vw, 38px) clamp(22px, 4.4vw, 44px);
+	background: url("../images/deco-summer.png") center / cover;
+	box-shadow: var(--pb-shadow);
+}
+
+.pb-season::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(250, 243, 232, 0.62);
+}
+
+.pb-season > * {
+	position: relative;
+	z-index: 1;
+}
+
+.pb-season__ring {
+	width: 104px;
+	height: 104px;
+	border-radius: 50%;
+	background: var(--pb-cream-light);
+	display: grid;
+	place-items: center;
+	text-align: center;
+	box-shadow: 0 14px 30px -18px rgba(74, 32, 46, 0.5);
+	flex: none;
+}
+
+.pb-season__ring b {
+	display: block;
+	font-family: var(--pb-hand);
+	font-size: 1.45rem;
+	color: var(--pb-plum);
+	line-height: 0.95;
+}
+
+.pb-season__ring span {
+	display: block;
+	font-size: 0.54rem;
+	font-weight: 800;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--pb-ink-soft);
+}
+
+.pb-swatches {
+	display: flex;
+	gap: 8px;
+}
+
+.pb-swatches i {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+/* -------------------------------------------------------------------------
+ * Credo
+ * ---------------------------------------------------------------------- */
+
+.pb-credo {
+	background: rgba(255, 255, 255, 0.5);
+	border-top: 1px solid var(--pb-line);
+	border-bottom: 1px solid var(--pb-line);
+	padding: 34px 0;
+	text-align: center;
+}
+
+.pb-credo blockquote {
+	font-family: var(--pb-serif);
+	font-style: italic;
+	font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+	color: var(--pb-plum);
+	max-width: 30ch;
+	margin: 0 auto;
+	line-height: 1.3;
+	border: none;
+	padding: 0;
+}
+
+.pb-credo cite {
+	display: block;
+	margin-top: 14px;
+	font-family: var(--pb-sans);
+	font-style: normal;
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: var(--pb-ink-soft);
+}
+
+/* -------------------------------------------------------------------------
+ * Photo mosaic
+ * ---------------------------------------------------------------------- */
+
+.pb-mosaic {
+	display: grid;
+	grid-template-columns: 1.35fr 1fr 1fr;
+	grid-template-rows: 210px 210px;
+	gap: 20px;
+}
+
+.pb-mosaic .pb-photo {
+	min-height: 180px;
+	border-radius: var(--pb-r-2xl);
+}
+
+/* Compound selector so it outranks `.pb-mosaic .pb-photo` above */
+.pb-mosaic .pb-mosaic__1 {
+	grid-row: span 2;
+	border-radius: 44% 56% 52% 48% / 38% 40% 60% 62%;
+}
+
+.pb-mosaic .pb-mosaic__4 {
+	grid-column: span 2;
+}
+
+@media (max-width: 1080px) {
+	.pb-mosaic {
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto;
+	}
+
+	.pb-mosaic__1 {
+		grid-row: auto;
+		aspect-ratio: 4 / 3;
+	}
+
+	.pb-mosaic__2,
+	.pb-mosaic__3 {
+		aspect-ratio: 4 / 3;
+	}
+
+	.pb-mosaic__3,
+	.pb-mosaic__4 {
+		grid-column: span 2;
+		aspect-ratio: 16 / 7;
+	}
+}
+
+@media (max-width: 620px) {
+	.pb-mosaic {
+		grid-template-columns: 1fr;
+	}
+
+	.pb-mosaic > * {
+		grid-column: auto !important;
+		aspect-ratio: 4 / 3;
+	}
+}
+
+/* -------------------------------------------------------------------------
+ * Group cards
+ * ---------------------------------------------------------------------- */
+
+.pb-gcard {
+	background: var(--pb-cream-light);
+	border: 1px solid rgba(255, 255, 255, 0.7);
+	border-radius: var(--pb-r-2xl);
+	overflow: hidden;
+	box-shadow: var(--pb-shadow-card);
+	transition: transform 0.4s, box-shadow 0.4s;
+	display: flex;
+	flex-direction: column;
+}
+
+.pb-gcard:hover {
+	transform: translateY(-7px);
+	box-shadow: var(--wp--preset--shadow--lifted);
+}
+
+.pb-gcard__photo {
+	aspect-ratio: 5 / 3.4;
+	position: relative;
+	border-radius: 0;
+}
+
+.pb-gcard__body {
+	padding: 26px 28px 30px;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+.pb-tag {
+	align-self: flex-start;
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--pb-plum);
+	background: rgba(120, 18, 70, 0.08);
+	padding: 0.4em 0.8em;
+	border-radius: var(--pb-pill);
+}
+
+.pb-meta-list {
+	list-style: none;
+	margin: 20px 0 0;
+	padding: 0;
+	border-top: 1px solid var(--pb-line);
+}
+
+.pb-meta-list li {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 9px 0;
+	border-bottom: 1px solid var(--pb-line);
+	font-size: 0.88rem;
+}
+
+.pb-meta-list span {
+	color: var(--pb-ink-soft);
+	font-weight: 600;
+}
+
+.pb-meta-list b {
+	font-weight: 800;
+	text-align: right;
+}
+
+.pb-more {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+	margin-top: 20px;
+	color: var(--pb-plum);
+	font-weight: 700;
+	font-size: 0.92rem;
+}
+
+.pb-more::after {
+	content: "→";
+	transition: transform 0.3s;
+}
+
+.pb-gcard:hover .pb-more::after {
+	transform: translateX(4px);
+}
+
+/* -------------------------------------------------------------------------
+ * Day rhythm timeline
+ * ---------------------------------------------------------------------- */
+
+.pb-timeline {
+	position: relative;
+	padding-left: 40px;
+	list-style: none;
+	margin: 0;
+}
+
+.pb-timeline::before {
+	content: "";
+	position: absolute;
+	left: 11px;
+	top: 8px;
+	bottom: 8px;
+	width: 3px;
+	border-radius: 3px;
+	background: var(--pb-peach);
+}
+
+.pb-tl {
+	position: relative;
+	padding: 14px 0 22px;
+}
+
+.pb-tl::before {
+	content: "";
+	box-sizing: border-box;
+	position: absolute;
+	left: -36.5px;
+	top: calc(14px + 1rem);
+	transform: translateY(-50%);
+	width: 18px;
+	height: 18px;
+	border-radius: 50%;
+	background: var(--pb-cream);
+	border: 3px solid var(--pb-plum-light);
+	box-shadow: 0 0 0 5px rgba(246, 239, 227, 0.9);
+}
+
+.pb-tl--optional::before {
+	border-color: var(--pb-ochre);
+	background: var(--pb-cream-light);
+}
+
+.pb-tl__time {
+	font-family: var(--pb-serif);
+	font-weight: 700;
+	font-size: 1.22rem;
+	color: var(--pb-plum);
+}
+
+.pb-tl__title {
+	font-size: 1.02rem;
+	margin-top: 2px;
+	max-width: 48ch;
+}
+
+.pb-tl__sub {
+	font-size: 0.88rem;
+	color: var(--pb-ink-soft);
+	margin-top: 3px;
+	max-width: 48ch;
+}
+
+.pb-tl__badge {
+	font-size: 0.68rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--pb-ochre);
+	margin-left: 8px;
+}
+
+@media (max-width: 620px) {
+	.pb-timeline {
+		padding-left: 32px;
+	}
+}
+
+/* Week strip */
+.pb-week {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 16px;
+}
+
+.pb-day {
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-lg);
+	padding: 20px 18px;
+	transition: transform 0.35s;
+}
+
+.pb-day:hover {
+	transform: translateY(-5px);
+}
+
+.pb-day__name {
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+	color: var(--pb-plum-light);
+}
+
+.pb-day--forest {
+	background: linear-gradient(180deg, rgba(127, 144, 103, 0.16), rgba(127, 144, 103, 0.05));
+	border-color: rgba(127, 144, 103, 0.35);
+}
+
+.pb-day--forest .pb-day__name {
+	color: var(--pb-sage);
+}
+
+/* -------------------------------------------------------------------------
+ * Festivals
+ * ---------------------------------------------------------------------- */
+
+.pb-fest {
+	background: rgba(255, 255, 255, 0.6);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-lg);
+	padding: 24px 22px;
+	position: relative;
+	overflow: hidden;
+}
+
+.pb-fest::after {
+	content: "";
+	position: absolute;
+	right: -30px;
+	bottom: -30px;
+	width: 110px;
+	height: 110px;
+	border-radius: 50%;
+	background: center / cover no-repeat;
+	opacity: 0.35;
+}
+
+.pb-fest:nth-child(1)::after { background-image: url("../images/deco-c.png"); }
+.pb-fest:nth-child(2)::after { background-image: url("../images/deco-summer.png"); }
+.pb-fest:nth-child(3)::after { background-image: url("../images/deco-e.png"); }
+.pb-fest:nth-child(4)::after { background-image: url("../images/deco-f.png"); }
+.pb-fest:nth-child(5)::after { background-image: url("../images/deco-b.png"); }
+.pb-fest:nth-child(6)::after { background-image: url("../images/deco-d.png"); }
+
+/* -------------------------------------------------------------------------
+ * Meal plan
+ * ---------------------------------------------------------------------- */
+
+.pb-grain {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid var(--pb-line);
+}
+
+.pb-grain li {
+	display: grid;
+	grid-template-columns: 104px 1fr auto;
+	gap: 16px;
+	align-items: baseline;
+	padding: 14px 0;
+	border-bottom: 1px solid var(--pb-line);
+}
+
+.pb-grain__day {
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--pb-plum-light);
+}
+
+.pb-grain b {
+	font-family: var(--pb-serif);
+	font-size: 1.14rem;
+	font-weight: 600;
+}
+
+.pb-grain span:last-child {
+	font-size: 0.86rem;
+	color: var(--pb-ink-soft);
+}
+
+@media (max-width: 620px) {
+	.pb-grain li {
+		grid-template-columns: 1fr auto;
+		row-gap: 2px;
+	}
+
+	.pb-grain__day {
+		grid-column: 1 / -1;
+	}
+}
+
+.pb-badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.pb-badges span {
+	font-size: 0.8rem;
+	font-weight: 700;
+	color: var(--pb-sage);
+	background: rgba(127, 144, 103, 0.13);
+	border: 1px solid rgba(127, 144, 103, 0.3);
+	padding: 0.45em 0.9em;
+	border-radius: var(--pb-pill);
+}
+
+/* -------------------------------------------------------------------------
+ * Team
+ * ---------------------------------------------------------------------- */
+
+.pb-team {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 22px;
+	justify-items: center;
+}
+
+.pb-person {
+	max-width: 230px;
+	width: 100%;
+	text-align: left;
+}
+
+.pb-person__photo {
+	aspect-ratio: 1 / 1.12;
+	display: grid;
+	place-items: center;
+}
+
+.pb-person__mono {
+	position: relative;
+	z-index: 2;
+	font-family: var(--pb-hand);
+	font-size: 2.7rem;
+	font-weight: 700;
+	color: var(--pb-plum);
+	background: rgba(251, 247, 238, 0.72);
+	width: 82px;
+	height: 82px;
+	border-radius: 50%;
+	display: grid;
+	place-items: center;
+	line-height: 1;
+}
+
+@media (max-width: 1080px) {
+	.pb-team {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/* -------------------------------------------------------------------------
+ * Testimonials
+ * ---------------------------------------------------------------------- */
+
+.pb-quote {
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-xl);
+	padding: 30px 28px;
+	position: relative;
+}
+
+.pb-quote::before {
+	content: "\201C";
+	position: absolute;
+	top: 6px;
+	left: 22px;
+	font-family: var(--pb-serif);
+	font-size: 4.6rem;
+	color: var(--pb-peach);
+	line-height: 1;
+}
+
+.pb-quote p {
+	position: relative;
+	font-family: var(--pb-serif);
+	font-size: 1.08rem;
+	line-height: 1.5;
+	color: #4a3037;
+	margin-top: 22px;
+}
+
+.pb-quote footer {
+	margin-top: 18px;
+	font-size: 0.83rem;
+	font-weight: 700;
+	color: var(--pb-plum-light);
+}
+
+/* -------------------------------------------------------------------------
+ * Enrolment steps + FAQ
+ * ---------------------------------------------------------------------- */
+
+.pb-steps {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 22px;
+}
+
+.pb-step {
+	position: relative;
+	padding-top: 34px;
+}
+
+.pb-step::before {
+	content: "";
+	position: absolute;
+	top: 12px;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: var(--pb-line);
+}
+
+.pb-step__n {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: var(--pb-plum);
+	color: #fbeede;
+	display: grid;
+	place-items: center;
+	font-size: 0.8rem;
+	font-weight: 800;
+}
+
+.pb-faq details {
+	border-bottom: 1px solid var(--pb-line);
+}
+
+.pb-faq summary {
+	list-style: none;
+	cursor: pointer;
+	padding: 18px 40px 18px 0;
+	position: relative;
+	font-family: var(--pb-serif);
+	font-size: 1.16rem;
+	font-weight: 600;
+	color: var(--pb-ink-heading);
+}
+
+.pb-faq summary::-webkit-details-marker {
+	display: none;
+}
+
+.pb-faq summary::after {
+	content: "";
+	position: absolute;
+	right: 8px;
+	top: 50%;
+	width: 11px;
+	height: 11px;
+	margin-top: -7px;
+	border-right: 2.2px solid var(--pb-plum);
+	border-bottom: 2.2px solid var(--pb-plum);
+	transform: rotate(45deg);
+	transition: transform 0.3s;
+}
+
+.pb-faq details[open] summary::after {
+	transform: rotate(-135deg);
+}
+
+.pb-faq details p {
+	padding: 0 0 20px;
+	color: var(--pb-ink-soft);
+	font-size: 0.98rem;
+	max-width: 62ch;
+}
+
+/* -------------------------------------------------------------------------
+ * News + dates
+ * ---------------------------------------------------------------------- */
+
+/* Deliberately not flex: the core group block uses a constrained layout, whose
+ * `margin-inline: auto` on children would centre them once they became flex items. */
+.pb-ncard {
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-xl);
+	padding: 28px 26px;
+	transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.pb-ncard:hover {
+	transform: translateY(-6px);
+	box-shadow: var(--pb-shadow);
+}
+
+.pb-ncard__date {
+	font-size: 0.78rem;
+	font-weight: 800;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--pb-ochre);
+}
+
+.pb-ncard--featured {
+	background: var(--pb-plum);
+	border: none;
+	color: #f7e9ec;
+	grid-column: span 2;
+}
+
+.pb-ncard--featured .pb-ncard__date {
+	color: var(--pb-peach);
+}
+
+.pb-ncard--featured :is(h2, h3, h4),
+.pb-ncard--featured :is(h2, h3, h4) a {
+	color: #fff;
+}
+
+.pb-ncard--featured :is(h2, h3, h4) a:hover {
+	color: var(--pb-peach);
+}
+
+.pb-ncard--featured p {
+	color: #f0d6dc;
+	max-width: 52ch;
+}
+
+.pb-ncard--featured .pb-more {
+	color: var(--pb-peach);
+}
+
+.pb-termine {
+	background: rgba(255, 255, 255, 0.55);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-xl);
+	padding: 26px 24px;
+}
+
+.pb-termine ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.pb-termine li {
+	display: grid;
+	grid-template-columns: 58px 1fr;
+	gap: 14px;
+	padding: 14px 0;
+	border-top: 1px solid var(--pb-line);
+	align-items: start;
+}
+
+.pb-termine__date {
+	text-align: center;
+	background: rgba(120, 18, 70, 0.07);
+	border-radius: var(--pb-r-sm, 14px);
+	padding: 6px 0;
+}
+
+.pb-termine__date b {
+	display: block;
+	font-family: var(--pb-serif);
+	font-size: 1.2rem;
+	color: var(--pb-plum);
+	line-height: 1;
+}
+
+.pb-termine__date span {
+	font-size: 0.62rem;
+	font-weight: 800;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--pb-plum-light);
+}
+
+.pb-termine__info b {
+	display: block;
+	font-size: 0.99rem;
+	font-weight: 800;
+}
+
+.pb-termine__info span {
+	font-size: 0.86rem;
+	color: var(--pb-ink-soft);
+}
+
+/* -------------------------------------------------------------------------
+ * Downloads
+ * ---------------------------------------------------------------------- */
+
+.pb-downloads {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 14px 26px;
+}
+
+.pb-dl {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	background: rgba(255, 255, 255, 0.55);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-md);
+	padding: 16px 20px;
+	transition: transform 0.3s, background 0.3s;
+	text-decoration: none;
+}
+
+.pb-dl:hover {
+	transform: translateX(4px);
+	background: #fff;
+}
+
+.pb-dl__ext {
+	flex: none;
+	width: 42px;
+	height: 42px;
+	border-radius: 12px;
+	background: var(--pb-peach);
+	display: grid;
+	place-items: center;
+	font-size: 0.68rem;
+	font-weight: 800;
+	color: #6e3345;
+	letter-spacing: 0.04em;
+}
+
+.pb-dl b {
+	display: block;
+	font-size: 0.99rem;
+	font-weight: 800;
+	color: var(--pb-ink);
+}
+
+.pb-dl small {
+	font-size: 0.82rem;
+	color: var(--pb-ink-soft);
+}
+
+.pb-dl__arrow {
+	margin-left: auto;
+	color: var(--pb-plum);
+	font-weight: 800;
+}
+
+/* -------------------------------------------------------------------------
+ * Call to action + contact
+ * ---------------------------------------------------------------------- */
+
+.pb-cta {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--pb-r-4xl);
+	background: url("../images/hero-bg.png") center / cover;
+	padding: clamp(42px, 6vw, 70px) clamp(24px, 5vw, 56px);
+	text-align: center;
+	box-shadow: var(--pb-shadow);
+}
+
+.pb-cta::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(248, 241, 231, 0.34);
+}
+
+.pb-cta > * {
+	position: relative;
+	z-index: 1;
+}
+
+.pb-kbox {
+	background: var(--pb-cream-light);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-r-xl);
+	padding: clamp(22px, 4vw, 32px) clamp(20px, 4vw, 30px);
+}
+
+.pb-krow {
+	display: grid;
+	grid-template-columns: 120px 1fr;
+	gap: 12px;
+	padding: 11px 0;
+	border-top: 1px solid var(--pb-line);
+	font-size: 0.94rem;
+}
+
+.pb-krow > span:first-child {
+	color: var(--pb-ink-soft);
+	font-weight: 700;
+}
+
+@media (max-width: 620px) {
+	.pb-krow {
+		grid-template-columns: 1fr;
+		gap: 2px;
+	}
+}
+
+/* -------------------------------------------------------------------------
+ * Footer
+ * ---------------------------------------------------------------------- */
+
+.pb-footer {
+	background-color: var(--pb-dark);
+	background-image: url("../images/paper-texture.jpg");
+	background-blend-mode: overlay;
+	background-size: 560px;
+	color: #e9d6d2;
+}
+
+.pb-footer :is(h2, h3, h4) {
+	color: #fff;
+	font-family: var(--pb-serif);
+	font-size: 1.05rem;
+	font-weight: 600;
+}
+
+/* Link columns stack; the bottom bar keeps its links inline */
+.pb-footer .wp-block-column a {
+	color: #e1c8cd;
+	font-size: 0.94rem;
+	display: block;
+	padding: 4px 0;
+	transition: color 0.25s;
+}
+
+.pb-footer a {
+	color: #e1c8cd;
+	transition: color 0.25s;
+}
+
+.pb-footer a:hover {
+	color: #fff;
+}
+
+.pb-footer__bottom a {
+	display: inline;
+}
+
+.pb-footer__bottom {
+	margin-top: 46px;
+	padding-top: 22px;
+	border-top: 1px solid rgba(255, 255, 255, 0.13);
+	display: flex;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	font-size: 0.84rem;
+	color: #bd9aa1;
+}
+
+/* -------------------------------------------------------------------------
+ * Reveal-on-scroll + back-to-top
+ * ---------------------------------------------------------------------- */
+
+.pb-reveal {
+	opacity: 0;
+	transform: translateY(26px);
+	transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.pb-reveal.is-in {
+	opacity: 1;
+	transform: none;
+}
+
+.pb-totop {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 60;
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: var(--pb-plum);
+	color: #fbeede;
+	display: grid;
+	place-items: center;
+	border: none;
+	cursor: pointer;
+	box-shadow: 0 16px 30px -14px rgba(120, 18, 70, 0.8);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(10px);
+	transition: opacity 0.35s, transform 0.35s;
+}
+
+.pb-totop.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.pb-reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.wp-block-button__link:hover,
+	.pb-gcard:hover,
+	.pb-ncard:hover,
+	.pb-day:hover,
+	.pb-dl:hover,
+	.wp-block-group.is-style-card:hover {
+		transform: none;
+	}
+}
+
+/* -------------------------------------------------------------------------
+ * Accessibility
+ * ---------------------------------------------------------------------- */
+
+.pb-skip-link {
+	position: absolute;
+	left: -9999px;
+	top: 0;
+	z-index: 100000;
+	padding: 12px 22px;
+	background: var(--pb-plum);
+	color: #fff;
+	font-weight: 700;
+	border-radius: 0 0 var(--pb-r-md) 0;
+}
+
+.pb-skip-link:focus {
+	left: 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Shared responsive collapses
+ * ---------------------------------------------------------------------- */
+
+@media (max-width: 1080px) {
+	.pb-week,
+	.pb-steps {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 900px) {
+	.pb-downloads {
+		grid-template-columns: 1fr;
+	}
+
+	.pb-ncard--featured {
+		grid-column: auto;
+	}
+}
+
+@media (max-width: 620px) {
+	.pb-week,
+	.pb-steps {
+		grid-template-columns: 1fr;
+	}
+
+	.pb-team {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 18px;
+	}
+
+	.pb-totop {
+		right: 14px;
+		bottom: 14px;
+	}
+}

@@ -1,0 +1,20 @@
+/*
+Theme Name: Waldorf Pfirsichblüte
+Theme URI: https://waldorfkindergarten-idstein.de/
+Author: Idsteiner Waldorfkindergarten e.V.
+Author URI: https://waldorfkindergarten-idstein.de/
+Description: Block-Theme für den Idsteiner Waldorfkindergarten. Warme Aquarell-Ästhetik mit Pflaume, Pfirsich und Creme, handschriftlichen Akzenten und organischen Bildformen. Alle Gestaltungsmerkmale sind als Design-Tokens in der theme.json hinterlegt und im Website-Editor anpassbar.
+Requires at least: 6.5
+Tested up to: 6.7
+Requires PHP: 7.4
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: waldorf-pfirsichbluete
+Tags: block-theme, full-site-editing, one-column, custom-colors, custom-menu, editor-style, block-patterns, translation-ready, accessibility-ready
+*/
+
+/*
+ * Block themes take their styling from theme.json and assets/css/components.css.
+ * This file exists for the theme header above; avoid adding rules here.
+ */
