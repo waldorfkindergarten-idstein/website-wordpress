@@ -66,6 +66,73 @@ function waldorf_pb_enqueue_assets(): void {
 add_action( 'wp_enqueue_scripts', 'waldorf_pb_enqueue_assets' );
 
 /**
+ * Register all compiled theme blocks.
+ *
+ * WordPress 6.8+ can register the generated metadata collection in one pass.
+ * Older supported releases discover the same block directories from the
+ * manifest, so adding a block never requires another hardcoded PHP entry.
+ */
+function waldorf_pb_register_blocks(): void {
+	$build_dir  = get_template_directory() . '/build';
+	$blocks_dir = $build_dir . '/blocks';
+	$manifest   = $build_dir . '/blocks-manifest.php';
+
+	if ( ! file_exists( $manifest ) ) {
+		return;
+	}
+
+	if ( function_exists( 'wp_register_block_types_from_metadata_collection' ) ) {
+		wp_register_block_types_from_metadata_collection( $blocks_dir, $manifest );
+		return;
+	}
+
+	$block_metadata = require $manifest;
+	if ( ! is_array( $block_metadata ) ) {
+		return;
+	}
+
+	foreach ( array_keys( $block_metadata ) as $block_path ) {
+		register_block_type( $blocks_dir . '/' . $block_path );
+	}
+}
+add_action( 'init', 'waldorf_pb_register_blocks' );
+
+/**
+ * Add the theme block category to the inserter.
+ *
+ * @param array $categories Existing block categories.
+ * @return array
+ */
+function waldorf_pb_register_block_category( array $categories ): array {
+	foreach ( $categories as $category ) {
+		if ( isset( $category['slug'] ) && 'waldorf' === $category['slug'] ) {
+			return $categories;
+		}
+	}
+
+	$categories[] = array(
+		'slug'  => 'waldorf',
+		'title' => __( 'Waldorf', 'waldorf-pfirsichbluete' ),
+	);
+
+	return $categories;
+}
+add_filter( 'block_categories_all', 'waldorf_pb_register_block_category' );
+
+/**
+ * Give block editor scripts a portable base URL for theme-image fallbacks.
+ *
+ * @param array $settings Block editor settings.
+ * @return array
+ */
+function waldorf_pb_block_editor_settings( array $settings ): array {
+	$settings['waldorfPhotoImageBaseUrl'] = trailingslashit( get_template_directory_uri() . '/assets/images' );
+
+	return $settings;
+}
+add_filter( 'block_editor_settings_all', 'waldorf_pb_block_editor_settings' );
+
+/**
  * Preload the two font files used above the fold so the headline does not reflow.
  */
 function waldorf_pb_preload_fonts(): void {
@@ -198,4 +265,61 @@ add_filter( 'render_block_core/template-part', 'waldorf_pb_resolve_section_ancho
  */
 function waldorf_pb_img( string $file ): string {
 	return get_template_directory_uri() . '/assets/images/' . ltrim( $file, '/' );
+}
+
+/**
+ * Render an attachment image with a safe theme-file fallback.
+ *
+ * The fallback contract is a filename from assets/images, not a persisted site
+ * URL. This keeps pattern content portable between domains and installations.
+ * Supported extra image attributes are class, sizes, loading, decoding and
+ * style. An empty explicit alt uses the attachment's media-library alt text.
+ *
+ * @param int    $attachment_id Attachment ID, or zero to use the fallback.
+ * @param string $fallback_file Filename from the theme's assets/images folder.
+ * @param string $alt           Explicit alt text, or empty for media alt text.
+ * @param array  $attributes    Allowlisted HTML attributes for the image.
+ * @return string
+ */
+function waldorf_pb_render_image( int $attachment_id, string $fallback_file, string $alt = '', array $attributes = array() ): string {
+	$allowed_attributes = array( 'class', 'sizes', 'loading', 'decoding', 'style' );
+	$image_attributes   = array(
+		'loading'  => 'lazy',
+		'decoding' => 'async',
+	);
+
+	foreach ( $allowed_attributes as $attribute_name ) {
+		if ( isset( $attributes[ $attribute_name ] ) ) {
+			$image_attributes[ $attribute_name ] = (string) $attributes[ $attribute_name ];
+		}
+	}
+
+	if ( '' !== $alt ) {
+		$image_attributes['alt'] = $alt;
+	}
+
+	if ( $attachment_id > 0 && wp_attachment_is_image( $attachment_id ) ) {
+		return (string) wp_get_attachment_image( $attachment_id, 'full', false, $image_attributes );
+	}
+
+	$fallback_file = sanitize_file_name( wp_basename( $fallback_file ) );
+	$fallback_path = get_template_directory() . '/assets/images/' . $fallback_file;
+
+	if ( '' === $fallback_file || ! is_file( $fallback_path ) ) {
+		return '';
+	}
+
+	$image_attributes['src'] = waldorf_pb_img( $fallback_file );
+	$image_attributes['alt'] = $alt;
+	$attribute_markup        = array();
+
+	foreach ( $image_attributes as $attribute_name => $attribute_value ) {
+		$attribute_markup[] = sprintf(
+			'%s="%s"',
+			esc_attr( $attribute_name ),
+			esc_attr( $attribute_value )
+		);
+	}
+
+	return '<img ' . implode( ' ', $attribute_markup ) . '>';
 }

@@ -1,0 +1,29 @@
+.wp-block-waldorf-photo {
+	min-height: 240px;
+
+	.waldorf-photo__placeholder {
+		position: relative;
+		display: flex;
+		min-height: inherit;
+		height: 100%;
+		align-items: stretch;
+	}
+
+	.waldorf-photo__placeholder > img {
+		position: absolute;
+		inset: 0;
+		opacity: 0.45;
+	}
+
+	.waldorf-photo__placeholder .components-placeholder {
+		position: relative;
+		z-index: 3;
+		min-height: inherit;
+		margin: 0;
+		background: rgba(251, 247, 238, 0.72);
+	}
+
+	.block-editor-rich-text__editable {
+		cursor: text;
+	}
+}
