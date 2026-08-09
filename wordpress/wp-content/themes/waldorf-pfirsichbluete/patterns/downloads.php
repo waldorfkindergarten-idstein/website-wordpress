@@ -5,17 +5,8 @@
  * Categories: waldorf-sections
  * Description: Zweispaltige Liste mit Dateitypen und Größenangaben.
  */
-
-$waldorf_pb_files = array(
-	array( 'PDF', 'Anmeldebogen',          '2 Seiten · 180 kB' ),
-	array( 'PDF', 'Konzeption',            '24 Seiten · 1,4 MB' ),
-	array( 'PDF', 'Gebührenordnung',       '1 Seite · 96 kB' ),
-	array( 'PDF', 'Packliste Waldtag',     '1 Seite · 88 kB' ),
-	array( 'PDF', 'Ferien &amp; Schließtage', '1 Seite · 74 kB' ),
-	array( 'PDF', 'Satzung des Vereins',   '8 Seiten · 240 kB' ),
-);
 ?>
-<!-- wp:group {"anchor":"downloads","style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"downloads","metadata":{"name":"Downloads und Formulare"},"lock":{"move":true,"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|70","bottom":"var:preset|spacing|70"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="downloads" style="padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70)">
 	<!-- wp:group {"className":"pb-reveal","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 	<div class="wp-block-group pb-reveal">
@@ -30,19 +21,13 @@ $waldorf_pb_files = array(
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:html -->
-	<div class="pb-downloads" style="margin-top:38px">
-		<?php foreach ( $waldorf_pb_files as $waldorf_pb_file ) : ?>
-			<a class="pb-dl pb-reveal" href="#">
-				<span class="pb-dl__ext"><?php echo esc_html( $waldorf_pb_file[0] ); ?></span>
-				<span>
-					<b><?php echo wp_kses_post( $waldorf_pb_file[1] ); ?></b>
-					<small><?php echo wp_kses_post( $waldorf_pb_file[2] ); ?></small>
-				</span>
-				<span class="pb-dl__arrow" aria-hidden="true">↓</span>
-			</a>
-		<?php endforeach; ?>
-	</div>
-	<!-- /wp:html -->
+	<!-- wp:waldorf/downloads {"metadata":{"name":"Dokumente"},"lock":{"move":true,"remove":true}} -->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldebogen","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"180 kB","metadata":{"name":"Download: Anmeldebogen"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Konzeption","description":"24 Seiten","fallbackType":"PDF","fallbackSize":"1,4 MB","metadata":{"name":"Download: Konzeption"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Gebührenordnung","description":"1 Seite","fallbackType":"PDF","fallbackSize":"96 kB","metadata":{"name":"Download: Gebührenordnung"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Packliste Waldtag","description":"1 Seite","fallbackType":"PDF","fallbackSize":"88 kB","metadata":{"name":"Download: Packliste Waldtag"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Ferien & Schließtage","description":"1 Seite","fallbackType":"PDF","fallbackSize":"74 kB","metadata":{"name":"Download: Ferien und Schließtage"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Satzung des Vereins","description":"8 Seiten","fallbackType":"PDF","fallbackSize":"240 kB","metadata":{"name":"Download: Satzung"}} /-->
+	<!-- /wp:waldorf/downloads -->
 </div>
 <!-- /wp:group -->

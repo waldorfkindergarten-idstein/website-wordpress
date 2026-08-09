@@ -5,15 +5,8 @@
  * Categories: waldorf-sections
  * Description: Neuigkeiten aus dem Blog mit hervorgehobenem Beitrag und Terminliste.
  */
-
-$waldorf_pb_dates = array(
-	array( '06', 'Okt', 'Kennenlerntag',        '14:00 – 16:00 Uhr · ohne Anmeldung' ),
-	array( '24', 'Okt', 'Laternenbasteln',      '15:30 Uhr · für Familien' ),
-	array( '11', 'Nov', 'Martinsumzug',         '17:00 Uhr · Treffpunkt am Haus' ),
-	array( '06', 'Dez', 'Adventsgarten',        '16:00 Uhr · nur mit Anmeldung' ),
-);
 ?>
-<!-- wp:group {"anchor":"aktuelles","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"aktuelles","metadata":{"name":"Aktuelles und Termine"},"lock":{"move":true,"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-rose","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-rose-gradient-background has-background" id="aktuelles" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"className":"pb-reveal","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} -->
 	<div class="wp-block-group pb-reveal">
@@ -72,19 +65,12 @@ $waldorf_pb_dates = array(
 
 		<!-- wp:column -->
 		<div class="wp-block-column">
-			<!-- wp:html -->
-			<aside class="pb-termine pb-reveal">
-				<h3>Termine</h3>
-				<ul>
-					<?php foreach ( $waldorf_pb_dates as $waldorf_pb_t ) : ?>
-						<li>
-							<div class="pb-termine__date"><b><?php echo esc_html( $waldorf_pb_t[0] ); ?></b><span><?php echo esc_html( $waldorf_pb_t[1] ); ?></span></div>
-							<div class="pb-termine__info"><b><?php echo esc_html( $waldorf_pb_t[2] ); ?></b><span><?php echo esc_html( $waldorf_pb_t[3] ); ?></span></div>
-						</li>
-					<?php endforeach; ?>
-				</ul>
-			</aside>
-			<!-- /wp:html -->
+			<!-- wp:waldorf/termine {"heading":"Termine","metadata":{"name":"Termine"},"lock":{"move":true,"remove":true}} -->
+				<!-- wp:waldorf/termin {"date":"2026-10-06","title":"Kennenlerntag","detail":"14:00 – 16:00 Uhr · ohne Anmeldung","metadata":{"name":"Termin: Kennenlerntag"}} /-->
+				<!-- wp:waldorf/termin {"date":"2026-10-24","title":"Laternenbasteln","detail":"15:30 Uhr · für Familien","metadata":{"name":"Termin: Laternenbasteln"}} /-->
+				<!-- wp:waldorf/termin {"date":"2026-11-11","title":"Martinsumzug","detail":"17:00 Uhr · Treffpunkt am Haus","metadata":{"name":"Termin: Martinsumzug"}} /-->
+				<!-- wp:waldorf/termin {"date":"2026-12-06","title":"Adventsgarten","detail":"16:00 Uhr · nur mit Anmeldung","metadata":{"name":"Termin: Adventsgarten"}} /-->
+			<!-- /wp:waldorf/termine -->
 		</div>
 		<!-- /wp:column -->
 	</div>

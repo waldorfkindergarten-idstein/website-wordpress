@@ -5,23 +5,8 @@
  * Categories: waldorf-sections
  * Description: Vier Schritte zum Platz plus aufklappbare Fragen.
  */
-
-$waldorf_pb_steps = array(
-	array( 'Kennenlernen',  'Kommen Sie zu einem Kennenlerntag oder rufen Sie uns an. Ohne Termin geht auch.' ),
-	array( 'Hospitieren',   'Sie besuchen einen Morgen in der Gruppe und erleben den Rhythmus mit Ihrem Kind.' ),
-	array( 'Anmeldebogen',  'Formular ausfüllen und abgeben – digital oder auf Papier. Danach folgt das Gespräch.' ),
-	array( 'Eingewöhnung',  'Begleitet, in kleinen Schritten und im Tempo Ihres Kindes. Zwei bis vier Wochen.' ),
-);
-
-$waldorf_pb_faq = array(
-	array( 'Ab welchem Alter können Kinder aufgenommen werden?', 'In der Wiegenstube ab einem Jahr, in den Familiengruppen ab zwei Jahren. Entscheidend ist, dass Ihr Kind bereit für den Schritt ist – das besprechen wir gemeinsam.' ),
-	array( 'Was kostet ein Platz?', 'Die Beiträge richten sich nach Betreuungsumfang und Einkommen. Die aktuelle Gebührenordnung finden Sie bei den Downloads. Niemand soll aus finanziellen Gründen fernbleiben – sprechen Sie uns an.' ),
-	array( 'Müssen Eltern mitarbeiten?', 'Als Elterninitiative leben wir vom Mitmachen: Gartentage, Basteln für den Basar, Vorstandsarbeit. Der Umfang ist überschaubar und wird gemeinsam abgestimmt.' ),
-	array( 'Wie läuft die Eingewöhnung ab?', 'Behutsam und individuell. In den ersten Tagen bleiben Sie dabei, danach lösen Sie sich schrittweise. Zwei bis vier Wochen sind üblich.' ),
-	array( 'Gibt es einen Waldtag bei jedem Wetter?', 'Ja. Mit passender Kleidung ist fast jedes Wetter gutes Wetter. Nur bei Sturm bleiben wir am Haus.' ),
-);
 ?>
-<!-- wp:group {"anchor":"anmeldung","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-white","layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"anmeldung","metadata":{"name":"Anmeldung und FAQ"},"lock":{"move":true,"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"gradient":"wash-white","layout":{"type":"constrained"}} -->
 <div class="wp-block-group has-wash-white-gradient-background has-background" id="anmeldung" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">
@@ -31,17 +16,12 @@ $waldorf_pb_faq = array(
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:html -->
-	<div class="pb-steps" style="margin-top:46px">
-		<?php $waldorf_pb_i = 1; foreach ( $waldorf_pb_steps as $waldorf_pb_s ) : ?>
-			<div class="pb-step pb-reveal">
-				<span class="pb-step__n"><?php echo (int) $waldorf_pb_i; ?></span>
-				<h4><?php echo esc_html( $waldorf_pb_s[0] ); ?></h4>
-				<p><?php echo esc_html( $waldorf_pb_s[1] ); ?></p>
-			</div>
-		<?php $waldorf_pb_i++; endforeach; ?>
-	</div>
-	<!-- /wp:html -->
+	<!-- wp:waldorf/schritte {"metadata":{"name":"Vier Schritte zum Platz"},"lock":{"move":true,"remove":true}} -->
+		<!-- wp:waldorf/schritt {"title":"Kennenlernen","text":"Kommen Sie zu einem Kennenlerntag oder rufen Sie uns an. Ohne Termin geht auch.","metadata":{"name":"Schritt: Kennenlernen"}} /-->
+		<!-- wp:waldorf/schritt {"title":"Hospitieren","text":"Sie besuchen einen Morgen in der Gruppe und erleben den Rhythmus mit Ihrem Kind.","metadata":{"name":"Schritt: Hospitieren"}} /-->
+		<!-- wp:waldorf/schritt {"title":"Anmeldebogen","text":"Formular ausfüllen und abgeben – digital oder auf Papier. Danach folgt das Gespräch.","metadata":{"name":"Schritt: Anmeldebogen"}} /-->
+		<!-- wp:waldorf/schritt {"title":"Eingewöhnung","text":"Begleitet, in kleinen Schritten und im Tempo Ihres Kindes. Zwei bis vier Wochen.","metadata":{"name":"Schritt: Eingewöhnung"}} /-->
+	<!-- /wp:waldorf/schritte -->
 
 	<!-- wp:columns {"style":{"spacing":{"margin":{"top":"70px"},"blockGap":{"left":"56px"}}}} -->
 	<div class="wp-block-columns" style="margin-top:70px">
@@ -55,16 +35,13 @@ $waldorf_pb_faq = array(
 
 		<!-- wp:column -->
 		<div class="wp-block-column">
-			<!-- wp:html -->
-			<div class="pb-faq">
-				<?php foreach ( $waldorf_pb_faq as $waldorf_pb_q ) : ?>
-					<details>
-						<summary><?php echo esc_html( $waldorf_pb_q[0] ); ?></summary>
-						<p><?php echo esc_html( $waldorf_pb_q[1] ); ?></p>
-					</details>
-				<?php endforeach; ?>
-			</div>
-			<!-- /wp:html -->
+			<!-- wp:waldorf/faqs {"metadata":{"name":"Häufige Fragen"},"lock":{"move":true,"remove":true}} -->
+				<!-- wp:waldorf/faq {"question":"Ab welchem Alter können Kinder aufgenommen werden?","answer":"In der Wiegenstube ab einem Jahr, in den Familiengruppen ab zwei Jahren. Entscheidend ist, dass Ihr Kind bereit für den Schritt ist – das besprechen wir gemeinsam.","metadata":{"name":"FAQ: Aufnahmealter"}} /-->
+				<!-- wp:waldorf/faq {"question":"Was kostet ein Platz?","answer":"Die Beiträge richten sich nach Betreuungsumfang und Einkommen. Die aktuelle Gebührenordnung finden Sie bei den Downloads. Niemand soll aus finanziellen Gründen fernbleiben – sprechen Sie uns an.","metadata":{"name":"FAQ: Kosten"}} /-->
+				<!-- wp:waldorf/faq {"question":"Müssen Eltern mitarbeiten?","answer":"Als Elterninitiative leben wir vom Mitmachen: Gartentage, Basteln für den Basar, Vorstandsarbeit. Der Umfang ist überschaubar und wird gemeinsam abgestimmt.","metadata":{"name":"FAQ: Elternmitarbeit"}} /-->
+				<!-- wp:waldorf/faq {"question":"Wie läuft die Eingewöhnung ab?","answer":"Behutsam und individuell. In den ersten Tagen bleiben Sie dabei, danach lösen Sie sich schrittweise. Zwei bis vier Wochen sind üblich.","metadata":{"name":"FAQ: Eingewöhnung"}} /-->
+				<!-- wp:waldorf/faq {"question":"Gibt es einen Waldtag bei jedem Wetter?","answer":"Ja. Mit passender Kleidung ist fast jedes Wetter gutes Wetter. Nur bei Sturm bleiben wir am Haus.","metadata":{"name":"FAQ: Waldtag"}} /-->
+			<!-- /wp:waldorf/faqs -->
 		</div>
 		<!-- /wp:column -->
 	</div>

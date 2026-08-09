@@ -5,18 +5,8 @@
  * Categories: waldorf-sections
  * Description: Kontaktdaten als Tabelle neben einem Platz für die Karte.
  */
-
-$waldorf_pb_contact = array(
-	array( 'Adresse',    'Limburger Str. 79<br>65510 Idstein' ),
-	array( 'Telefon',    '<a href="tel:0612692141">06126 / 92141</a>' ),
-	array( 'E-Mail',     '<a href="mailto:info@waldorfkindergarten-idstein.de">info@waldorfkindergarten-idstein.de</a>' ),
-	array( 'Kernzeit',   'Mo–Fr 7:30 – 12:00 Uhr' ),
-	array( 'Verlängert', 'Mo–Do bis 15:15 Uhr · Fr bis 14:00 Uhr' ),
-	array( 'Büro',       'Di &amp; Do 9:00 – 12:00 Uhr' ),
-	array( 'Träger',     'Idsteiner Waldorfkindergarten e.V.' ),
-);
 ?>
-<!-- wp:group {"anchor":"kontakt","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"anchor":"kontakt","metadata":{"name":"Kontakt und Öffnungszeiten"},"lock":{"move":true,"remove":true},"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
 <div class="wp-block-group" id="kontakt" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">
@@ -29,14 +19,15 @@ $waldorf_pb_contact = array(
 	<div class="wp-block-columns" style="margin-top:46px">
 		<!-- wp:column -->
 		<div class="wp-block-column">
-			<!-- wp:html -->
-			<div class="pb-kbox">
-				<h3>Kontakt &amp; Öffnungszeiten</h3>
-				<?php foreach ( $waldorf_pb_contact as $waldorf_pb_row ) : ?>
-					<div class="pb-krow"><span><?php echo esc_html( $waldorf_pb_row[0] ); ?></span><b><?php echo wp_kses_post( $waldorf_pb_row[1] ); ?></b></div>
-				<?php endforeach; ?>
-			</div>
-			<!-- /wp:html -->
+			<!-- wp:waldorf/kontaktbox {"heading":"Kontakt & Öffnungszeiten","metadata":{"name":"Kontaktdaten"},"lock":{"move":true,"remove":true}} -->
+				<!-- wp:waldorf/kontaktzeile {"label":"Adresse","value":"Limburger Str. 79<br>65510 Idstein","linkType":"address","metadata":{"name":"Adresse"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"Telefon","value":"06126 / 92141","linkType":"tel","metadata":{"name":"Telefon"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"E-Mail","value":"info@waldorfkindergarten-idstein.de","linkType":"email","metadata":{"name":"E-Mail"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"Kernzeit","value":"Mo–Fr 7:30 – 12:00 Uhr","metadata":{"name":"Kernzeit"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"Verlängert","value":"Mo–Do bis 15:15 Uhr · Fr bis 14:00 Uhr","metadata":{"name":"Verlängerte Öffnungszeit"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"Büro","value":"Di & Do 9:00 – 12:00 Uhr","metadata":{"name":"Bürozeiten"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"Träger","value":"Idsteiner Waldorfkindergarten e.V.","metadata":{"name":"Träger"}} /-->
+			<!-- /wp:waldorf/kontaktbox -->
 		</div>
 		<!-- /wp:column -->
 

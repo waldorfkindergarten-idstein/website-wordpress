@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/download",
+	"version": "1.0.0",
+	"title": "Download",
+	"category": "waldorf",
+	"icon": "download",
+	"description": "Eine Datei aus der Mediathek mit Titel und Beschreibung.",
+	"textdomain": "waldorf-pfirsichbluete",
+	"parent": [ "waldorf/downloads" ],
+	"attributes": {
+		"id": {
+			"type": "integer",
+			"default": 0
+		},
+		"fileUrl": {
+			"type": "string",
+			"default": "#"
+		},
+		"title": {
+			"type": "string",
+			"default": "Dokument"
+		},
+		"description": {
+			"type": "string",
+			"default": ""
+		},
+		"fallbackType": {
+			"type": "string",
+			"default": "PDF"
+		},
+		"fallbackSize": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/kontaktzeile",
+	"version": "1.0.0",
+	"title": "Kontaktzeile",
+	"category": "waldorf",
+	"icon": "id-alt",
+	"description": "Eine Bezeichnung mit Kontaktangabe oder Öffnungszeit.",
+	"textdomain": "waldorf-pfirsichbluete",
+	"parent": [ "waldorf/kontaktbox" ],
+	"attributes": {
+		"label": {
+			"type": "string",
+			"default": "Bezeichnung"
+		},
+		"value": {
+			"type": "string",
+			"default": "Angabe"
+		},
+		"linkType": {
+			"type": "string",
+			"enum": [ "none", "address", "tel", "email" ],
+			"default": "none"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
