@@ -64,6 +64,10 @@ $waldorf_pb_url   = isset( $attributes['url'] ) ? (string) $attributes['url'] : 
 				$waldorf_pb_fact_value = is_array( $waldorf_pb_fact ) && isset( $waldorf_pb_fact['value'] )
 					? (string) $waldorf_pb_fact['value']
 					: '';
+
+				if ( '' === trim( wp_strip_all_tags( $waldorf_pb_fact_label ) ) && '' === trim( wp_strip_all_tags( $waldorf_pb_fact_value ) ) ) {
+					continue;
+				}
 				?>
 				<li><span><?php echo esc_html( wp_specialchars_decode( wp_strip_all_tags( $waldorf_pb_fact_label ), ENT_QUOTES ) ); ?></span><b><?php echo esc_html( wp_specialchars_decode( wp_strip_all_tags( $waldorf_pb_fact_value ), ENT_QUOTES ) ); ?></b></li>
 			<?php endforeach; ?>

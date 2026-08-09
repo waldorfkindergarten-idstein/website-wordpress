@@ -16,7 +16,7 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"metadata":{"name":"Teammitglieder"},"allowedBlocks":["waldorf/person"],"className":"pb-team","templateLock":"insert","style":{"spacing":{"margin":{"top":"44px"}}},"layout":{"type":"default"}} -->
+	<!-- wp:group {"metadata":{"name":"Teammitglieder"},"allowedBlocks":["waldorf/person"],"className":"pb-team","templateLock":"insert","style":{"spacing":{"margin":{"top":"44px"},"blockGap":"0"}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-team" style="margin-top:44px">
 		<!-- wp:waldorf/person {"metadata":{"name":"Leitung"},"monogram":"L","name":"Leitung","role":"Pädagogische Gesamtleitung"} /-->
 		<!-- wp:waldorf/person {"metadata":{"name":"Sonnengruppe"},"monogram":"S","name":"Sonnengruppe","role":"Erzieherin & Gruppenleitung"} /-->

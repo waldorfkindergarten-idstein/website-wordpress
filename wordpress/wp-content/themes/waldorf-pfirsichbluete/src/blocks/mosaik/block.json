@@ -6,10 +6,19 @@
 	"title": "Foto-Mosaik",
 	"category": "waldorf",
 	"icon": "images-alt2",
-	"description": "Vier frei sortierbare Fotos in einem festen Mosaik-Raster.",
+	"description": "Vier feste Fotoplätze. Bilder werden direkt in ihren Plätzen ersetzt.",
 	"keywords": [ "Bild", "Foto", "Galerie" ],
 	"textdomain": "waldorf-pfirsichbluete",
 	"allowedBlocks": [ "waldorf/photo" ],
+	"attributes": {
+		"isMosaic": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"providesContext": {
+		"waldorf/isMosaic": "isMosaic"
+	},
 	"supports": {
 		"html": false
 	},

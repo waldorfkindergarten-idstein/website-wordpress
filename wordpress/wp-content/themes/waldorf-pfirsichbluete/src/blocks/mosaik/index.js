@@ -23,7 +23,7 @@ function Edit() {
 	const innerBlocksProps = useInnerBlocksProps( blockProps, {
 		allowedBlocks: ALLOWED_BLOCKS,
 		template: TEMPLATE,
-		templateLock: 'insert',
+		templateLock: 'all',
 	} );
 
 	return <div { ...innerBlocksProps } />;

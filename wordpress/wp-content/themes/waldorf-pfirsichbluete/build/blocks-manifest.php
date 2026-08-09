@@ -120,7 +120,7 @@ return array(
 		'title' => 'Foto-Mosaik',
 		'category' => 'waldorf',
 		'icon' => 'images-alt2',
-		'description' => 'Vier frei sortierbare Fotos in einem festen Mosaik-Raster.',
+		'description' => 'Vier feste Fotoplätze. Bilder werden direkt in ihren Plätzen ersetzt.',
 		'keywords' => array(
 			'Bild',
 			'Foto',
@@ -129,6 +129,15 @@ return array(
 		'textdomain' => 'waldorf-pfirsichbluete',
 		'allowedBlocks' => array(
 			'waldorf/photo'
+		),
+		'attributes' => array(
+			'isMosaic' => array(
+				'type' => 'boolean',
+				'default' => true
+			)
+		),
+		'providesContext' => array(
+			'waldorf/isMosaic' => 'isMosaic'
 		),
 		'supports' => array(
 			'html' => false
@@ -248,6 +257,9 @@ return array(
 		),
 		'supports' => array(
 			'html' => false
+		),
+		'usesContext' => array(
+			'waldorf/isMosaic'
 		),
 		'example' => array(
 			'attributes' => array(
