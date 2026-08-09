@@ -19,7 +19,7 @@
 
 		<!-- wp:buttons -->
 		<div class="wp-block-buttons">
-			<!-- wp:button {"className":"is-style-ghost is-small"} --><div class="wp-block-button is-style-ghost is-small"><a class="wp-block-button__link wp-element-button" href="/aktuelles">Alle Beiträge</a></div><!-- /wp:button -->
+			<!-- wp:button {"className":"is-style-ghost is-small"} --><div class="wp-block-button is-style-ghost is-small"><a class="wp-block-button__link wp-element-button" href="./aktuelles/">Alle Beiträge</a></div><!-- /wp:button -->
 		</div>
 		<!-- /wp:buttons -->
 	</div>

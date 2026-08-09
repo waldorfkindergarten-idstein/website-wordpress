@@ -58,11 +58,12 @@ The `waldorf-pfirsichbluete` block theme contains the completed visual homepage
 and editable dynamic content blocks. Its front-page template renders the content
 of the static page selected under WordPress **Settings > Reading**.
 
-On first deployment of the cutover, the theme migrates the recognized legacy
-homepage and source media into normal Gutenberg page content and Media Library
-attachments. The migration never assumes a page or attachment ID and refuses to
-overwrite unrecognized editor-owned content. Uploads and database changes remain
-deployment state and are not tracked by Git.
+After the atomic cutover deployment, the public homepage uses a canonical safe
+fallback until an authenticated administrator triggers the migration. The theme
+then migrates only exactly recognized legacy content and source media into normal
+Gutenberg page content and Media Library attachments. It never assumes a page or
+attachment ID and refuses to overwrite unrecognized editor-owned content.
+Uploads and database changes remain deployment state and are not tracked by Git.
 
 Editor and deployment instructions are maintained in
 `wordpress/wp-content/themes/waldorf-pfirsichbluete/readme.md`.

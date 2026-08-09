@@ -78,22 +78,66 @@ Schließtage bleiben absichtlich unverknüpft, bis die richtigen Dateien vorlieg
 
 ## Migration und Deployment
 
-Die Migration in `inc/content-migration.php` läuft nach dem Deployment einmalig
-vor dem Rendern der Startseite. Sie ermittelt ausschließlich die unter
-**Einstellungen > Lesen** konfigurierte statische Startseite, importiert Medien
-idempotent und ersetzt nur die bekannte Legacy-Startseite des alten Themes oder
-eine vollständig leere Seite. Nicht erkannte Inhalte werden nie überschrieben;
-Administratoren sehen stattdessen einen Hinweis.
+Code, Theme-Patterns und `wordpress/downloads/` müssen **atomar** als derselbe
+Release bereitgestellt werden. Solange die Migrationsversion fehlt, ersetzt ein
+Frontend-Filter ausschließlich den Inhalt der echten statischen Startseite durch
+das kanonische Fallback-Pattern. Besucher sehen deshalb auch bei einem Fehler
+weder eine leere noch die alte Legacy-Seite. Nach erfolgreicher Migration wird
+der Filter mit dem Setzen der Versionsoption sofort wirkungslos.
+Die gehärtete Cutover-Migration verwendet Version `2`; eine eventuell von einem
+frühen Testlauf gesetzte Version `1` wird dadurch sicher erneut geprüft.
 
-Bereits vorhandene neue Waldorf-Blöcke werden nicht neu angelegt. Die Migration
-ergänzt dort nur fehlende IDs für bekannte Fallback-Fotos und eindeutig
-zuordenbare Download-Platzhalter. Vor dem Ersetzen von Legacy-Inhalten wird eine
-Revision angefordert. Erst nach erfolgreichem Speichern wird die
-Migrationsversion gesetzt.
+Automatische Schreibzugriffe laufen nicht bei anonymen Aufrufen. Erst ein
+angemeldeter Administrator mit `manage_options` startet die Migration über
+`admin_init`. Nach einem Fehler werden automatische Wiederholungen fünf Minuten
+gedrosselt. Der Admin-Hinweis bietet **Jetzt erneut versuchen** als
+Nonce-geschützten sofortigen Retry. Vorher immer die gemeldete Ursache beheben.
+Für kontrollierte CLI-Deployments bleibt ein direkter Aufruf möglich:
 
-Uploads und Datenbank sind nicht Teil von Git. Deshalb nach jedem Deployment
-im Backend den Migrationshinweis, die Mediathek und **Seiten > Start** prüfen und
-anschließend die öffentliche Startseite auf Desktop und Mobil kontrollieren.
+```bash
+wp eval '$result = waldorf_pb_run_content_migration(); var_dump( $result );'
+```
+
+Die Migration verwendet ausschließlich die unter **Einstellungen > Lesen**
+konfigurierte Seite. Legacy-Inhalt wird nur bei einem exakt freigegebenen,
+normalisierten SHA-256-Hash ersetzt; zusätzliche oder bearbeitete Legacy-Inhalte
+gelten als unbekannt. Bereits migrierte Seiten müssen das vollständige
+kanonische Abschnittsschema besitzen. Texte, Medien und Reihenfolge dürfen dabei
+redaktionell geändert sein. Unbekannte oder unvollständige Inhalte werden nie
+überschrieben. Verifizierte produktive Legacy-Varianten können technisch über
+`waldorf_pb_legacy_content_hashes` ergänzt werden; niemals Teil- oder
+Substring-Signaturen freigeben.
+
+Vor Medien- oder Seitenänderungen prüft die Migration alle Blockregistrierungen,
+Quelldateien, Prüfsummen sowie Upload-Verzeichnisse. Eine im
+**Design > Website-Editor > Templates > Startseite** gespeicherte DB-Anpassung
+hat Vorrang vor der Theme-Datei und stoppt die Migration. Dort **Startseite**
+öffnen, über das Drei-Punkte-Menü die Anpassungen prüfen und mit
+**Anpassungen löschen** beziehungsweise **Zurücksetzen** entfernen. Bis dahin
+erzwingt das Frontend aus Sicherheitsgründen die Theme-Datei mit dem Fallback.
+
+Vor jedem Seitenupdate entsteht die nicht automatisch geladene Sicherungsoption
+`waldorf_pb_content_migration_backup` mit Seiten-ID, Originalinhalt, SHA-256 und
+Zeitpunkt. Bei Legacy-Inhalt ist zusätzlich eine positive und inhaltlich
+verifizierte WordPress-Revision Pflicht. Nach dem Update werden Zielinhalt,
+Sicherung und Revision erneut geprüft; bei Abweichungen wird der Originalinhalt
+wiederhergestellt und keine Version gesetzt. Zur Diagnose:
+
+```bash
+wp option get waldorf_pb_content_migration_error --format=json
+wp option get waldorf_pb_content_migration_backup --format=json
+wp option get waldorf_pb_content_migration_version
+```
+
+Die Medien tragen stabile Metadaten für Quellname und SHA-256. Vorhandene
+markierte Anhänge werden gegen die aktuelle Quelldatei geprüft, nicht blind
+wiederverwendet. Das Download-Verzeichnis kann bei abweichendem Deployment über
+den Filter `waldorf_pb_download_source_directory` angepasst werden.
+
+Uploads und Datenbank sind nicht Teil von Git. Vor dem atomaren Deployment
+Datenbank und Uploads sichern. Danach als Administrator das Backend öffnen, den
+Migrationshinweis, die Mediathek und **Seiten > Start** prüfen und anschließend
+die öffentliche Startseite auf Desktop und Mobil kontrollieren.
 
 ## Entwicklung
 
@@ -110,7 +154,9 @@ npm run build
 npm run lint
 ```
 
-Die fokussierte Migrationsprüfung läuft aus dem Repository-Stamm mit:
+Die fokussierte, datenbankfreie Migrationsprüfung läuft aus dem Repository-Stamm
+mit. Sie prüft reine Helfer und Quellverträge, ersetzt aber keinen Integrationstest
+mit einer WordPress-Datenbank:
 
 ```bash
 php tests/verify-content-migration.php
