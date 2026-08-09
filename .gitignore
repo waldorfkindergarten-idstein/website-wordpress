@@ -20,3 +20,4 @@ node_modules/
 # Fingerabdruck baseline/geometry.json ist Text und wird eingecheckt.
 tests/visual/*/*.png
 tests/visual/diff-*/
+tests/visual/verify/
