@@ -19,10 +19,6 @@
     "text": {
       "type": "string",
       "default": "Beschreibung des Schritts."
-    },
-    "number": {
-      "type": "integer",
-      "default": 1
     }
   },
   "supports": {

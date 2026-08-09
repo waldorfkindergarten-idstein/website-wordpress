@@ -23,12 +23,12 @@
     "linkType": {
       "type": "string",
       "enum": [
-        "none",
+        "plain",
         "address",
-        "tel",
+        "telephone",
         "email"
       ],
-      "default": "none"
+      "default": "plain"
     }
   },
   "supports": {

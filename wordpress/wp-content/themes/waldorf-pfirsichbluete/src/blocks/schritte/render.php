@@ -4,20 +4,23 @@
  *
  * @package WaldorfPfirsichbluete
  *
- * @var WP_Block $block Block instance.
+ * @var string $content Rendered inner blocks.
  */
+
+$waldorf_pb_step_index   = 0;
+$waldorf_pb_step_content = preg_replace_callback(
+	'/<span class="pb-step__n">\d+<\/span>/',
+	static function () use ( &$waldorf_pb_step_index ) {
+		++$waldorf_pb_step_index;
+		return '<span class="pb-step__n">' . $waldorf_pb_step_index . '</span>';
+	},
+	$content
+);
+
+if ( ! is_string( $waldorf_pb_step_content ) ) {
+	$waldorf_pb_step_content = $content;
+}
 ?>
 <div class="pb-steps" style="margin-top:46px">
-	<?php
-	$waldorf_pb_step_index = 0;
-	foreach ( $block->parsed_block['innerBlocks'] as $waldorf_pb_step_block ) {
-		if ( ! isset( $waldorf_pb_step_block['blockName'] ) || 'waldorf/schritt' !== $waldorf_pb_step_block['blockName'] ) {
-			continue;
-		}
-
-		++$waldorf_pb_step_index;
-		$waldorf_pb_step_block['attrs']['number'] = $waldorf_pb_step_index;
-		echo render_block( $waldorf_pb_step_block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered by the registered child block.
-	}
-	?>
+	<?php echo $waldorf_pb_step_content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Rendered once by restricted registered child blocks. ?>
 </div>

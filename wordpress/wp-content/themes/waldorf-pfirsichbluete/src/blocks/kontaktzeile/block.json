@@ -20,8 +20,8 @@
 		},
 		"linkType": {
 			"type": "string",
-			"enum": [ "none", "address", "tel", "email" ],
-			"default": "none"
+			"enum": [ "plain", "address", "telephone", "email" ],
+			"default": "plain"
 		}
 	},
 	"supports": {

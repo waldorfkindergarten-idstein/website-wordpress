@@ -168,12 +168,12 @@ return array(
 			'linkType' => array(
 				'type' => 'string',
 				'enum' => array(
-					'none',
+					'plain',
 					'address',
-					'tel',
+					'telephone',
 					'email'
 				),
-				'default' => 'none'
+				'default' => 'plain'
 			)
 		),
 		'supports' => array(
@@ -272,10 +272,6 @@ return array(
 			'text' => array(
 				'type' => 'string',
 				'default' => 'Beschreibung des Schritts.'
-			),
-			'number' => array(
-				'type' => 'integer',
-				'default' => 1
 			)
 		),
 		'supports' => array(
