@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "waldorf/siegel",
+  "version": "1.0.0",
+  "title": "Siegel",
+  "category": "waldorf",
+  "icon": "awards",
+  "description": "Das runde Siegel am Hero-Foto.",
+  "textdomain": "waldorf-pfirsichbluete",
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Seit<br>1987"
+    },
+    "label": {
+      "type": "string",
+      "default": "Elterninitiative"
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

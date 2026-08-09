@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/chip",
+	"version": "1.0.0",
+	"title": "Merkmal",
+	"category": "waldorf",
+	"icon": "tag",
+	"description": "Ein kurzes Merkmal im Hero-Bereich.",
+	"parent": [ "waldorf/sammlung" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"attributes": {
+		"text": {
+			"type": "string",
+			"default": "Merkmal"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

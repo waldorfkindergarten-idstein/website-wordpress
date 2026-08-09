@@ -6,7 +6,7 @@
  * Description: Drei Wertekarten mit Aufzählung, darunter das pädagogische Leitbild.
  */
 ?>
-<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
+<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"},"templateLock":"all","metadata":{"name":"Werte und Leitbild"}} -->
 <div class="wp-block-group" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)">
 	<!-- wp:group {"className":"pb-reveal pb-sec-head","layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-reveal pb-sec-head">
@@ -65,11 +65,6 @@
 	</div>
 	<!-- /wp:columns -->
 
-	<!-- wp:html -->
-	<div class="pb-credo pb-reveal" style="margin-top:44px">
-		<blockquote>Erziehen heißt, dem Kind Raum geben – und ihm dabei ein gutes Vorbild sein.</blockquote>
-		<cite>Unser pädagogisches Leitbild</cite>
-	</div>
-	<!-- /wp:html -->
+	<!-- wp:waldorf/credo {"quote":"Erziehen heißt, dem Kind Raum geben – und ihm dabei ein gutes Vorbild sein.","citation":"Unser pädagogisches Leitbild","metadata":{"name":"Pädagogisches Leitbild"}} /-->
 </div>
 <!-- /wp:group -->
