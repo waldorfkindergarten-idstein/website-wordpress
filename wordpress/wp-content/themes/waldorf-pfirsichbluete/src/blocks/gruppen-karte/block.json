@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "waldorf/gruppen-karte",
+	"version": "1.0.0",
+	"title": "Gruppenkarte",
+	"category": "waldorf",
+	"icon": "index-card",
+	"description": "Eine Gruppe mit Foto, Beschreibung, Eckdaten und Link.",
+	"keywords": [ "Gruppe", "Karte", "Kindergarten" ],
+	"textdomain": "waldorf-pfirsichbluete",
+	"parent": [ "waldorf/gruppen-raster" ],
+	"attributes": {
+		"id": {
+			"type": "integer",
+			"default": 0
+		},
+		"fallback": {
+			"type": "string",
+			"default": "photo-morgenkreis.jpg"
+		},
+		"focalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
+		"alt": {
+			"type": "string",
+			"default": ""
+		},
+		"caption": {
+			"type": "string",
+			"default": ""
+		},
+		"tag": {
+			"type": "string",
+			"default": "2–6 Jahre"
+		},
+		"title": {
+			"type": "string",
+			"default": "Familiengruppen"
+		},
+		"text": {
+			"type": "string",
+			"default": ""
+		},
+		"facts": {
+			"type": "array",
+			"default": [
+				{ "label": "Plätze", "value": "2 × 20 Kinder" },
+				{ "label": "Kernzeit", "value": "7:30 – 12:00 Uhr" },
+				{ "label": "Verlängert", "value": "bis 15:15 Uhr" },
+				{ "label": "Team", "value": "2 Fachkräfte + Praktikum" }
+			]
+		},
+		"linkLabel": {
+			"type": "string",
+			"default": "Mehr erfahren"
+		},
+		"url": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"render": "file:./render.php"
+}

@@ -57,6 +57,9 @@
   "supports": {
     "html": false
   },
+  "usesContext": [
+    "waldorf/isMosaic"
+  ],
   "example": {
     "attributes": {
       "caption": "Beispielbild · Freispiel im Garten"
