@@ -16,8 +16,6 @@
 			<!-- wp:heading {"fontSize":"2-x-large","style":{"spacing":{"margin":{"top":"0.28em"}}}} --><h2 class="wp-block-heading has-2-x-large-font-size" style="margin-top:0.28em">Alles Wichtige zum Mitnehmen</h2><!-- /wp:heading -->
 		</div>
 		<!-- /wp:group -->
-
-		<!-- wp:paragraph {"className":"pb-note-hand"} --><p class="pb-note-hand">Ihre eigenen Dateien ersetzen diese 1:1</p><!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
 
