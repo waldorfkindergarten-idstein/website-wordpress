@@ -6,7 +6,7 @@ import metadata from './block.json';
 
 function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
-		className: 'pb-quote pb-reveal is-in',
+		className: 'pb-quote pb-reveal',
 	} );
 
 	return (

@@ -39,10 +39,6 @@
 				<!-- wp:waldorf/chip {"text":"Waldtag am Freitag"} /-->
 			<!-- /wp:waldorf/sammlung -->
 
-			<!-- wp:paragraph {"className":"pb-note-hand","style":{"spacing":{"margin":{"top":"20px"}}}} -->
-			<p class="pb-note-hand" style="margin-top:20px">Alle Fotos sind Beispielbilder – Ihre eigenen setzen wir 1:1 an dieselben Stellen.</p>
-			<!-- /wp:paragraph -->
-
 			<!-- wp:waldorf/sammlung {"variant":"facts","metadata":{"name":"Kennzahlen"}} -->
 				<!-- wp:waldorf/fakt {"value":"39","label":"Jahre Elterninitiative"} /-->
 				<!-- wp:waldorf/fakt {"value":"3","label":"Gruppen im Haus"} /-->

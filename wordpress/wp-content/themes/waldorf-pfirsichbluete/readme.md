@@ -144,6 +144,46 @@ Datenbank und Uploads sichern. Danach als Administrator das Backend öffnen, den
 Migrationshinweis, die Mediathek und **Seiten > Start** prüfen und anschließend
 die öffentliche Startseite auf Desktop und Mobil kontrollieren.
 
+## Checkliste für den Livegang
+
+Vor dem Start für echte Besucher müssen folgende Punkte aktiv umgestellt
+werden; keiner davon passiert automatisch:
+
+- **Suchmaschinen-Sichtbarkeit**: `blog_public` steht aktuell auf `0`
+  (**Einstellungen > Lesen > „Suchmaschinen davon abhalten, diese Website zu
+  indizieren"**). Solange die Option gesetzt ist, bleibt die Seite
+  unindiziert und WordPress liefert überhaupt keine Sitemap aus. Vor dem
+  Launch umschalten und mit `wp option get blog_public` auf `1` prüfen.
+- **Domain**: `WP_HOME` und `WP_SITEURL` sind in `docker-compose.yml` fest auf
+  `http://localhost:8080` gepinnt. Für den Livegang beide Konstanten auf die
+  echte Domain umstellen.
+- **Papierkorb**: Die Seiten `kontakt`, `anmeldung-formulare`, `gruppen` und
+  `privacy-policy` liegen aktuell im Papierkorb. Vor dem endgültigen Leeren
+  bewusst bestätigen, dass ihr Inhalt nicht mehr gebraucht wird.
+
+## Aktuelles und Archiv-Templates
+
+Für die Beitragsliste gibt es zwei getrennte Flächen im Theme, die nicht
+gegeneinander ausgetauscht oder als redundant „aufgeräumt" werden dürfen:
+
+- **`/aktuelles/` (Seite 31)** ist die redaktionelle Beitragsübersicht. Ihr
+  Query-Loop steht direkt im Seiteninhalt — nicht in einem Pattern und nicht in
+  einem Template —, damit er wie jeder andere Abschnitt in der Listenansicht
+  verschiebbar und anpassbar bleibt. Die Kartendarstellung entspricht der von
+  `templates/index.html`.
+- **`templates/index.html`** ist WordPress' verpflichtendes Fallback-Template
+  der Template-Hierarchie. Auf dieser Seite wird es praktisch nie erreicht.
+- **`templates/archive.html`** bedient echte Kategorie-, Schlagwort- und
+  Datums-Archive; es gewinnt in der Hierarchie immer vor `index.html`.
+
+Seite 31 ist bewusst **nicht** unter **Einstellungen > Lesen** als
+„Seite für Beiträge" eingetragen (`page_for_posts` bleibt `0`): Sobald dort
+eine Seite eingetragen ist, ignoriert WordPress deren gespeicherten Inhalt
+vollständig und rendert stattdessen ausschließlich das Archiv-Template. Genau
+das „Bearbeiten dieser Seite bewirkt nichts"-Problem wollte dieses Projekt
+beseitigen. Deshalb lebt der Query-Loop im Seiteninhalt von Seite 31, obwohl
+er inhaltlich einem Archiv entspricht.
+
 ## Entwicklung
 
 ```bash

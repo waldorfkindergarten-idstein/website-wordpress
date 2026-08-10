@@ -6,7 +6,7 @@ import metadata from './block.json';
 
 function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( {
-		className: 'pb-credo pb-reveal is-in',
+		className: 'pb-credo pb-reveal',
 		style: { marginTop: '44px' },
 	} );
 

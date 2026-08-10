@@ -28,7 +28,14 @@ function waldorf_pb_setup(): void {
 	add_theme_support( 'wp-block-styles' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
 
-	add_editor_style( 'assets/css/components.css' );
+	// editor.css must follow components.css: it neutralises the reveal-on-scroll
+	// start state, which has no scroll and no theme.js inside the editor canvas.
+	add_editor_style(
+		array(
+			'assets/css/components.css',
+			'assets/css/editor.css',
+		)
+	);
 
 	load_theme_textdomain( 'waldorf-pfirsichbluete', get_template_directory() . '/languages' );
 }
@@ -227,7 +234,8 @@ function waldorf_pb_register_block_styles(): void {
 add_action( 'init', 'waldorf_pb_register_block_styles' );
 
 /**
- * Resolve section anchors in the header and footer against the site home.
+ * Resolve section anchors and bare page paths in the header and footer against
+ * the site's actual URLs.
  *
  * The nav and footer link to sections of the front page (`#gruppen`, `#haus`, …).
  * Left bare, those anchors only resolve while the visitor is already on the front
@@ -238,6 +246,13 @@ add_action( 'init', 'waldorf_pb_register_block_styles' );
  *
  * Same-document navigation is preserved: on the front page the browser still
  * treats the rewritten URL as an in-page jump, so smooth scrolling applies.
+ *
+ * The footer also links to ordinary pages (`/impressum`, `/datenschutz`, …) with
+ * the same bare root-relative style. Those are rewritten too, resolving each path
+ * against the published page of that slug via `get_permalink()` — which keeps
+ * working in a subdirectory install and if a page's permalink structure ever
+ * changes. A path with no matching published page falls back to the literal
+ * path under `home_url()`, so it still renders rather than disappearing.
  *
  * @param string $block_content Rendered block HTML.
  * @param array  $block         Parsed block.
@@ -254,9 +269,21 @@ function waldorf_pb_resolve_section_anchors( string $block_content, array $block
 
 	// Only bare in-page anchors — never `href="#"` on its own, which core uses
 	// for control elements such as the mobile overlay toggle.
-	return (string) preg_replace(
+	$block_content = (string) preg_replace(
 		'~href="#([A-Za-z][A-Za-z0-9_-]*)"~',
 		'href="' . $home . '#$1"',
+		$block_content
+	);
+
+	// Bare single-segment page paths, e.g. `href="/impressum"`.
+	return (string) preg_replace_callback(
+		'~href="/([A-Za-z0-9_-]+)/?"~',
+		static function ( array $matches ): string {
+			$page = get_page_by_path( $matches[1] );
+			$url  = $page instanceof WP_Post ? get_permalink( $page ) : home_url( '/' . $matches[1] . '/' );
+
+			return 'href="' . esc_url( (string) $url ) . '"';
+		},
 		$block_content
 	);
 }

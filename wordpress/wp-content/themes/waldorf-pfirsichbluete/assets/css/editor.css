@@ -1,0 +1,20 @@
+/* -------------------------------------------------------------------------
+ * Editor-only corrections to components.css
+ *
+ * components.css is shared with the front end, where theme.js adds `is-in` to
+ * each `.pb-reveal` as it scrolls into view. That script never runs in the
+ * editor canvas, so the reveal start state (opacity 0) would hide most of the
+ * front page: the eight section headings, the hero figure, the glass cards and
+ * every block whose wrapper carries the class. The blocks stay selectable and
+ * their sidebar controls keep working, which makes the symptom read as a broken
+ * block rather than as a missing class.
+ *
+ * The doubled class wins over the components.css rule no matter which order
+ * WordPress injects the two editor stylesheets in.
+ * ---------------------------------------------------------------------- */
+
+.pb-reveal.pb-reveal {
+	opacity: 1;
+	transform: none;
+	transition: none;
+}

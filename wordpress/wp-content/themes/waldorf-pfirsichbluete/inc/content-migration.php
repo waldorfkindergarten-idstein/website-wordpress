@@ -174,6 +174,40 @@ function waldorf_pb_complete_front_page_schema(): array {
 }
 
 /**
+ * Resolve a block's anchor id, falling back to its outermost HTML tag's id.
+ *
+ * The `anchor` block support is HTML-sourced ( `attribute: 'id', selector: '*'` ),
+ * so the block editor writes it only as `id="..."` on the block's wrapper
+ * element and never back into the comment-JSON `attrs`. `parse_blocks()` only
+ * sees the comment JSON, so a saved block's anchor must be read from its
+ * markup instead. Only the block's own outermost opening tag is inspected so
+ * an id belonging to nested content is never mistaken for the block's anchor.
+ *
+ * @param array<string, mixed> $block Parsed block array from parse_blocks().
+ * @return string The anchor id, or an empty string when the block has none.
+ */
+function waldorf_pb_front_page_block_anchor( array $block ): string {
+	$attrs = isset( $block['attrs'] ) && is_array( $block['attrs'] ) ? $block['attrs'] : array();
+	if ( isset( $attrs['anchor'] ) && is_string( $attrs['anchor'] ) && '' !== $attrs['anchor'] ) {
+		return $attrs['anchor'];
+	}
+
+	$inner_html = isset( $block['innerHTML'] ) ? (string) $block['innerHTML'] : '';
+	if ( '' === trim( $inner_html ) ) {
+		return '';
+	}
+
+	$tags = new WP_HTML_Tag_Processor( $inner_html );
+	if ( ! $tags->next_tag() ) {
+		return '';
+	}
+
+	$id = $tags->get_attribute( 'id' );
+
+	return is_string( $id ) ? $id : '';
+}
+
+/**
  * Derive stable top-level schema tokens from concrete page blocks.
  *
  * @return string[]
@@ -209,7 +243,7 @@ function waldorf_pb_front_page_schema_from_content( string $content ): array {
 			continue;
 		}
 
-		$anchor = isset( $attrs['anchor'] ) ? (string) $attrs['anchor'] : '';
+		$anchor = waldorf_pb_front_page_block_anchor( $block );
 		if ( in_array( $anchor, $anchor_names, true ) ) {
 			$schema[] = 'section:' . $anchor;
 			continue;

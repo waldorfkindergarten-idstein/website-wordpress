@@ -19,6 +19,17 @@ require ABSPATH . 'wp-includes/class-wp-block-parser-block.php';
 require ABSPATH . 'wp-includes/class-wp-block-parser-frame.php';
 require ABSPATH . 'wp-includes/class-wp-block-parser.php';
 
+// The migration's anchor fallback reads an outermost tag's id via the HTML
+// API, so load the same small dependency chain WordPress core loads for it
+// (see wp-settings.php), in the same order, without pulling in the rest of WP.
+require ABSPATH . 'wp-includes/class-wp-token-map.php';
+require ABSPATH . 'wp-includes/html-api/html5-named-character-references.php';
+require ABSPATH . 'wp-includes/html-api/class-wp-html-attribute-token.php';
+require ABSPATH . 'wp-includes/html-api/class-wp-html-span.php';
+require ABSPATH . 'wp-includes/html-api/class-wp-html-text-replacement.php';
+require ABSPATH . 'wp-includes/html-api/class-wp-html-decoder.php';
+require ABSPATH . 'wp-includes/html-api/class-wp-html-tag-processor.php';
+
 class WP_Error {
 	/** @var string */
 	private $code;
@@ -335,7 +346,13 @@ verify( isset( $registered_filters['get_block_templates'] ), 'Plural template re
 verify( isset( $registered_actions['admin_init'] ) && ! isset( $registered_actions['init'] ), 'Automatic writes are registered only on admin_init.' );
 
 $functions = file_get_contents( $theme . '/functions.php' );
-verify( false !== strpos( $functions, "add_editor_style( 'assets/css/components.css' )" ), 'Shared component styles load in the editor.' );
+preg_match( '/add_editor_style\(\s*(.*?)\s*\);/s', $functions, $editor_style_call );
+$editor_styles    = isset( $editor_style_call[1] ) ? $editor_style_call[1] : '';
+$components_first = strpos( $editor_styles, "'assets/css/components.css'" );
+$corrections_next = strpos( $editor_styles, "'assets/css/editor.css'" );
+verify( false !== $components_first, 'Shared component styles load in the editor.' );
+verify( false !== $corrections_next, 'Editor-only corrections load in the editor.' );
+verify( false !== $components_first && false !== $corrections_next && $components_first < $corrections_next, 'Editor corrections load after the component styles they override.' );
 
 $migration_source = file_get_contents( $theme . '/inc/content-migration.php' );
 $page_update       = strpos( $migration_source, '$result = waldorf_pb_write_page_content(' );

@@ -17,8 +17,6 @@
 			<!-- wp:paragraph {"style":{"color":{"text":"#6e5a55"}}} --><p class="has-text-color" style="color:#6e5a55">Naturmaterialien, warme Lasurfarben und viel Tageslicht. Jeder Bereich hat seine eigene Stimmung – und seine eigene Tätigkeit.</p><!-- /wp:paragraph -->
 		</div>
 		<!-- /wp:group -->
-
-		<!-- wp:paragraph {"className":"pb-note-hand"} --><p class="pb-note-hand">Ihre Fotos kommen genau hierhin ↓</p><!-- /wp:paragraph -->
 	</div>
 	<!-- /wp:group -->
 
