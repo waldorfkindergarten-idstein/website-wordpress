@@ -17,7 +17,12 @@ services:
       retries: 10
 
   wordpress:
-    image: wordpress:6.9.4-php8.3-apache
+    # Only PHP and Apache come from this image. WordPress itself is served from
+    # the ./wordpress bind mount below, and the entrypoint leaves those files
+    # alone once index.php and wp-includes/version.php exist — so the tag never
+    # decides the WordPress version. Keep the major in step with the tracked
+    # core (7.0.3, matching the STRATO subdomain) and the PHP version pinned.
+    image: wordpress:7.0-php8.3-apache
     container_name: waldorf-wp-app
     restart: unless-stopped
     depends_on:
@@ -38,6 +43,27 @@ services:
         define( 'AUTOMATIC_UPDATER_DISABLED', true );
     volumes:
       - ./wordpress:/var/www/html
+
+  # WP-CLI, on demand: `docker compose run --rm wpcli option get blog_public`.
+  # It shares the same files and database as the web container. Previously the
+  # cli was installed by hand into the running container, so every `docker
+  # compose up` that recreated it silently took the tool away again.
+  wpcli:
+    image: wordpress:cli-php8.3
+    profiles:
+      - cli
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${WP_DB_NAME:-wordpress}
+      WORDPRESS_DB_USER: ${WP_DB_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD:-wordpress}
+    volumes:
+      - ./wordpress:/var/www/html
+    working_dir: /var/www/html
+    user: "33:33"
 
   adminer:
     image: adminer:4.8.1
