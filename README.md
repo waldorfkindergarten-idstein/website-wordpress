@@ -82,9 +82,14 @@ the root of the hosting package.
 Because the install is manual, **WordPress core is this project's responsibility**,
 not the host's. Core is tracked in this repository but is deliberately not uploaded
 by the pipeline: core updates are applied through the WordPress admin, and the copy
-here exists so local Docker mirrors the server. Keep the two in step — if core is
-updated on the server, update it here too, otherwise the local environment silently
-drifts from production.
+here exists so local Docker mirrors the server.
+
+> **The two are currently out of step.** The server runs **7.0.3** (`db_version`
+> 61833); this repository and `docker-compose.yml` pin **6.9.4** (`db_version`
+> 60717). Local development is therefore testing against a different major version
+> than production. Bring the tracked core and the Docker image up to the server's
+> version before relying on local results for anything core-sensitive — block
+> markup and block CSS in particular.
 
 Required repository secrets:
 
@@ -93,7 +98,13 @@ Required repository secrets:
 | `SFTP_HOST` | STRATO SFTP hostname |
 | `SFTP_USER` | SFTP username |
 | `SFTP_PASSWORD` | SFTP password |
-| `SFTP_REMOTE_PATH` | Document root **of the WordPress subdomain**, not of the hosting package |
+| `SFTP_REMOTE_PATH` | `/wp` — the WordPress document root, verified on the server |
+
+The SFTP account is chrooted: its root `/` is the hosting package, which still holds
+the **old static site** (`index.html`, `bilder/`, `css/`, `gallery/`, `js/`, …).
+WordPress lives beside it in `/wp`, which is why nothing here may ever be pointed at
+`/`. The account is SFTP-only — it has no shell — so deployment cannot run commands
+on the server, and the content migration has to be triggered from wp-admin.
 
 Three things the pipeline deliberately does not do:
 
