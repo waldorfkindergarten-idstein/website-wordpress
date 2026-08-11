@@ -25,3 +25,7 @@ node_modules/
 tests/visual/*/*.png
 tests/visual/diff-*/
 tests/visual/verify/
+
+# One-off database dump for the staging import. Contains user password
+# hashes and e-mail addresses — never commit it.
+waldorf-staging.sql
