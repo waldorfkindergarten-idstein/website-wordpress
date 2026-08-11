@@ -617,13 +617,39 @@ body.pb-no-labels .pb-photo figcaption {
 	/* Core paints the overlay white via
 	 * `.wp-block-navigation:not(.has-background) …is-menu-open`, which outranks
 	 * a plain `.pb-header …` selector. Matching its shape wins on specificity
-	 * without reaching for !important. */
+	 * without reaching for !important. The layers are the same ones the page
+	 * ground and the hero use: paper texture, then a peach wash from the top
+	 * right, over cream. */
 	.pb-header .wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open {
 		background-color: var(--pb-cream);
+		background-image:
+			radial-gradient(120% 78% at 88% -8%, rgba(217, 143, 134, 0.34), rgba(217, 143, 134, 0) 62%),
+			radial-gradient(90% 55% at 4% 104%, rgba(150, 166, 138, 0.2), rgba(150, 166, 138, 0) 60%),
+			url("../images/paper-texture.jpg");
+		background-size: auto, auto, 560px;
 	}
 
 	.pb-header .wp-block-navigation__responsive-container.is-menu-open {
 		padding: 22px 26px 40px;
+	}
+
+	/* A faded motif in the dead space below the menu, the same trick the
+	 * Jahreslauf cards use. Decorative only, so it stays out of the a11y tree. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open::after {
+		content: "";
+		position: absolute;
+		right: -46px;
+		bottom: -40px;
+		width: 210px;
+		height: 210px;
+		background: url("../images/deco-c.png") center / contain no-repeat;
+		opacity: 0.28;
+		pointer-events: none;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content {
+		position: relative;
+		z-index: 1;
 	}
 
 	/* The dropdown card is a desktop affordance. In the overlay the submenu is
@@ -644,9 +670,50 @@ body.pb-no-labels .pb-photo figcaption {
 		display: none;
 	}
 
+	/* Top-level entries read as headings, not as a default WordPress list: the
+	 * display serif at heading scale, a peach bullet echoing the utility bar
+	 * and the dotted list style, and a hairline between rows for rhythm. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item {
+		border-bottom: 1px solid var(--pb-line);
+		width: 100%;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:last-child {
+		border-bottom: 0;
+	}
+
 	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
 		padding: 0.42em 0;
 		font-size: 1.06rem;
+	}
+
+	/* The CTA is excluded throughout: it is a plum pill, not a list entry, and
+	 * the serif, the heading colour and the bullet all fight it. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:not(.pb-nav-cta) > .wp-block-navigation-item__content,
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:not(.pb-nav-cta) > .wp-block-navigation-submenu__toggle {
+		font-family: var(--pb-serif);
+		font-size: 1.5rem;
+		font-weight: 600;
+		color: var(--pb-ink-heading);
+		padding: 0.34em 0;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:not(.pb-nav-cta) > .wp-block-navigation-item__content::before {
+		content: "";
+		display: inline-block;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--pb-peach);
+		margin-right: 12px;
+		vertical-align: 0.28em;
+	}
+
+	/* Submenu children stay in the body sans so the hierarchy is legible. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+		font-family: var(--pb-sans);
+		font-size: 1rem;
+		color: var(--pb-ink-soft);
 	}
 
 	/* The underline sweep tracks a horizontal bar; it reads as a stray dash in
@@ -656,9 +723,39 @@ body.pb-no-labels .pb-photo figcaption {
 	}
 
 	.pb-header .wp-block-navigation__responsive-container.is-menu-open .pb-nav-cta .wp-block-navigation-item__content {
-		margin-top: 14px;
-		padding: 0.62em 1.3em;
-		font-size: 1rem;
+		margin-top: 22px;
+		padding: 0.78em 1.6em;
+		font-size: 1.02rem;
+		box-shadow: 0 16px 30px -18px rgba(120, 18, 70, 0.85);
+	}
+
+	/* Rows and their separators run the full width of the sheet. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content,
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container {
+		width: 100%;
+	}
+}
+
+/* Entries settle in one after another as the sheet opens. Purely decorative,
+ * so it is gated on the motion preference and the menu is fully usable the
+ * instant it appears either way. */
+@media (max-width: 900px) and (prefers-reduced-motion: no-preference) {
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item {
+		animation: pb-menu-item-in 0.42s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:nth-child(1) { animation-delay: 0.04s; }
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:nth-child(2) { animation-delay: 0.09s; }
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:nth-child(3) { animation-delay: 0.14s; }
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:nth-child(4) { animation-delay: 0.19s; }
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:nth-child(5) { animation-delay: 0.24s; }
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__responsive-container-content > .wp-block-navigation__container > .wp-block-navigation-item:nth-child(6) { animation-delay: 0.29s; }
+}
+
+@keyframes pb-menu-item-in {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
 	}
 }
 
@@ -1109,8 +1206,18 @@ body.pb-no-labels .pb-photo figcaption {
  * ---------------------------------------------------------------------- */
 
 .pb-timeline {
+	/* The rail and the dots are positioned against different boxes: the rail
+	 * against the list, each dot against its own item, which starts at the
+	 * list's padding edge. Deriving both from these three values keeps them
+	 * concentric — hardcoding the dot offset let it drift 8px off the rail as
+	 * soon as the narrow-screen padding changed. */
+	--pb-tl-pad: 40px;
+	--pb-tl-rail: 11px;
+	--pb-tl-rail-w: 3px;
+	--pb-tl-dot: 18px;
+
 	position: relative;
-	padding-left: 40px;
+	padding-left: var(--pb-tl-pad);
 	list-style: none;
 	margin: 0;
 }
@@ -1118,10 +1225,10 @@ body.pb-no-labels .pb-photo figcaption {
 .pb-timeline::before {
 	content: "";
 	position: absolute;
-	left: 11px;
+	left: var(--pb-tl-rail);
 	top: 8px;
 	bottom: 8px;
-	width: 3px;
+	width: var(--pb-tl-rail-w);
 	border-radius: 3px;
 	background: var(--pb-peach);
 }
@@ -1135,11 +1242,11 @@ body.pb-no-labels .pb-photo figcaption {
 	content: "";
 	box-sizing: border-box;
 	position: absolute;
-	left: -36.5px;
+	left: calc(var(--pb-tl-rail) + (var(--pb-tl-rail-w) / 2) - (var(--pb-tl-dot) / 2) - var(--pb-tl-pad));
 	top: calc(14px + 1rem);
 	transform: translateY(-50%);
-	width: 18px;
-	height: 18px;
+	width: var(--pb-tl-dot);
+	height: var(--pb-tl-dot);
 	border-radius: 50%;
 	background: var(--pb-cream);
 	border: 3px solid var(--pb-plum-light);
@@ -1182,7 +1289,7 @@ body.pb-no-labels .pb-photo figcaption {
 
 @media (max-width: 620px) {
 	.pb-timeline {
-		padding-left: 32px;
+		--pb-tl-pad: 32px;
 	}
 }
 
