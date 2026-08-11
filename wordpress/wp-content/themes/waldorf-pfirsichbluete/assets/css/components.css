@@ -557,13 +557,35 @@ body.pb-no-labels .pb-photo figcaption {
  * ---------------------------------------------------------------------- */
 
 @media (min-width: 600px) and (max-width: 900px) {
-	.pb-header .wp-block-navigation__responsive-container-open:not(.always-shown) {
-		display: flex;
-	}
-
 	.pb-header .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
 		display: none;
 	}
+}
+
+/* The overlay toggles are words, not glyphs — a hamburger and a stock X are the
+ * only hard-edged icons the design would own, so they are set as small ghost
+ * pills in the same idiom as `.is-style-ghost` buttons and `.pb-eyebrow`. */
+.pb-header .wp-block-navigation__responsive-container-open,
+.pb-header .wp-block-navigation__responsive-container-close {
+	font-family: var(--pb-sans);
+	font-size: 0.74rem;
+	font-weight: 800;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--pb-plum);
+	border: 1px solid var(--pb-line);
+	border-radius: var(--pb-pill);
+	padding: 0.5em 1.15em;
+	background: rgba(255, 255, 255, 0.4);
+	transition: background 0.3s, border-color 0.3s;
+}
+
+.pb-header .wp-block-navigation__responsive-container-open:hover,
+.pb-header .wp-block-navigation__responsive-container-close:hover,
+.pb-header .wp-block-navigation__responsive-container-open:focus-visible,
+.pb-header .wp-block-navigation__responsive-container-close:focus-visible {
+	background: rgba(120, 18, 70, 0.08);
+	border-color: rgba(120, 18, 70, 0.3);
 }
 
 /* The tap-to-call shortcut only exists while the utility bar is hidden. */
@@ -594,6 +616,18 @@ body.pb-no-labels .pb-photo figcaption {
 
 	.pb-call {
 		display: inline-flex;
+	}
+
+	/* Shown only here. `display` must not be set outside this query: core hides
+	 * the open toggle from 600px up with an equally specific rule, and an
+	 * unscoped display would outrank it and leave the pill on the desktop
+	 * header. min-height matches the call icon's 44px touch target. */
+	.pb-header .wp-block-navigation__responsive-container-open:not(.always-shown),
+	.pb-header .wp-block-navigation__responsive-container-close {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
 	}
 
 	.pb-header > .wp-block-group {
@@ -634,15 +668,21 @@ body.pb-no-labels .pb-photo figcaption {
 	}
 
 	/* A faded motif in the dead space below the menu, the same trick the
-	 * Jahreslauf cards use. Decorative only, so it stays out of the a11y tree. */
+	 * Jahreslauf cards use. Decorative only, so it stays out of the a11y tree.
+	 *
+	 * The bleed off the corner comes from the background position inside a box
+	 * that stops at the edge, not from negative offsets on the box itself: the
+	 * overlay is an `overflow: auto` scroll container, so an absolutely
+	 * positioned child hanging past its bottom-right adds real scrollable
+	 * overflow and gives the menu a stray scrollbar. */
 	.pb-header .wp-block-navigation__responsive-container.is-menu-open::after {
 		content: "";
 		position: absolute;
-		right: -46px;
-		bottom: -40px;
-		width: 210px;
-		height: 210px;
-		background: url("../images/deco-c.png") center / contain no-repeat;
+		right: 0;
+		bottom: 0;
+		width: 170px;
+		height: 170px;
+		background: url("../images/deco-c.png") right -34px bottom -30px / 210px no-repeat;
 		opacity: 0.28;
 		pointer-events: none;
 	}

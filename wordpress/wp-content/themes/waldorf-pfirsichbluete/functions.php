@@ -290,6 +290,34 @@ function waldorf_pb_resolve_section_anchors( string $block_content, array $block
 add_filter( 'render_block_core/template-part', 'waldorf_pb_resolve_section_anchors', 10, 2 );
 
 /**
+ * Put the navigation's overlay toggles into German.
+ *
+ * The block renders text toggles rather than a hamburger and an X, because the
+ * two stock glyphs sit outside this theme's iconography. With `hasIcon` off,
+ * core labels them with its own `Menu` and `Close` strings — and this install
+ * runs under `en_US` while every word on the site is German, so they arrive in
+ * English. Everything else in the theme states its German copy outright; these
+ * two are the same case and are handled the same way.
+ *
+ * @param string $block_content Rendered block HTML.
+ * @return string
+ */
+function waldorf_pb_translate_navigation_toggles( string $block_content ): string {
+	return str_replace(
+		array(
+			'>' . __( 'Menu' ) . '</button>',
+			'>' . __( 'Close' ) . '</button>',
+		),
+		array(
+			'>' . esc_html__( 'Menü', 'waldorf-pfirsichbluete' ) . '</button>',
+			'>' . esc_html__( 'Schließen', 'waldorf-pfirsichbluete' ) . '</button>',
+		),
+		$block_content
+	);
+}
+add_filter( 'render_block_core/navigation', 'waldorf_pb_translate_navigation_toggles' );
+
+/**
  * Expose the theme's image directory to patterns without repeating the lookup.
  */
 function waldorf_pb_img( string $file ): string {
