@@ -393,13 +393,34 @@ body.pb-no-labels .pb-photo figcaption {
 	position: sticky;
 	top: 0;
 	z-index: 50;
-	background: rgba(248, 241, 231, 0.72);
-	backdrop-filter: blur(10px);
 	transition: background 0.4s, box-shadow 0.4s, padding 0.4s;
 }
 
-.pb-header.is-scrolled {
+/* The frosted pane is a pseudo-element, not the header itself, and that is
+ * load-bearing: `backdrop-filter` makes an element a containing block for its
+ * `position: fixed` descendants. On .pb-header it trapped the navigation's
+ * mobile overlay inside the 88px header box — the menu opened but was clipped
+ * to a sliver. Same trap as `transform` and `filter`. */
+.pb-header::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(248, 241, 231, 0.72);
+	backdrop-filter: blur(10px);
+	transition: background 0.4s;
+	pointer-events: none;
+}
+
+/* Keep the header's own content painting above that pane. */
+.pb-header > * {
+	position: relative;
+}
+
+.pb-header.is-scrolled::before {
 	background: rgba(248, 241, 231, 0.93);
+}
+
+.pb-header.is-scrolled {
 	box-shadow: 0 1px 0 var(--pb-line), 0 18px 30px -30px rgba(74, 32, 46, 0.5);
 }
 
@@ -524,6 +545,121 @@ body.pb-no-labels .pb-photo figcaption {
 /* Mobile overlay: the plum pill would look out of place full-width */
 .pb-header .wp-block-navigation__responsive-container.is-menu-open .pb-nav-cta .wp-block-navigation-item__content {
 	display: inline-flex;
+}
+
+/* -------------------------------------------------------------------------
+ * Compact header below 900px
+ *
+ * core/navigation switches to the overlay at 600px, which is too late for a
+ * ten-item menu: between 600 and 900px the nav wraps and the header grows to
+ * 152–214px. The pair below moves that switch to 900px by inverting core's own
+ * `min-width: 600px` rules; everything wider is untouched.
+ * ---------------------------------------------------------------------- */
+
+@media (min-width: 600px) and (max-width: 900px) {
+	.pb-header .wp-block-navigation__responsive-container-open:not(.always-shown) {
+		display: flex;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+		display: none;
+	}
+}
+
+/* The tap-to-call shortcut only exists while the utility bar is hidden. */
+.pb-call {
+	display: none;
+	color: var(--pb-plum);
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border: 1px solid var(--pb-line);
+	border-radius: 50%;
+	flex: none;
+}
+
+.pb-call:hover,
+.pb-call:focus-visible {
+	background: rgba(120, 18, 70, 0.07);
+}
+
+@media (max-width: 900px) {
+	/* The utility bar costs 127px of a 780px viewport and repeats what the
+	 * footer and the contact section already carry. Only the phone number is a
+	 * genuine mobile action, so it stays — as an icon beside the menu button. */
+	.pb-topbar {
+		display: none;
+	}
+
+	.pb-call {
+		display: inline-flex;
+	}
+
+	.pb-header > .wp-block-group {
+		justify-content: flex-start;
+		column-gap: 10px;
+	}
+
+	/* Let the brand block take the slack so the call and menu controls sit at
+	 * the right edge. Growing the logo group rather than pushing the controls
+	 * with an auto margin keeps this independent of how the block layout
+	 * support chooses to set margins on its flex children. */
+	.pb-header > .wp-block-group > .wp-block-group:first-child {
+		flex: 1 1 auto;
+	}
+
+	.pb-header .wp-block-site-logo img,
+	.pb-header.is-scrolled .wp-block-site-logo img {
+		height: 44px;
+	}
+
+	/* Core paints the overlay white via
+	 * `.wp-block-navigation:not(.has-background) …is-menu-open`, which outranks
+	 * a plain `.pb-header …` selector. Matching its shape wins on specificity
+	 * without reaching for !important. */
+	.pb-header .wp-block-navigation:not(.has-background) .wp-block-navigation__responsive-container.is-menu-open {
+		background-color: var(--pb-cream);
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open {
+		padding: 22px 26px 40px;
+	}
+
+	/* The dropdown card is a desktop affordance. In the overlay the submenu is
+	 * simply an indented list under its parent, so the panel styling — border,
+	 * shadow, min-width, hover bridge — has to come back off. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container {
+		background: transparent;
+		border: 0;
+		border-left: 1px solid var(--pb-line);
+		border-radius: 0;
+		box-shadow: none;
+		min-width: 0;
+		margin-top: 2px;
+		padding: 0 0 0 16px;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation__submenu-container::before {
+		display: none;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content {
+		padding: 0.42em 0;
+		font-size: 1.06rem;
+	}
+
+	/* The underline sweep tracks a horizontal bar; it reads as a stray dash in
+	 * a vertical list. */
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .wp-block-navigation-item__content::after {
+		display: none;
+	}
+
+	.pb-header .wp-block-navigation__responsive-container.is-menu-open .pb-nav-cta .wp-block-navigation-item__content {
+		margin-top: 14px;
+		padding: 0.62em 1.3em;
+		font-size: 1rem;
+	}
 }
 
 /* -------------------------------------------------------------------------
