@@ -21,7 +21,11 @@ function Edit() {
 
 	return (
 		<ol { ...blockProps }>
-			<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } template={ TEMPLATE } templateLock={ false } />
+			<InnerBlocks
+				allowedBlocks={ ALLOWED_BLOCKS }
+				template={ TEMPLATE }
+				templateLock={ false }
+			/>
 		</ol>
 	);
 }

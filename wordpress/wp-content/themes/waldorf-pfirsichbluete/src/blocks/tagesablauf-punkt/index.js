@@ -1,4 +1,8 @@
-import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	RichText,
+	useBlockProps,
+} from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -14,11 +18,18 @@ function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Tagesablauf', 'waldorf-pfirsichbluete' ) }>
+				<PanelBody
+					title={ __( 'Tagesablauf', 'waldorf-pfirsichbluete' ) }
+				>
 					<ToggleControl
-						label={ __( 'Als verlängerte Betreuung markieren', 'waldorf-pfirsichbluete' ) }
+						label={ __(
+							'Als verlängerte Betreuung markieren',
+							'waldorf-pfirsichbluete'
+						) }
 						checked={ isExtended }
-						onChange={ ( value ) => setAttributes( { isExtended: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { isExtended: value } )
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -27,13 +38,20 @@ function Edit( { attributes, setAttributes } ) {
 				<div className="pb-tl__time">
 					<RichText
 						tagName="span"
-						placeholder={ __( 'Uhrzeit', 'waldorf-pfirsichbluete' ) }
+						placeholder={ __(
+							'Uhrzeit',
+							'waldorf-pfirsichbluete'
+						) }
 						value={ time }
 						allowedFormats={ [] }
-						onChange={ ( value ) => setAttributes( { time: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { time: value } )
+						}
 					/>
 					{ isExtended && (
-						<span className="pb-tl__badge">{ __( 'Verlängert', 'waldorf-pfirsichbluete' ) }</span>
+						<span className="pb-tl__badge">
+							{ __( 'Verlängert', 'waldorf-pfirsichbluete' ) }
+						</span>
 					) }
 				</div>
 				<RichText

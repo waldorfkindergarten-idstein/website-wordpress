@@ -9,7 +9,11 @@ function Edit( { attributes, setAttributes } ) {
 		<RichText
 			{ ...useBlockProps( {
 				className: 'pb-team-note',
-				style: { marginTop: '28px', fontSize: '.92rem', color: '#6e5a55' },
+				style: {
+					marginTop: '28px',
+					fontSize: '.92rem',
+					color: '#6e5a55',
+				},
 			} ) }
 			tagName="p"
 			placeholder={ __( 'Hinweis zum Team …', 'waldorf-pfirsichbluete' ) }

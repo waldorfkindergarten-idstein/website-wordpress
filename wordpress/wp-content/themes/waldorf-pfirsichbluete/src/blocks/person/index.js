@@ -7,7 +7,12 @@ import {
 	useBlockProps,
 } from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { Button, FocalPointPicker, PanelBody, TextControl } from '@wordpress/components';
+import {
+	Button,
+	FocalPointPicker,
+	PanelBody,
+	TextControl,
+} from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -19,18 +24,28 @@ const ALLOWED_MEDIA_TYPES = [ 'image' ];
 function getFallbackUrl( baseUrl, fallback ) {
 	const filename = fallback.split( '/' ).pop();
 
-	return filename && baseUrl ? `${ baseUrl }${ encodeURIComponent( filename ) }` : '';
+	return filename && baseUrl
+		? `${ baseUrl }${ encodeURIComponent( filename ) }`
+		: '';
 }
 
 function Edit( { attributes, setAttributes } ) {
 	const { alt, fallback, focalPoint, id, monogram, name, role } = attributes;
-	const media = useSelect( ( select ) => ( id ? select( coreStore ).getMedia( id ) : null ), [ id ] );
+	const media = useSelect(
+		( select ) => ( id ? select( coreStore ).getMedia( id ) : null ),
+		[ id ]
+	);
 	const fallbackBaseUrl = useSelect(
-		( select ) => select( blockEditorStore ).getSettings().waldorfPhotoImageBaseUrl || '',
+		( select ) =>
+			select( blockEditorStore ).getSettings().waldorfPhotoImageBaseUrl ||
+			'',
 		[]
 	);
 	const fallbackUrl = getFallbackUrl( fallbackBaseUrl, fallback );
-	const mediaUrl = media?.media_details?.sizes?.large?.source_url || media?.source_url || '';
+	const mediaUrl =
+		media?.media_details?.sizes?.large?.source_url ||
+		media?.source_url ||
+		'';
 	const imageUrl = mediaUrl || fallbackUrl;
 	const objectPosition = `${ focalPoint.x * 100 }% ${ focalPoint.y * 100 }%`;
 	const blockProps = useBlockProps( { className: 'pb-person pb-reveal' } );
@@ -45,7 +60,12 @@ function Edit( { attributes, setAttributes } ) {
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={ __( 'Foto oder Monogramm', 'waldorf-pfirsichbluete' ) }>
+				<PanelBody
+					title={ __(
+						'Foto oder Monogramm',
+						'waldorf-pfirsichbluete'
+					) }
+				>
 					<MediaUploadCheck>
 						<MediaUpload
 							onSelect={ onSelectImage }
@@ -54,36 +74,59 @@ function Edit( { attributes, setAttributes } ) {
 							render={ ( { open } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ id
-										? __( 'Foto ersetzen', 'waldorf-pfirsichbluete' )
-										: __( 'Foto auswählen', 'waldorf-pfirsichbluete' ) }
+										? __(
+												'Foto ersetzen',
+												'waldorf-pfirsichbluete'
+										  )
+										: __(
+												'Foto auswählen',
+												'waldorf-pfirsichbluete'
+										  ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 
 					{ id > 0 && (
-						<Button variant="tertiary" isDestructive onClick={ () => setAttributes( { id: 0 } ) }>
-							{ __( 'Monogramm verwenden', 'waldorf-pfirsichbluete' ) }
+						<Button
+							variant="tertiary"
+							isDestructive
+							onClick={ () => setAttributes( { id: 0 } ) }
+						>
+							{ __(
+								'Monogramm verwenden',
+								'waldorf-pfirsichbluete'
+							) }
 						</Button>
 					) }
 
 					{ imageUrl && (
 						<FocalPointPicker
-							label={ __( 'Bildausschnitt', 'waldorf-pfirsichbluete' ) }
+							label={ __(
+								'Bildausschnitt',
+								'waldorf-pfirsichbluete'
+							) }
 							url={ imageUrl }
 							value={ focalPoint }
-							onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
+							onChange={ ( value ) =>
+								setAttributes( { focalPoint: value } )
+							}
 						/>
 					) }
 
 					<TextControl
-						label={ __( 'Alternativtext', 'waldorf-pfirsichbluete' ) }
+						label={ __(
+							'Alternativtext',
+							'waldorf-pfirsichbluete'
+						) }
 						help={ __(
 							'Leer lassen, um den Alternativtext aus der Mediathek zu verwenden.',
 							'waldorf-pfirsichbluete'
 						) }
 						value={ alt }
-						onChange={ ( value ) => setAttributes( { alt: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { alt: value } )
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -91,15 +134,24 @@ function Edit( { attributes, setAttributes } ) {
 			<div { ...blockProps }>
 				<div className="pb-photo pb-shape-person pb-person__photo">
 					{ imageUrl ? (
-						<img src={ imageUrl } alt={ alt } style={ { objectPosition } } />
+						<img
+							src={ imageUrl }
+							alt={ alt }
+							style={ { objectPosition } }
+						/>
 					) : (
 						<RichText
 							tagName="span"
 							className="pb-person__mono"
-							placeholder={ __( 'Initiale', 'waldorf-pfirsichbluete' ) }
+							placeholder={ __(
+								'Initiale',
+								'waldorf-pfirsichbluete'
+							) }
 							value={ monogram }
 							allowedFormats={ [] }
-							onChange={ ( value ) => setAttributes( { monogram: value } ) }
+							onChange={ ( value ) =>
+								setAttributes( { monogram: value } )
+							}
 						/>
 					) }
 				</div>

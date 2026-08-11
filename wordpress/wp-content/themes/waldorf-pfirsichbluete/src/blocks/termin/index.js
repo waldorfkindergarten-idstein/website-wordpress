@@ -1,11 +1,28 @@
-import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+	RichText,
+	useBlockProps,
+} from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import metadata from './block.json';
 
-const MONTHS = [ 'Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez' ];
+const MONTHS = [
+	'Jan',
+	'Feb',
+	'Mär',
+	'Apr',
+	'Mai',
+	'Jun',
+	'Jul',
+	'Aug',
+	'Sep',
+	'Okt',
+	'Nov',
+	'Dez',
+];
 
 function getDateParts( date ) {
 	const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec( date );
@@ -28,10 +45,15 @@ function Edit( { attributes, setAttributes } ) {
 			<InspectorControls>
 				<PanelBody title={ __( 'Datum', 'waldorf-pfirsichbluete' ) }>
 					<TextControl
-						label={ __( 'Tag auswählen', 'waldorf-pfirsichbluete' ) }
+						label={ __(
+							'Tag auswählen',
+							'waldorf-pfirsichbluete'
+						) }
 						type="date"
 						value={ date }
-						onChange={ ( value ) => setAttributes( { date: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { date: value } )
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -46,14 +68,21 @@ function Edit( { attributes, setAttributes } ) {
 						value={ title }
 						allowedFormats={ [] }
 						placeholder={ __( 'Titel', 'waldorf-pfirsichbluete' ) }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { title: value } )
+						}
 					/>
 					<RichText
 						tagName="span"
 						value={ detail }
 						allowedFormats={ [] }
-						placeholder={ __( 'Uhrzeit und Hinweis', 'waldorf-pfirsichbluete' ) }
-						onChange={ ( value ) => setAttributes( { detail: value } ) }
+						placeholder={ __(
+							'Uhrzeit und Hinweis',
+							'waldorf-pfirsichbluete'
+						) }
+						onChange={ ( value ) =>
+							setAttributes( { detail: value } )
+						}
 					/>
 				</div>
 			</li>

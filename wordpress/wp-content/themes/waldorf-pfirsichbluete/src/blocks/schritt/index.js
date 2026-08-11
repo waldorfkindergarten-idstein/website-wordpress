@@ -1,4 +1,8 @@
-import { RichText, store as blockEditorStore, useBlockProps } from '@wordpress/block-editor';
+import {
+	RichText,
+	store as blockEditorStore,
+	useBlockProps,
+} from '@wordpress/block-editor';
 import { registerBlockType } from '@wordpress/blocks';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
@@ -11,7 +15,9 @@ function Edit( { attributes, clientId, setAttributes } ) {
 		( select ) => {
 			const editor = select( blockEditorStore );
 			const rootClientId = editor.getBlockRootClientId( clientId );
-			const position = editor.getBlockOrder( rootClientId ).indexOf( clientId );
+			const position = editor
+				.getBlockOrder( rootClientId )
+				.indexOf( clientId );
 
 			return position < 0 ? 1 : position + 1;
 		},
@@ -26,14 +32,20 @@ function Edit( { attributes, clientId, setAttributes } ) {
 				tagName="h4"
 				value={ title }
 				allowedFormats={ [] }
-				placeholder={ __( 'Titel des Schritts', 'waldorf-pfirsichbluete' ) }
+				placeholder={ __(
+					'Titel des Schritts',
+					'waldorf-pfirsichbluete'
+				) }
 				onChange={ ( value ) => setAttributes( { title: value } ) }
 			/>
 			<RichText
 				tagName="p"
 				value={ text }
 				allowedFormats={ [] }
-				placeholder={ __( 'Kurze Beschreibung', 'waldorf-pfirsichbluete' ) }
+				placeholder={ __(
+					'Kurze Beschreibung',
+					'waldorf-pfirsichbluete'
+				) }
 				onChange={ ( value ) => setAttributes( { text: value } ) }
 			/>
 		</div>

@@ -42,11 +42,16 @@ function formatFileSize( bytes ) {
 }
 
 function Edit( { attributes, setAttributes } ) {
-	const { description, fallbackSize, fallbackType, fileUrl, id, title } = attributes;
-	const media = useSelect( ( select ) => ( id ? select( coreStore ).getMedia( id ) : null ), [ id ] );
+	const { description, fallbackSize, fallbackType, fileUrl, id, title } =
+		attributes;
+	const media = useSelect(
+		( select ) => ( id ? select( coreStore ).getMedia( id ) : null ),
+		[ id ]
+	);
 	const currentUrl = media?.source_url || fileUrl;
 	const fileType = getFileType( currentUrl, fallbackType );
-	const fileSize = formatFileSize( media?.media_details?.filesize ) || fallbackSize;
+	const fileSize =
+		formatFileSize( media?.media_details?.filesize ) || fallbackSize;
 	const details = [ description, fileSize ].filter( Boolean ).join( ' · ' );
 	const blockProps = useBlockProps( { className: 'pb-dl pb-reveal' } );
 
@@ -76,17 +81,28 @@ function Edit( { attributes, setAttributes } ) {
 							render={ ( { open } ) => (
 								<Button variant="secondary" onClick={ open }>
 									{ id
-										? __( 'Andere Datei auswählen', 'waldorf-pfirsichbluete' )
-										: __( 'Datei auswählen', 'waldorf-pfirsichbluete' ) }
+										? __(
+												'Andere Datei auswählen',
+												'waldorf-pfirsichbluete'
+										  )
+										: __(
+												'Datei auswählen',
+												'waldorf-pfirsichbluete'
+										  ) }
 								</Button>
 							) }
 						/>
 					</MediaUploadCheck>
 					<TextControl
 						label={ __( 'Beschreibung', 'waldorf-pfirsichbluete' ) }
-						help={ __( 'Dateityp und Dateigröße werden automatisch ergänzt.', 'waldorf-pfirsichbluete' ) }
+						help={ __(
+							'Dateityp und Dateigröße werden automatisch ergänzt.',
+							'waldorf-pfirsichbluete'
+						) }
 						value={ description }
-						onChange={ ( value ) => setAttributes( { description: value } ) }
+						onChange={ ( value ) =>
+							setAttributes( { description: value } )
+						}
 					/>
 				</PanelBody>
 			</InspectorControls>
@@ -97,8 +113,13 @@ function Edit( { attributes, setAttributes } ) {
 						tagName="b"
 						value={ title }
 						allowedFormats={ [] }
-						placeholder={ __( 'Titel des Dokuments', 'waldorf-pfirsichbluete' ) }
-						onChange={ ( value ) => setAttributes( { title: value } ) }
+						placeholder={ __(
+							'Titel des Dokuments',
+							'waldorf-pfirsichbluete'
+						) }
+						onChange={ ( value ) =>
+							setAttributes( { title: value } )
+						}
 					/>
 					<small>{ details }</small>
 				</span>

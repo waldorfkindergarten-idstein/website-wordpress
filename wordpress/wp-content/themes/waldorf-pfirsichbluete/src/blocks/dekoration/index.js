@@ -14,7 +14,9 @@ function Edit( { attributes } ) {
 		return (
 			<button { ...blockProps } type="button">
 				<span aria-hidden="true">↑</span>
-				<span className="screen-reader-text">{ __( 'Nach oben', 'waldorf-pfirsichbluete' ) }</span>
+				<span className="screen-reader-text">
+					{ __( 'Nach oben', 'waldorf-pfirsichbluete' ) }
+				</span>
 			</button>
 		);
 	}

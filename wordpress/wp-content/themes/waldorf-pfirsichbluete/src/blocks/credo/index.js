@@ -16,7 +16,10 @@ function Edit( { attributes, setAttributes } ) {
 				tagName="blockquote"
 				value={ attributes.quote }
 				allowedFormats={ [] }
-				placeholder={ __( 'Leitbild-Zitat …', 'waldorf-pfirsichbluete' ) }
+				placeholder={ __(
+					'Leitbild-Zitat …',
+					'waldorf-pfirsichbluete'
+				) }
 				onChange={ ( quote ) => setAttributes( { quote } ) }
 			/>
 			<RichText
