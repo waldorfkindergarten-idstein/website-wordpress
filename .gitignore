@@ -3,6 +3,10 @@ latest.zip
 .env
 *:Zone.Identifier
 
+# Extracted design source, ~29 MB. A build input, not code — ignored so a bulk
+# `git add` cannot drop it into history, where it would stay for good.
+design.html
+
 wordpress/wp-config.php
 wordpress/.htaccess
 

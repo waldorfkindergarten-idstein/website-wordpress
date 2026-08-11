@@ -46,11 +46,58 @@ Do not track:
 - `wordpress/wp-content/languages/`
 - caches, upgrades, secrets
 
-## Deployment idea
+## Build step
 
-Use local Docker to verify design/theme changes first, then upload only changed files to STRATO via SFTP.
+The theme's blocks are compiled. `wordpress/wp-content/themes/waldorf-pfirsichbluete/build/`
+is **not** in git — CI builds it and uploads it from there. A fresh clone therefore
+has no registered blocks and the front page renders empty section by section until
+you build once:
 
-Important: git will version the code/files, but not WordPress database content such as pages, menus, users, and settings.
+```bash
+cd wordpress/wp-content/themes/waldorf-pfirsichbluete
+npm install
+npm run build      # or: npm run start, to rebuild on change
+```
+
+## Deployment
+
+Pushing to `main` builds, lints, runs the migration contract checks, and uploads
+to STRATO over SFTP — see `.github/workflows/`. Only two paths are ever uploaded:
+
+- `wordpress/wp-content/themes/waldorf-pfirsichbluete/` (minus `src/`, `node_modules/`
+  and the npm manifests)
+- `wordpress/downloads/`
+
+WordPress core is never deployed from this repository; STRATO keeps and updates its
+own. The theme directory is mirrored with deletion so stale block bundles cannot
+accumulate, and the workflow refuses to run if the computed remote path is not the
+theme directory.
+
+Required repository secrets:
+
+| Secret | Value |
+|---|---|
+| `SFTP_HOST` | STRATO SFTP hostname |
+| `SFTP_USER` | SFTP username |
+| `SFTP_PASSWORD` | SFTP password |
+| `SFTP_REMOTE_PATH` | WordPress document root on the server, e.g. `/htdocs` |
+
+Three things the pipeline deliberately does not do:
+
+- **It is not atomic.** Files land one at a time, so there is a brief window of
+  mixed versions. The theme's front-page fallback filter exists to cover it.
+- **It carries no database state.** Pages, menus, users, options and the Media
+  Library are deployment state and are not versioned here.
+- **It does not run the content migration.** Afterwards, sign in as an
+  administrator, follow the migration notice, and check **Seiten > Start** and the
+  public front page on desktop and mobile.
+
+Before the first real launch, work through the checklist in
+`wordpress/wp-content/themes/waldorf-pfirsichbluete/readme.md`.
+
+The visual regression suite (`tests/visual`) is not part of CI: it drives a browser
+against a populated WordPress instance and its baseline tracks real content. It stays
+a local gate — run `npm run check` there before merging anything that touches layout.
 
 ## Current design and editor status
 

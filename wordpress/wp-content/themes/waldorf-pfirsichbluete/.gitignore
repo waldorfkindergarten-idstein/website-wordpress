@@ -1,1 +1,6 @@
 node_modules/
+
+# Compiled block output. Built by CI and uploaded from there, so it is not
+# versioned — see .github/workflows/. A fresh clone therefore has no registered
+# blocks until `npm install && npm run build` has run once.
+build/

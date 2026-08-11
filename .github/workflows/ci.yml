@@ -1,0 +1,64 @@
+name: CI
+
+# Also callable from deploy.yml, so main is verified by exactly these steps
+# before anything reaches STRATO. Pushes to main are excluded here to avoid
+# running the same checks twice.
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+  workflow_call:
+
+defaults:
+  run:
+    working-directory: wordpress/wp-content/themes/waldorf-pfirsichbluete
+
+jobs:
+  theme:
+    name: Build, lint and verify
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: wordpress/wp-content/themes/waldorf-pfirsichbluete/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build blocks
+        run: npm run build
+
+      # register_block_type() reads this manifest; without it the theme silently
+      # registers no blocks and every waldorf/* block on the front page renders
+      # as nothing. Cheap to assert, expensive to discover in production.
+      - name: Assert the block manifest exists
+        run: test -f build/blocks-manifest.php
+
+      # Contract checks for the front-page migration. Database-free by design,
+      # so they need nothing but PHP. ubuntu-latest ships PHP 8.3.
+      - name: Migration contract checks
+        working-directory: ${{ github.workspace }}
+        run: |
+          php -v
+          php tests/verify-content-migration.php
+
+      # The visual regression suite in tests/visual is deliberately not run
+      # here: it drives a browser against a populated WordPress instance, and
+      # its baseline tracks real content. It stays a local pre-merge gate.
+
+      - name: Upload built theme
+        uses: actions/upload-artifact@v4
+        with:
+          name: theme-build
+          path: wordpress/wp-content/themes/waldorf-pfirsichbluete/build
+          retention-days: 7
+          if-no-files-found: error

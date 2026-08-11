@@ -1,0 +1,111 @@
+name: Deploy to STRATO
+
+on:
+  push:
+    branches:
+      - main
+
+# Two overlapping uploads would interleave files on the live site. Queue them
+# instead, and never cancel one midway — a half-finished upload is the one
+# state this deployment must not leave behind.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    uses: ./.github/workflows/ci.yml
+
+  deploy:
+    name: Upload theme and downloads
+    needs: verify
+    runs-on: ubuntu-latest
+    # Declared so required reviewers can be switched on in the repository
+    # settings later without touching this file.
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # build/ is not in git; take the exact artifact the verify job produced
+      # rather than rebuilding and hoping for the same output.
+      - uses: actions/download-artifact@v4
+        with:
+          name: theme-build
+          path: wordpress/wp-content/themes/waldorf-pfirsichbluete/build
+
+      - name: Install lftp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends lftp
+
+      - name: Upload over SFTP
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}
+          # lftp reads this itself via --env-password, so the password never
+          # appears in a command line or in the run log.
+          LFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          : "${SFTP_HOST:?secret SFTP_HOST is not set}"
+          : "${SFTP_USER:?secret SFTP_USER is not set}"
+          : "${LFTP_PASSWORD:?secret SFTP_PASSWORD is not set}"
+          : "${SFTP_REMOTE_PATH:?secret SFTP_REMOTE_PATH is not set}"
+
+          # SFTP_REMOTE_PATH is the WordPress document root on STRATO, e.g.
+          # /wordpress or /htdocs. Both targets are derived from it.
+          root="${SFTP_REMOTE_PATH%/}"
+          theme_remote="$root/wp-content/themes/waldorf-pfirsichbluete"
+          downloads_remote="$root/downloads"
+
+          echo "Theme     -> $theme_remote"
+          echo "Downloads -> $downloads_remote"
+
+          # Prove the document root really is a WordPress install before
+          # uploading anything. A mistyped SFTP_REMOTE_PATH would otherwise
+          # create a plausible-looking tree in the wrong place and report
+          # success. cmd:fail-exit turns the failed cd into a non-zero exit.
+          lftp -c "
+            set cmd:fail-exit yes;
+            set sftp:auto-confirm yes;
+            open -u '$SFTP_USER' --env-password sftp://$SFTP_HOST;
+            cd '$root/wp-content/themes';
+          " || { echo "Not a WordPress document root: '$root' — check SFTP_REMOTE_PATH"; exit 1; }
+
+          # The theme ships only what the site needs at runtime. src/ and the
+          # npm manifests are build inputs and stay off the server.
+          lftp -c "
+            set cmd:fail-exit yes;
+            set sftp:auto-confirm yes;
+            set net:max-retries 2;
+            set net:timeout 20;
+            open -u '$SFTP_USER' --env-password sftp://$SFTP_HOST;
+            mirror --reverse --delete --verbose --parallel=4 \
+              --exclude '^node_modules/' \
+              --exclude '^src/' \
+              --exclude '^package(-lock)?\.json$' \
+              --exclude '^\.gitignore$' \
+              wordpress/wp-content/themes/waldorf-pfirsichbluete '$theme_remote';
+            mirror --reverse --verbose --parallel=4 \
+              wordpress/downloads '$downloads_remote';
+          "
+
+      - name: What still needs a human
+        run: |
+          cat <<'NOTE'
+          Uploaded. Note what this does NOT do:
+
+            * It is not atomic. Files land one by one, so there is a short
+              window where theme code and patterns are mixed versions. The
+              theme's front-page fallback filter is what covers that window.
+            * It touches no database. Pages, menus, options and the Media
+              Library are deployment state and do not travel with git.
+            * It does not run the content migration. Sign in as an
+              administrator and follow the migration notice, then check
+              Seiten > Start and the public front page on desktop and mobile.
+            * WordPress core is never uploaded from this repository. STRATO
+              keeps its own core and updates it.
+          NOTE
