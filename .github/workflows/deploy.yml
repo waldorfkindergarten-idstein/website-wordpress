@@ -106,6 +106,9 @@ jobs:
             * It does not run the content migration. Sign in as an
               administrator and follow the migration notice, then check
               Seiten > Start and the public front page on desktop and mobile.
-            * WordPress core is never uploaded from this repository. STRATO
-              keeps its own core and updates it.
+            * It does not upload WordPress core. This install was set up by
+              hand on a subdomain with its own document root, so core is this
+              project's responsibility rather than the host's: update it
+              through the WordPress admin, and mirror the same version into
+              this repository so local Docker does not drift.
           NOTE

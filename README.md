@@ -68,10 +68,23 @@ to STRATO over SFTP — see `.github/workflows/`. Only two paths are ever upload
   and the npm manifests)
 - `wordpress/downloads/`
 
-WordPress core is never deployed from this repository; STRATO keeps and updates its
-own. The theme directory is mirrored with deletion so stale block bundles cannot
-accumulate, and the workflow refuses to run if the computed remote path is not the
-theme directory.
+The theme directory is mirrored with deletion so stale block bundles cannot
+accumulate. `wordpress/downloads/` is not, so nothing on the server is removed by
+surprise. Before uploading, the job proves the remote really is a WordPress install
+by entering `wp-content/themes`, so a mistyped path fails instead of quietly creating
+a tree in the wrong place.
+
+WordPress runs on a **subdomain with its own document root**, installed by hand — not
+through a STRATO one-click setup — so the previous site stays live during the
+transition. `SFTP_REMOTE_PATH` must therefore be that subdomain's document root, not
+the root of the hosting package.
+
+Because the install is manual, **WordPress core is this project's responsibility**,
+not the host's. Core is tracked in this repository but is deliberately not uploaded
+by the pipeline: core updates are applied through the WordPress admin, and the copy
+here exists so local Docker mirrors the server. Keep the two in step — if core is
+updated on the server, update it here too, otherwise the local environment silently
+drifts from production.
 
 Required repository secrets:
 
@@ -80,7 +93,7 @@ Required repository secrets:
 | `SFTP_HOST` | STRATO SFTP hostname |
 | `SFTP_USER` | SFTP username |
 | `SFTP_PASSWORD` | SFTP password |
-| `SFTP_REMOTE_PATH` | WordPress document root on the server, e.g. `/htdocs` |
+| `SFTP_REMOTE_PATH` | Document root **of the WordPress subdomain**, not of the hosting package |
 
 Three things the pipeline deliberately does not do:
 
