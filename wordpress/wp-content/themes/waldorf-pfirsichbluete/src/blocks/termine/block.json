@@ -6,13 +6,16 @@
 	"title": "Terminliste",
 	"category": "waldorf",
 	"icon": "calendar-alt",
-	"description": "Eine geschützte Liste kommender Termine.",
+	"description": "Die nächsten Termine aus dem Bereich „Termine“ im Backend.",
 	"textdomain": "waldorf-pfirsichbluete",
-	"allowedBlocks": [ "waldorf/termin" ],
 	"attributes": {
 		"heading": {
 			"type": "string",
 			"default": "Termine"
+		},
+		"count": {
+			"type": "integer",
+			"default": 4
 		}
 	},
 	"supports": {

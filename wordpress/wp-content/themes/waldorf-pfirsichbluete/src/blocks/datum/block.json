@@ -6,9 +6,13 @@
 	"title": "Terminhinweis",
 	"category": "waldorf",
 	"icon": "calendar-alt",
-	"description": "Ein hervorgehobener Termin am Hero-Foto.",
+	"description": "Terminhinweis. Zeigt automatisch das nächste Fest aus den Terminen.",
 	"textdomain": "waldorf-pfirsichbluete",
 	"attributes": {
+		"source": {
+			"type": "string",
+			"default": "auto"
+		},
 		"eyebrow": {
 			"type": "string",
 			"default": "Nächster Termin"

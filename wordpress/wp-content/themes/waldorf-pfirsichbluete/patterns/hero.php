@@ -53,7 +53,7 @@
 
 			<!-- wp:waldorf/siegel {"heading":"Seit<br>1987","label":"Elterninitiative","metadata":{"name":"Gründungssiegel"}} /-->
 
-			<!-- wp:waldorf/datum {"eyebrow":"Nächster Termin","title":"Kennenlerntag","date":"Di, 6. Oktober · 14–16 Uhr","metadata":{"name":"Nächster Termin"}} /-->
+			<!-- wp:waldorf/datum {"source":"auto","eyebrow":"Nächster Termin","metadata":{"name":"Nächster Termin"}} /-->
 		</div>
 		<!-- /wp:column -->
 	</div>

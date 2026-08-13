@@ -65,12 +65,7 @@
 
 		<!-- wp:column -->
 		<div class="wp-block-column">
-			<!-- wp:waldorf/termine {"heading":"Termine","metadata":{"name":"Termine"},"lock":{"move":true,"remove":true}} -->
-				<!-- wp:waldorf/termin {"date":"2026-10-06","title":"Kennenlerntag","detail":"14:00 – 16:00 Uhr · ohne Anmeldung","metadata":{"name":"Termin: Kennenlerntag"}} /-->
-				<!-- wp:waldorf/termin {"date":"2026-10-24","title":"Laternenbasteln","detail":"15:30 Uhr · für Familien","metadata":{"name":"Termin: Laternenbasteln"}} /-->
-				<!-- wp:waldorf/termin {"date":"2026-11-11","title":"Martinsumzug","detail":"17:00 Uhr · Treffpunkt am Haus","metadata":{"name":"Termin: Martinsumzug"}} /-->
-				<!-- wp:waldorf/termin {"date":"2026-12-06","title":"Adventsgarten","detail":"16:00 Uhr · nur mit Anmeldung","metadata":{"name":"Termin: Adventsgarten"}} /-->
-			<!-- /wp:waldorf/termine -->
+			<!-- wp:waldorf/termine {"heading":"Termine","metadata":{"name":"Termine"},"lock":{"move":true,"remove":true}} /-->
 		</div>
 		<!-- /wp:column -->
 	</div>

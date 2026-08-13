@@ -16,16 +16,7 @@
 	</div>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"metadata":{"name":"Teammitglieder"},"allowedBlocks":["waldorf/person"],"className":"pb-team","templateLock":"insert","style":{"spacing":{"margin":{"top":"44px"},"blockGap":"0"}},"layout":{"type":"default"}} -->
-	<div class="wp-block-group pb-team" style="margin-top:44px">
-		<!-- wp:waldorf/person {"metadata":{"name":"Leitung"},"monogram":"I","name":"Iris Born","role":"Pädagogische Leitung"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Stellvertretende Leitung"},"monogram":"A","name":"Anke Reinhold","role":"Stellvertretende Leitung"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Lerchennest"},"monogram":"L","name":"Lerchennest","role":"Erzieherin & Gruppenleitung"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Spatzennest"},"monogram":"S","name":"Spatzennest","role":"Erzieherin & Gruppenleitung"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Wiegenstube"},"monogram":"W","name":"Wiegenstube","role":"Krippenpädagogin"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Küche"},"monogram":"K","name":"Küche","role":"Frisch gekocht, jeden Tag"} /-->
-	</div>
-	<!-- /wp:group -->
+	<!-- wp:waldorf/team-raster {"metadata":{"name":"Teammitglieder"},"lock":{"move":true,"remove":true}} /-->
 
 	<!-- wp:waldorf/team-hinweis {"metadata":{"name":"Team-Hinweis"}} /-->
 </div>
