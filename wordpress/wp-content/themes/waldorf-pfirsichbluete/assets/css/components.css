@@ -1089,8 +1089,23 @@ body.pb-no-labels .pb-photo figcaption {
 	background: rgba(255, 255, 255, 0.5);
 	border-top: 1px solid var(--pb-line);
 	border-bottom: 1px solid var(--pb-line);
-	padding: 34px 0;
+	/* Matches the glass cards' horizontal padding so the quote never runs
+	   into the edge of its own panel on narrow screens. */
+	padding: 34px 28px;
 	text-align: center;
+}
+
+/*
+ * Wide, the credo is a band: a filled strip with a hairline above and below,
+ * spanning the content column. Narrow, the columns above it have stacked into
+ * cards and the same treatment reads as a card with its left and right sides
+ * missing — so below the stacking breakpoint it becomes a card too.
+ */
+@media (max-width: 781px) {
+	.pb-credo {
+		border: 1px solid var(--pb-line);
+		border-radius: var(--pb-r-xl);
+	}
 }
 
 .pb-credo blockquote {
