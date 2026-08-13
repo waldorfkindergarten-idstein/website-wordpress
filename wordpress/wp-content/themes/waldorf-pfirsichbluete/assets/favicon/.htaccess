@@ -1,0 +1,5 @@
+# Apache has no mapping for .webmanifest, so the file was served with no
+# Content-Type at all. Browsers mostly tolerate that; the spec does not.
+<IfModule mod_mime.c>
+	AddType application/manifest+json .webmanifest
+</IfModule>
