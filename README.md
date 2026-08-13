@@ -187,6 +187,37 @@ curl -sSL https://dl.static-php.dev/static-php-cli/bulk/php-8.3.32-cli-linux-x86
 mv ~/bin/php ~/bin/php-cli && chmod +x ~/bin/php-cli ~/bin/wp-cli.phar
 ```
 
+### Site language
+
+The site runs **de_DE**. This matters beyond the admin UI: it is what makes
+`<html lang="de">` correct for screen readers and search engines, and it is the
+precondition for `hyphens: auto` — without it, long German compounds such as
+`Verbraucherschlichtungsstelle` cannot be broken and force a horizontal scroll
+on narrow phones.
+
+Language packs live in `wp-content/languages/`, which is **not** in git and
+**not** deployed by the pipeline, so each environment installs its own. If an
+environment is rebuilt, restore it with:
+
+```bash
+wp language core install de_DE --activate
+```
+
+Locally that fails against the bind mount (the CLI container runs as uid 33 and
+cannot write `wp-content/languages` or `wp-content/upgrade`). Either create both
+directories writable first, or unzip the pack directly:
+
+```bash
+mkdir -p wordpress/wp-content/{languages,upgrade} && chmod 777 wordpress/wp-content/{languages,upgrade}
+curl -sSL "https://downloads.wordpress.org/translation/core/$(wp core version)/de_DE.zip" -o /tmp/de.zip
+unzip -o /tmp/de.zip -d wordpress/wp-content/languages
+wp option update WPLANG de_DE
+```
+
+With German core active, `waldorf_pb_translate_navigation_toggles()` in
+`functions.php` is redundant — core already renders "Menü" and "Schließen". It
+is left in place as a fallback should the locale ever be reset.
+
 ### Working on live content
 
 Content is **not** deployed. Once the site is live, production content is the source
