@@ -19,6 +19,7 @@ const WALDORF_PB_VERSION = '1.0.0';
 require_once get_template_directory() . '/inc/content-migration.php';
 require_once get_template_directory() . '/inc/content-types.php';
 require_once get_template_directory() . '/inc/termine.php';
+require_once get_template_directory() . '/inc/head-meta.php';
 
 /**
  * Theme supports. Block themes imply most of these, but editor styles and
