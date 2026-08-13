@@ -18,8 +18,8 @@
 			<p class="pb-kicker">Schön, dass Sie da sind</p>
 			<!-- /wp:paragraph -->
 
-			<!-- wp:heading {"level":1,"style":{"spacing":{"margin":{"top":"0.3em","bottom":"0.45em"}},"typography":{"textWrap":"balance"}}} -->
-			<h1 class="wp-block-heading" style="margin-top:0.3em;margin-bottom:0.45em;text-wrap:balance">Ein warmes Zuhause zum <em>Großwerden</em></h1>
+			<!-- wp:heading {"level":1,"style":{"spacing":{"margin":{"top":"0.3em","bottom":"0.45em"}}}} -->
+			<h1 class="wp-block-heading" style="margin-top:0.3em;margin-bottom:0.45em">Ein warmes Zuhause zum <em>Großwerden</em></h1>
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph {"fontSize":"large","style":{"color":{"text":"#5a4046"}}} -->

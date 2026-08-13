@@ -27,7 +27,7 @@
 			<!-- /wp:group -->
 
 			<!-- wp:group {"metadata":{"name":"Ein- und Ausatmen"},"className":"is-style-glass","style":{"spacing":{"margin":{"top":"26px"},"padding":{"top":"20px","bottom":"20px","left":"22px","right":"22px"}},"border":{"radius":"22px"}},"layout":{"type":"constrained"}} -->
-			<div class="wp-block-group is-style-glass" style="border-radius:22px;margin-top:26px;padding:20px 22px">
+			<div class="wp-block-group is-style-glass" style="border-radius:22px;margin-top:26px;padding-top:20px;padding-right:22px;padding-bottom:20px;padding-left:22px">
 				<!-- wp:paragraph {"style":{"typography":{"fontFamily":"var(--wp--preset--font-family--serif)","fontSize":"1.05rem","fontWeight":"600"}}} --><p style="font-family:var(--wp--preset--font-family--serif);font-size:1.05rem;font-weight:600">Ein- und Ausatmen</p><!-- /wp:paragraph -->
 				<!-- wp:paragraph {"fontSize":"small","style":{"color":{"text":"#6e5a55"}}} --><p class="has-text-color has-small-font-size" style="color:#6e5a55">Auf jede Phase der Sammlung folgt eine Phase der Weite. Dieser Wechsel trägt den ganzen Tag.</p><!-- /wp:paragraph -->
 			</div>

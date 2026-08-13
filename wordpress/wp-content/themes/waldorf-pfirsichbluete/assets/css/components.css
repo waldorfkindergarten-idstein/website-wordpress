@@ -35,6 +35,17 @@ figcaption,
 	hyphens: auto;
 }
 
+/**
+ * The hero headline is set to balance its lines. This used to be an inline
+ * `text-wrap:balance` written into the pattern's HTML, but `textWrap` is not a
+ * core typography support — WordPress never regenerates it, so the saved markup
+ * no longer matched what the block's save() produces and the editor flagged the
+ * block as containing invalid content. It belongs in CSS.
+ */
+.pb-hero h1 {
+	text-wrap: balance;
+}
+
 :root {
 	--pb-cream: var(--wp--preset--color--cream);
 	--pb-cream-light: var(--wp--preset--color--cream-light);
