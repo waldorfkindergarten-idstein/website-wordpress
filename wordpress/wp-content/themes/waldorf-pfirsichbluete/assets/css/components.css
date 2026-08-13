@@ -9,6 +9,32 @@
  * Site Editor changes it here too.
  */
 
+/**
+ * German compounds are longer than a phone is wide — "Datenschutzerklärung",
+ * "Verbraucherschlichtungsstelle". Left alone they push the whole page into
+ * horizontal scroll, because an unbreakable word sets the minimum width of its
+ * container. Break them instead.
+ *
+ * `hyphens` needs a language to hyphenate correctly; `overflow-wrap` is what
+ * actually guarantees no overflow, so the fix holds either way.
+ */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li,
+dt,
+dd,
+figcaption,
+.pb-termine__info b,
+.pb-termine__info span {
+	overflow-wrap: break-word;
+	hyphens: auto;
+}
+
 :root {
 	--pb-cream: var(--wp--preset--color--cream);
 	--pb-cream-light: var(--wp--preset--color--cream-light);
