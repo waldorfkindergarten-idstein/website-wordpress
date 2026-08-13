@@ -44,8 +44,8 @@
 				<!-- wp:waldorf/tagesablauf-punkt {"time":"9:45","title":"Freies Spiel drinnen","detail":"Bauen, malen, verkleiden – begleitet, aber nicht gelenkt.","metadata":{"name":"9:45 · Freies Spiel drinnen"}} /-->
 				<!-- wp:waldorf/tagesablauf-punkt {"time":"10:45","title":"Garten und frische Luft","detail":"Bei jedem Wetter nach draußen.","metadata":{"name":"10:45 · Garten und frische Luft"}} /-->
 				<!-- wp:waldorf/tagesablauf-punkt {"time":"11:45","title":"Mittagessen","detail":"Frisch gekocht, bio-vegetarisch, am gedeckten Tisch.","metadata":{"name":"11:45 · Mittagessen"}} /-->
-				<!-- wp:waldorf/tagesablauf-punkt {"time":"12:30","title":"Abholzeit Kernzeit","detail":"Ende der Kernzeit für alle Familien.","metadata":{"name":"12:30 · Abholzeit Kernzeit"}} /-->
-				<!-- wp:waldorf/tagesablauf-punkt {"time":"13:00","title":"Ruhezeit und Nachmittag","detail":"Schlafen, vorlesen, ruhiges Spiel bis zur Abholung.","isExtended":true,"metadata":{"name":"13:00 · Ruhezeit und Nachmittag"}} /-->
+				<!-- wp:waldorf/tagesablauf-punkt {"time":"13:00","title":"Abholzeit Vormittagsplatz","detail":"Ende des Vormittagsplatzes – freitags bereits um 12:45 Uhr.","metadata":{"name":"13:00 · Abholzeit Vormittagsplatz"}} /-->
+				<!-- wp:waldorf/tagesablauf-punkt {"time":"13:00","title":"Ruhezeit und Nachmittag","detail":"Ganztagsplatz: schlafen, vorlesen, ruhiges Spiel bis 15:15 Uhr.","isExtended":true,"metadata":{"name":"13:00 · Ruhezeit und Nachmittag"}} /-->
 			<!-- /wp:waldorf/tagesablauf -->
 		</div>
 		<!-- /wp:column -->

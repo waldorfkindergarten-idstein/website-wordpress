@@ -36,7 +36,7 @@
 		<!-- wp:column -->
 		<div class="wp-block-column">
 			<!-- wp:waldorf/faqs {"metadata":{"name":"Häufige Fragen"},"lock":{"move":true,"remove":true}} -->
-				<!-- wp:waldorf/faq {"question":"Ab welchem Alter können Kinder aufgenommen werden?","answer":"In der Wiegenstube ab einem Jahr, in den Familiengruppen ab zwei Jahren. Entscheidend ist, dass Ihr Kind bereit für den Schritt ist – das besprechen wir gemeinsam.","metadata":{"name":"FAQ: Aufnahmealter"}} /-->
+				<!-- wp:waldorf/faq {"question":"Ab welchem Alter können Kinder aufgenommen werden?","answer":"In der Wiegenstube ab einem Jahr, in den Familiengruppen ab drei Jahren. Entscheidend ist, dass Ihr Kind bereit für den Schritt ist – das besprechen wir gemeinsam.","metadata":{"name":"FAQ: Aufnahmealter"}} /-->
 				<!-- wp:waldorf/faq {"question":"Was kostet ein Platz?","answer":"Die Beiträge richten sich nach Betreuungsumfang und Einkommen. Die aktuelle Gebührenordnung finden Sie bei den Downloads. Niemand soll aus finanziellen Gründen fernbleiben – sprechen Sie uns an.","metadata":{"name":"FAQ: Kosten"}} /-->
 				<!-- wp:waldorf/faq {"question":"Müssen Eltern mitarbeiten?","answer":"Als Elterninitiative leben wir vom Mitmachen: Gartentage, Basteln für den Basar, Vorstandsarbeit. Der Umfang ist überschaubar und wird gemeinsam abgestimmt.","metadata":{"name":"FAQ: Elternmitarbeit"}} /-->
 				<!-- wp:waldorf/faq {"question":"Wie läuft die Eingewöhnung ab?","answer":"Behutsam und individuell. In den ersten Tagen bleiben Sie dabei, danach lösen Sie sich schrittweise. Zwei bis vier Wochen sind üblich.","metadata":{"name":"FAQ: Eingewöhnung"}} /-->

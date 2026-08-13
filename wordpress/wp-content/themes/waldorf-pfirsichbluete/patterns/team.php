@@ -18,9 +18,10 @@
 
 	<!-- wp:group {"metadata":{"name":"Teammitglieder"},"allowedBlocks":["waldorf/person"],"className":"pb-team","templateLock":"insert","style":{"spacing":{"margin":{"top":"44px"},"blockGap":"0"}},"layout":{"type":"default"}} -->
 	<div class="wp-block-group pb-team" style="margin-top:44px">
-		<!-- wp:waldorf/person {"metadata":{"name":"Leitung"},"monogram":"L","name":"Leitung","role":"Pädagogische Gesamtleitung"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Sonnengruppe"},"monogram":"S","name":"Sonnengruppe","role":"Erzieherin & Gruppenleitung"} /-->
-		<!-- wp:waldorf/person {"metadata":{"name":"Regenbogengruppe"},"monogram":"R","name":"Regenbogengruppe","role":"Erzieherin & Gruppenleitung"} /-->
+		<!-- wp:waldorf/person {"metadata":{"name":"Leitung"},"monogram":"I","name":"Iris Born","role":"Pädagogische Leitung"} /-->
+		<!-- wp:waldorf/person {"metadata":{"name":"Stellvertretende Leitung"},"monogram":"A","name":"Anke Reinhold","role":"Stellvertretende Leitung"} /-->
+		<!-- wp:waldorf/person {"metadata":{"name":"Lerchennest"},"monogram":"L","name":"Lerchennest","role":"Erzieherin & Gruppenleitung"} /-->
+		<!-- wp:waldorf/person {"metadata":{"name":"Spatzennest"},"monogram":"S","name":"Spatzennest","role":"Erzieherin & Gruppenleitung"} /-->
 		<!-- wp:waldorf/person {"metadata":{"name":"Wiegenstube"},"monogram":"W","name":"Wiegenstube","role":"Krippenpädagogin"} /-->
 		<!-- wp:waldorf/person {"metadata":{"name":"Küche"},"monogram":"K","name":"Küche","role":"Frisch gekocht, jeden Tag"} /-->
 	</div>

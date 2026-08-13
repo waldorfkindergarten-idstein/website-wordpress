@@ -34,7 +34,7 @@
 			<!-- /wp:buttons -->
 
 			<!-- wp:waldorf/sammlung {"variant":"chips","metadata":{"name":"Merkmale"}} -->
-				<!-- wp:waldorf/chip {"text":"Familiengruppen · 2–6 Jahre"} /-->
+				<!-- wp:waldorf/chip {"text":"Familiengruppen · 3–6 Jahre"} /-->
 				<!-- wp:waldorf/chip {"text":"Krippe Wiegenstube · 1–3 Jahre"} /-->
 				<!-- wp:waldorf/chip {"text":"Waldtag am Freitag"} /-->
 			<!-- /wp:waldorf/sammlung -->

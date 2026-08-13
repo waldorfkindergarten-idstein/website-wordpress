@@ -21,10 +21,7 @@
 
 	<!-- wp:waldorf/downloads {"metadata":{"name":"Dokumente"},"lock":{"move":true,"remove":true}} -->
 		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldebogen","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"180 kB","metadata":{"name":"Download: Anmeldebogen"}} /-->
-		<!-- wp:waldorf/download {"fileUrl":"#","title":"Konzeption","description":"24 Seiten","fallbackType":"PDF","fallbackSize":"1,4 MB","metadata":{"name":"Download: Konzeption"}} /-->
 		<!-- wp:waldorf/download {"fileUrl":"#","title":"Gebührenordnung","description":"1 Seite","fallbackType":"PDF","fallbackSize":"96 kB","metadata":{"name":"Download: Gebührenordnung"}} /-->
-		<!-- wp:waldorf/download {"fileUrl":"#","title":"Packliste Waldtag","description":"1 Seite","fallbackType":"PDF","fallbackSize":"88 kB","metadata":{"name":"Download: Packliste Waldtag"}} /-->
-		<!-- wp:waldorf/download {"fileUrl":"#","title":"Ferien & Schließtage","description":"1 Seite","fallbackType":"PDF","fallbackSize":"74 kB","metadata":{"name":"Download: Ferien und Schließtage"}} /-->
 		<!-- wp:waldorf/download {"fileUrl":"#","title":"Satzung des Vereins","description":"8 Seiten","fallbackType":"PDF","fallbackSize":"240 kB","metadata":{"name":"Download: Satzung"}} /-->
 	<!-- /wp:waldorf/downloads -->
 </div>

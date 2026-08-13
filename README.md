@@ -84,12 +84,12 @@ not the host's. Core is tracked in this repository but is deliberately not uploa
 by the pipeline: core updates are applied through the WordPress admin, and the copy
 here exists so local Docker mirrors the server.
 
-> **The two are currently out of step.** The server runs **7.0.3** (`db_version`
-> 61833); this repository and `docker-compose.yml` pin **6.9.4** (`db_version`
-> 60717). Local development is therefore testing against a different major version
-> than production. Bring the tracked core and the Docker image up to the server's
-> version before relying on local results for anything core-sensitive — block
-> markup and block CSS in particular.
+> **Check for drift before trusting local results.** As of 13 August 2026 the server
+> runs **7.0.4** and this repository pins **7.0.3** — the server applied a minor
+> update on its own. Confirm the current server version with
+> `ssh waldorfkindergarten '~/bin/wp core version'` and bring the tracked core and
+> the Docker image up to match before relying on local results for anything
+> core-sensitive — block markup and block CSS in particular.
 
 Required repository secrets:
 
@@ -103,8 +103,9 @@ Required repository secrets:
 The SFTP account is chrooted: its root `/` is the hosting package, which still holds
 the **old static site** (`index.html`, `bilder/`, `css/`, `gallery/`, `js/`, …).
 WordPress lives beside it in `/wp`, which is why nothing here may ever be pointed at
-`/`. The account is SFTP-only — it has no shell — so deployment cannot run commands
-on the server, and the content migration has to be triggered from wp-admin.
+`/`. The deploy account is SFTP-only and has no shell, so the pipeline itself cannot
+run commands on the server. A **separate SSH account** exists for maintenance — see
+below — but the pipeline deliberately does not use it.
 
 Three things the pipeline deliberately does not do:
 
@@ -118,6 +119,84 @@ Three things the pipeline deliberately does not do:
 
 Before the first real launch, work through the checklist in
 `wordpress/wp-content/themes/waldorf-pfirsichbluete/readme.md`.
+
+## SSH and WP-CLI on the server
+
+There is a **second STRATO account with a real shell**, separate from the SFTP deploy
+account. Use it for maintenance and inspection — never for deploying code, which stays
+the pipeline's job.
+
+| | |
+|---|---|
+| Host | `53107580.ssh.w1.strato.hosting` |
+| User | `stu772369241` (the SFTP deploy user is a *different* account) |
+| Home | `…/htdocs` — the home directory **is** the webspace root |
+| WordPress | `~/wp` |
+
+Local access uses a dedicated key and an alias, so no password is typed or scripted:
+
+```bash
+ssh waldorfkindergarten            # key: ~/.ssh/waldorfkindergarten
+```
+
+To set this up on another machine:
+
+```bash
+ssh-keygen -t ed25519 -f ~/.ssh/waldorfkindergarten -C "you@waldorfkindergarten"
+ssh-copy-id -i ~/.ssh/waldorfkindergarten.pub stu772369241@53107580.ssh.w1.strato.hosting
+```
+
+then add to `~/.ssh/config`:
+
+```
+Host waldorfkindergarten
+    HostName 53107580.ssh.w1.strato.hosting
+    User stu772369241
+    IdentityFile ~/.ssh/waldorfkindergarten
+    IdentitiesOnly yes
+```
+
+No password or private key is stored in this repository.
+
+### WP-CLI
+
+`wp` is installed at `~/bin/wp` on the server:
+
+```bash
+ssh waldorfkindergarten '~/bin/wp core version'
+ssh waldorfkindergarten '~/bin/wp option get home'
+ssh waldorfkindergarten '~/bin/wp post list --post_type=page'
+```
+
+**Why it needs a bundled PHP.** Every PHP binary STRATO provides — `/usr/bin/php*`,
+`/opt/RZphp*/bin/php`, versions 5.3 through 8.5 — is the **`cgi-fcgi` SAPI**. WP-CLI
+refuses to run under CGI. So `~/bin/wp` is a wrapper around a self-contained static
+PHP **CLI** build at `~/bin/php-cli` (`static-php-cli`, 8.3.32, *bulk* variant — the
+*common* variant omits `mysqli`, which `wpdb` requires):
+
+```sh
+exec "$HOME/bin/php-cli" -d memory_limit=512M "$HOME/bin/wp-cli.phar" --path="$HOME/wp" "$@"
+```
+
+Both `~/bin/php-cli` and `~/bin/wp-cli.phar` live outside the document root and
+outside this repository. If the webspace is ever rebuilt, reinstall them:
+
+```bash
+curl -sSL -o ~/bin/wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+curl -sSL https://dl.static-php.dev/static-php-cli/bulk/php-8.3.32-cli-linux-x86_64.tar.gz | tar xz -C ~/bin
+mv ~/bin/php ~/bin/php-cli && chmod +x ~/bin/php-cli ~/bin/wp-cli.phar
+```
+
+### Working on live content
+
+Content is **not** deployed. Once the site is live, production content is the source
+of truth and only ever flows *downwards*:
+
+- **Edit content** in wp-admin. Every field in the theme's blocks is editable there.
+- **Bulk find/replace** — use WP-CLI (`wp search-replace --dry-run` first); it is
+  serialization-safe, unlike raw SQL.
+- **Take a backup before touching the database**: `wp db export ~/backup-$(date +%F).sql`
+- **Pull production down to local** for development; never push a local database up.
 
 The visual regression suite (`tests/visual`) is not part of CI: it drives a browser
 against a populated WordPress instance and its baseline tracks real content. It stays

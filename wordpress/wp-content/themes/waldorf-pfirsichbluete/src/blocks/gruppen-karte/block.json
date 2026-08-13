@@ -36,7 +36,7 @@
 		},
 		"tag": {
 			"type": "string",
-			"default": "2–6 Jahre"
+			"default": "3–6 Jahre"
 		},
 		"title": {
 			"type": "string",
@@ -49,10 +49,10 @@
 		"facts": {
 			"type": "array",
 			"default": [
-				{ "label": "Plätze", "value": "2 × 20 Kinder" },
-				{ "label": "Kernzeit", "value": "7:30 – 12:00 Uhr" },
-				{ "label": "Verlängert", "value": "bis 15:15 Uhr" },
-				{ "label": "Team", "value": "2 Fachkräfte + Praktikum" }
+				{ "label": "Plätze", "value": "2 × max. 22 Kinder" },
+				{ "label": "Vormittag", "value": "7:30 – 13:00 Uhr" },
+				{ "label": "Ganztags", "value": "7:30 – 15:15 Uhr (Mo–Do)" },
+				{ "label": "Freitag", "value": "7:30 – 12:45 Uhr" }
 			]
 		},
 		"linkLabel": {
