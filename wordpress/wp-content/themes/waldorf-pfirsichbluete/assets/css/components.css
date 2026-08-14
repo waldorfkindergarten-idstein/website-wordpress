@@ -1997,6 +1997,16 @@ body.pb-no-labels .pb-photo figcaption {
 	border-top: 0;
 }
 
+/*
+ * Clear the fixed back-to-top button. Scrolled to the very end, it landed on
+ * top of the Impressum/Datenschutz links — the right-hand third of
+ * "Datenschutz" was not clickable, which is a poor thing to be true of a
+ * legally required link.
+ */
+.pb-footer__bottom {
+	padding-bottom: 58px;
+}
+
 .pb-footer__bottom {
 	margin-top: 46px;
 	padding-top: 22px;
