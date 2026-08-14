@@ -20,6 +20,7 @@
 	<!-- /wp:group -->
 
 	<!-- wp:waldorf/downloads {"metadata":{"name":"Dokumente"},"lock":{"move":true,"remove":true}} -->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Terminkalender 2026","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"143 kB","metadata":{"name":"Download: Terminkalender"}} /-->
 		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldung Familiengruppe","description":"3 Seiten","fallbackType":"PDF","fallbackSize":"137 kB","metadata":{"name":"Download: Anmeldung Familiengruppe"}} /-->
 		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldung Wiegenstube","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"129 kB","metadata":{"name":"Download: Anmeldung Wiegenstube"}} /-->
 		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldung Kindergarten U3","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"46 kB","metadata":{"name":"Download: Anmeldung Kindergarten U3"}} /-->
