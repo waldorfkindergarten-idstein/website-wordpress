@@ -20,9 +20,11 @@
 	<!-- /wp:group -->
 
 	<!-- wp:waldorf/downloads {"metadata":{"name":"Dokumente"},"lock":{"move":true,"remove":true}} -->
-		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldebogen","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"180 kB","metadata":{"name":"Download: Anmeldebogen"}} /-->
-		<!-- wp:waldorf/download {"fileUrl":"#","title":"Gebührenordnung","description":"1 Seite","fallbackType":"PDF","fallbackSize":"96 kB","metadata":{"name":"Download: Gebührenordnung"}} /-->
-		<!-- wp:waldorf/download {"fileUrl":"#","title":"Satzung des Vereins","description":"8 Seiten","fallbackType":"PDF","fallbackSize":"240 kB","metadata":{"name":"Download: Satzung"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldung Familiengruppe","description":"3 Seiten","fallbackType":"PDF","fallbackSize":"137 kB","metadata":{"name":"Download: Anmeldung Familiengruppe"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldung Wiegenstube","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"129 kB","metadata":{"name":"Download: Anmeldung Wiegenstube"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Anmeldung Kindergarten U3","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"46 kB","metadata":{"name":"Download: Anmeldung Kindergarten U3"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Beitragsordnung","description":"2 Seiten","fallbackType":"PDF","fallbackSize":"565 kB","metadata":{"name":"Download: Beitragsordnung"}} /-->
+		<!-- wp:waldorf/download {"fileUrl":"#","title":"Satzung des Vereins","description":"3 Seiten","fallbackType":"PDF","fallbackSize":"281 kB","metadata":{"name":"Download: Satzung"}} /-->
 	<!-- /wp:waldorf/downloads -->
 </div>
 <!-- /wp:group -->

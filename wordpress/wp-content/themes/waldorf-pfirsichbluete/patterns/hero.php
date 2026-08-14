@@ -40,7 +40,7 @@
 			<!-- /wp:waldorf/sammlung -->
 
 			<!-- wp:waldorf/sammlung {"variant":"facts","metadata":{"name":"Kennzahlen"}} -->
-				<!-- wp:waldorf/fakt {"value":"39","label":"Jahre Elterninitiative"} /-->
+				<!-- wp:waldorf/fakt {"countFromYear":1987,"label":"Jahre Elterninitiative"} /-->
 				<!-- wp:waldorf/fakt {"value":"3","label":"Gruppen im Haus"} /-->
 				<!-- wp:waldorf/fakt {"value":"1–6","label":"Jahre Aufnahmealter"} /-->
 			<!-- /wp:waldorf/sammlung -->

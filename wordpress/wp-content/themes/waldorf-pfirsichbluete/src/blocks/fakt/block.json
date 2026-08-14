@@ -7,7 +7,9 @@
 	"category": "waldorf",
 	"icon": "chart-bar",
 	"description": "Eine Kennzahl mit kurzer Erläuterung.",
-	"parent": [ "waldorf/sammlung" ],
+	"parent": [
+		"waldorf/sammlung"
+	],
 	"textdomain": "waldorf-pfirsichbluete",
 	"attributes": {
 		"value": {
@@ -17,6 +19,10 @@
 		"label": {
 			"type": "string",
 			"default": "Jahre Elterninitiative"
+		},
+		"countFromYear": {
+			"type": "integer",
+			"default": 0
 		}
 	},
 	"supports": {

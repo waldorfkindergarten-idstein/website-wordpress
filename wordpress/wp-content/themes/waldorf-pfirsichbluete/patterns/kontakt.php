@@ -25,7 +25,7 @@
 				<!-- wp:waldorf/kontaktzeile {"label":"E-Mail","value":"info@waldorfkindergarten-idstein.de","linkType":"email","metadata":{"name":"E-Mail"}} /-->
 				<!-- wp:waldorf/kontaktzeile {"label":"Öffnungszeiten","value":"Mo–Do 7:30 – 15:15 Uhr","metadata":{"name":"Öffnungszeiten"}} /-->
 				<!-- wp:waldorf/kontaktzeile {"label":"Freitag","value":"7:30 – 12:45 Uhr","metadata":{"name":"Freitag"}} /-->
-				<!-- wp:waldorf/kontaktzeile {"label":"Büro","value":"Di & Do 9:00 – 12:00 Uhr","metadata":{"name":"Bürozeiten"}} /-->
+				<!-- wp:waldorf/kontaktzeile {"label":"Büro","value":"Mo–Do 12:30 – 13:30 Uhr · Mi 9:00 – 12:00 Uhr","metadata":{"name":"Bürozeiten"}} /-->
 				<!-- wp:waldorf/kontaktzeile {"label":"Träger","value":"Verein zur Förderung des Waldorfkindergartens Idstein e.V.","metadata":{"name":"Träger"}} /-->
 			<!-- /wp:waldorf/kontaktbox -->
 		</div>
