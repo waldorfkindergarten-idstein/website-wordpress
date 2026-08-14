@@ -29,3 +29,10 @@ tests/visual/verify/
 # One-off database dump for the staging import. Contains user password
 # hashes and e-mail addresses — never commit it.
 waldorf-staging.sql
+
+# Source documents from the Verein (Leitbild, webKITA sheet, Terminkalender).
+# Working drafts, not site content — the facts they carry live in the theme,
+# the Termine post type and the legal pages. Kept locally, out of the repo.
+*.docx
+*.docx:Zone.Identifier
+Terminkalender*.pdf
